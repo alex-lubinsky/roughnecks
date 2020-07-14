@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     #3rd party
     'rest_framework',
+
+    # Local
+   'characters.apps.CharactersConfig',
 ]
 
 MIDDLEWARE = [
