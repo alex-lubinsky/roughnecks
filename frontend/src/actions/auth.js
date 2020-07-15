@@ -31,12 +31,11 @@ export const startLoadUser = () => {
     
     dispatch(userLoading());
     
-    axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/user/`, tokenConfig(getState().auth.token))
+    axios.get(`http://127.0.0.1:8000/api/auth/user/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(loadUser(res.data));
       return(res.data);
     }).catch(err => {
-      console.log(err);
       dispatch(authError());
     });
   };
@@ -104,15 +103,15 @@ const authenticationError = (error) => ({
 
 export const logout = () => {
   return (dispatch) => {
-    let headers = {'Content-Type': 'application/json'}
+    // let headers = {'Content-Type': 'application/json'}
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/dj-rest-auth/logout/`, "", headers)
+    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/dj-rest-auth/logout/`, "")
     .then(res => {
       dispatch(logoutSuccessful());
       return res.data;
     }).catch(err => {
-      dispatch(authenticationError(err));
       console.log(err);
+      dispatch(authenticationError(err));
     });
   };
 };

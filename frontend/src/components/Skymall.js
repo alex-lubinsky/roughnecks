@@ -25,8 +25,7 @@ class Skymall extends React.Component {
     this.props.startSetItems()
     this.props.startSetMissions()
     this.props.startSetCharacters()
-    this.props.startSetTransactions()
-    this.setState({character: {value: this.props.characters[0].id, label: `${this.props.characters[0].firstName} ${this.props.characters[0].lastName}` }})
+    this.props.startSetTransactions()    
   }
 
   onCharacterChange = (selectedValue) => {
@@ -76,7 +75,6 @@ class Skymall extends React.Component {
   }
 
   render() {
-
     const selectCharacterOptions = this.props.characters.map(character => {
       return {value: character.id, label: `${character.firstName} ${character.lastName}`}
     })
@@ -84,11 +82,10 @@ class Skymall extends React.Component {
     const {gold, silver, copper} = totalBalance(
       this.props.transactions.filter(transaction => 
         transaction.characters.some(character => character === this.state.character.value)
-      ) 
+      )
     )
 
     return (
-      
       <div>
         <h1>Skymall</h1>
         {this.props.charactersIsLoading || this.props.transactionsIsLoading ? null :
@@ -101,7 +98,11 @@ class Skymall extends React.Component {
                 onChange={this.onCharacterChange}
               />
             </div>
-            <div>{`${this.state.character.label} has ${gold}.${silver}${copper} gold to spend.`}</div>
+            {this.state.character === '' ? <div>Select a character to purchase items</div> :
+              <div>
+                {`${this.state.character.label} has ${gold}.${silver}${copper} gold to spend.`}
+              </div>
+            }
           </div>
         }
         {this.props.missionsIsLoading || this.props.transactionsIsLoading || this.props.itemsIsLoading ? null :
@@ -157,8 +158,6 @@ const mapStateToProps = (state, props) => ({
   charactersIsLoading: state.characters.isLoading,
   missionsIsLoading: state.missions.isLoading,
   transactionsIsLoading: state.transactions.isLoading,
-
-
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Skymall)

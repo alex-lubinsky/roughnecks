@@ -24,7 +24,11 @@ class DowntimeForm extends React.Component {
       numOfDaysSpent: 0, numOfDaysSpentValid: false,
       errorMsg: {},
       formValid: false,
-      characterDowntime: 0
+      characterDowntime: 0,
+      selectDowntimeTypeOptions: [
+        {value: 'TR', label: 'Training Room'},
+        {value: 'MC', label: 'Miscellaneous'}
+      ]
     }
   }
 
@@ -131,10 +135,6 @@ class DowntimeForm extends React.Component {
 
   render() {
 
-    const selectDowntimeTypeOptions = [
-      {value: 'TR', label: 'Training Room'},
-      {value: 'MC', label: 'Miscellaneous'}
-    ]
     const selectCharacterOptions = this.props.characters.map(character => {
       return {value: character.id, label: `${character.firstName} ${character.lastName}`}
     })
@@ -164,7 +164,7 @@ class DowntimeForm extends React.Component {
             <Row>
               <Col>
                 <Form.Label className="inputlabel">Downtime Type</Form.Label>
-                <Select options={selectDowntimeTypeOptions} value={this.state.downtimeType} onChange={this.onDowntimeTypeChange} />
+                <Select options={this.state.selectDowntimeTypeOptions} value={this.state.downtimeType} onChange={this.onDowntimeTypeChange} />
                 <ValidationMessage valid={this.state.downtimeTypeValid} message={this.state.errorMsg.downtimeType} />
               </Col>
             </Row>

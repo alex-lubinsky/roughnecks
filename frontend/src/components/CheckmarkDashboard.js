@@ -12,14 +12,6 @@ import { startSetDowntime } from '../actions/downtime';
 
 class CheckmarkDashboard extends React.Component {
   
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true
-    }
-  }
-
   componentDidMount() {
     this.props.startSetCharacters() 
     this.props.startSetMissions()

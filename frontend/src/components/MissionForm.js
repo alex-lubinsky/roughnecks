@@ -33,10 +33,10 @@ class MissionForm extends React.Component {
   componentDidMount() {
     this.props.startSetCharacters()
 
-    const filteredCharacters = this.props.characters.filter((character) => {
-      return true
-    })
-    this.setState(() => ({filteredCharacters}))
+    // const filteredCharacters = this.props.characters.filter((character) => {
+    //   return true
+    // })
+    // this.setState(() => ({filteredCharacters}))
   }
 
   onNameChange = (e) => {

@@ -27,6 +27,10 @@ const Header = (props) => {
   const [showDowntimeFormModal, setShowDowntimeFormModal] = useState(false)
   const handleDowntimeFormClose = () => setShowDowntimeFormModal(false);
   const handleDowntimeFormShow = () => setShowDowntimeFormModal(true);
+
+  const LOGOUT = () => {
+    props.logout()
+  }
   
   return (
     <>
@@ -75,7 +79,7 @@ const Header = (props) => {
             <Nav className="justify-content-end">
               {props.userFirstName ? 
                 <NavDropdown title={`${props.userFirstName}`} id="basic-nav-dropdown">
-                  <NavDropdown.Item onClick={props.logout}>Log Out</NavDropdown.Item>
+                  <NavDropdown.Item onClick={LOGOUT}>Log Out</NavDropdown.Item>
                 </NavDropdown> : null}
             </Nav>
           </>
