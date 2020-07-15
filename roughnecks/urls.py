@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.conf.urls import url
 from userapi.views import UserAPIView
+from characters.views import FrontendAppView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +25,6 @@ urlpatterns = [
     path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('reset/<uidb64>/<token>/', UserAPIView.as_view(), name="password_reset_confirm"),
-    path('api/auth/', include('userapi.urls'))
+    path('api/auth/', include('userapi.urls')),
+    re_path('^', FrontendAppView.as_view()),
 ]
