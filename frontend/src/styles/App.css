@@ -1,0 +1,33 @@
+@import 'ValidationMessage.css';
+
+.form-container {
+  margin: 50px;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 20px;
+  border-width: 1px;
+};
+
+.form-label {
+  margin-top: .5rem !important;
+}
+
+.button-container {
+  padding: 10px;
+}
+
+.float-right {
+  float: right;
+}
+
+.icon-ok, .icon-legal {
+  color: green;
+}
+
+.icon-remove {
+  color: red;
+}
+
+.div-margin-sm {
+  margin: 20px;
+}
