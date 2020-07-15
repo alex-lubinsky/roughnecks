@@ -41,9 +41,13 @@ INSTALLED_APPS = [
 
     #3rd party
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    
 
     # Local
    'characters.apps.CharactersConfig',
+   'userapi.apps.UserapiConfig',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +138,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.AllowAny',
-  ]
+    'rest_framework.permissions.IsAuthenticated',
+  ],
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+  ],
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'alex@reggiesroughnecks.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)

@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from userapi.views import UserAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('characters.urls'))
+    path('api/', include('characters.urls')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('reset/<uidb64>/<token>/', UserAPIView.as_view(), name="password_reset_confirm"),
+    path('api/auth/', include('userapi.urls'))
 ]
