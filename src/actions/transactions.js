@@ -14,7 +14,7 @@ const transactionsLoading = () => ({
 export function startSetTransactions() {
   return (dispatch, getState) => {
     dispatch(transactionsLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/transactions/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/transactions/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setTransactions(res.data));
       return(res.data);
@@ -44,7 +44,7 @@ export const startaddTransaction = (transactionData = {}) => {
 
     const transaction = {name, goldPcs, silverPcs, copperPcs, mission, characters, airshipPot, earnedSpent};
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/transactions/`, transaction, tokenConfig(getState().auth.token))
+    return axios.post(`/api/transactions/`, transaction, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(addTransaction(res.data));
       return(res.data);

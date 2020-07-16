@@ -26,7 +26,7 @@ export const startAddCharacter = (characterData = {}) => {
 
     const character = {firstName, raceName, lastName, armorClass, passivePerception, maxHp, creator, altVision};
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/characters/`, character, tokenConfig(getState().auth.token))
+    return axios.post(`/api/characters/`, character, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(addCharacter(res.data));
       return res.data;
@@ -45,7 +45,7 @@ export function startSetCharacters() {
 
   return (dispatch, getState) => {
     dispatch(loadingCharacters())
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/characters/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/characters/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setCharacters(res.data));
     });
@@ -59,7 +59,7 @@ export const removeCharacter = (id) => ({
 
 export function startRemoveCharacter({id} = {}) {
   return (dispatch, getState) => {
-    return axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/api/characters/${id}/`, tokenConfig(getState().auth.token))
+    return axios.delete(`/api/characters/${id}/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(removeCharacter(id));
     });
@@ -74,7 +74,7 @@ const editCharacter = (id, updates) => ({
 
 export const startEditCharacter = (id, updates) => {
   return (dispatch, getState) => {
-    return axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/characters/${id}/`, tokenConfig(getState().auth.token), updates )
+    return axios.put(`/api/characters/${id}/`, tokenConfig(getState().auth.token), updates )
     .then(res => {
       dispatch(editCharacter(id));
     }).catch((err)=>{
@@ -86,7 +86,7 @@ export const startEditCharacter = (id, updates) => {
 export const startUpdateCharacter = (id, updates) => {
   return (dispatch, getState) => {
     console.log(id, updates)
-    return axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/api/characters/${id}/`, updates, tokenConfig(getState().auth.token))
+    return axios.patch(`/api/characters/${id}/`, updates, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(editCharacter(id, updates));
     }).catch((err)=>{

@@ -14,7 +14,7 @@ const pcSubclassesLoading = () => ({
 export function startSetPCSubclasses() {
   return (dispatch, getState) => {
     dispatch(pcSubclassesLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/playercharacterclasses/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/playercharacterclasses/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setPCSubclasses(res.data));
       return(res.data);
@@ -36,7 +36,7 @@ export const startAddPcSubclass = (pcSubclassData = {}) => {
 
     const pcSubclass = {classCharacter, playerClass};
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/playercharacterclasses/`, pcSubclass, tokenConfig(getState().auth.token))
+    return axios.post(`/api/playercharacterclasses/`, pcSubclass, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(addPcSubclass(res.data));
       return(res.data);

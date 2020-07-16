@@ -15,7 +15,7 @@ const itemsOwnedLoading = () => ({
 export function startSetItemsOwned() {
   return (dispatch, getState) => {
     dispatch(itemsOwnedLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/itemsowned/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/itemsowned/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setItemsOwned(res.data));
       return(res.data);
@@ -37,7 +37,7 @@ export const startAddItemsOwned = (itemsOwnedData = {}) => {
 
     const itemOwned = {item, character};
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/itemsowned/`, itemOwned, tokenConfig(getState().auth.token))
+    return axios.post(`/api/itemsowned/`, itemOwned, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(addItemsOwned(res.data));
       return(res.data);

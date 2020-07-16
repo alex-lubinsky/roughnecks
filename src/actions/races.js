@@ -14,7 +14,7 @@ const racesLoading = () => ({
 export function startSetRaces() {
   return (dispatch, getState) => {
     dispatch(racesLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/races/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/races/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setRaces(res.data));
       return(res.data);

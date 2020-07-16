@@ -14,7 +14,7 @@ const itemsLoading = () => ({
 export function startSetItems() {
   return (dispatch, getState) => {
     dispatch(itemsLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/items/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/items/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setItmes(res.data));
       return(res.data);
@@ -30,7 +30,7 @@ const editItem = (id, updates) => ({
 
 export const startUpdateItem = (id, updates) => {
   return (dispatch, getState) => {
-    return axios.patch(`${process.env.REACT_APP_API_ENDPOINT}/api/items/${id}/`, updates, tokenConfig(getState().auth.token))
+    return axios.patch(`/api/items/${id}/`, updates, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(editItem(id, updates));
     }).catch((err)=>{

@@ -14,7 +14,7 @@ const subclassesLoading = () => ({
 export function startSetSubclasses() {
   return (dispatch, getState) => {
     dispatch(subclassesLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/subclasses/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/subclasses/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setSubclasses(res.data));
       return(res.data);

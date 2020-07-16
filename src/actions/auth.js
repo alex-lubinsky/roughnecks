@@ -31,7 +31,7 @@ export const startLoadUser = () => {
     
     dispatch(userLoading());
     
-    axios.get(`http://127.0.0.1:8000/api/auth/user/`, tokenConfig(getState().auth.token))
+    axios.get(`/api/auth/user/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(loadUser(res.data));
       return(res.data);
@@ -55,7 +55,7 @@ export const startLoadUsers = () => {
 
     dispatch(usersLoading())
 
-    axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/users/`, tokenConfig(getState().auth.token))
+    axios.get(`/api/auth/users/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(loadUsers(res.data));
       return(res.data);
@@ -78,7 +78,7 @@ const loginFail = () => ({
 // LOGIN USER
 export const startLogin = (loginData = {}) => {
   return (dispatch, getState) => {
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/dj-rest-auth/login/`, loginData)
+    return axios.post(`/api/dj-rest-auth/login/`, loginData)
     .then(res => {
       const payload = {
         token: res.data.key
@@ -105,7 +105,7 @@ export const logout = () => {
   return (dispatch) => {
     // let headers = {'Content-Type': 'application/json'}
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/dj-rest-auth/logout/`, "")
+    return axios.post(`/api/dj-rest-auth/logout/`, "")
     .then(res => {
       dispatch(logoutSuccessful());
       return res.data;
@@ -117,7 +117,7 @@ export const logout = () => {
 };
 
 export const resetPassword = (email) => {
-  axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/dj-rest-auth/password/reset/`, {email: email})
+  axios.post(`/api/dj-rest-auth/password/reset/`, {email: email})
   .then(res => {
     console.log(res);
   }).catch(err => {
@@ -126,7 +126,7 @@ export const resetPassword = (email) => {
 };
 
 export const resetPasswordConfirm = (resetData) => {
-  axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/dj-rest-auth/password/reset/confirm/`, 
+  axios.post(`/api/dj-rest-auth/password/reset/confirm/`, 
     {
       uid: resetData.uid,
       token: resetData.token,

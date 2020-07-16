@@ -18,7 +18,7 @@ export const startAddMission = (missionData = {}) => {
 
     const mission = {name, dm, characters, playedOn};
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/missions/`, mission, tokenConfig(getState().auth.token))
+    return axios.post(`/api/missions/`, mission, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(addMission(res.data));
       return(res.data);
@@ -40,7 +40,7 @@ const missionLoading = () => ({
 export const startSetMissions = () => {
   return (dispatch, getState) => {
     dispatch(missionLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/missions/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/missions/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setMissions(res.data));
       return(res.data);
@@ -57,7 +57,7 @@ export const removeMission = (id) => ({
 
 export function startRemoveMission({id} = {}) {
   return (dispatch, getState) => {
-    return axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/api/missions/${id}/`, tokenConfig(getState().auth.token))
+    return axios.delete(`/api/missions/${id}/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(removeMission(id));
     });
@@ -72,7 +72,7 @@ export const editMission = (id, updates) => ({
 
 export const startEditMission = (id, updates) => {
   return (dispatch, getState) => {
-    return axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/missions/${id}/`, updates, tokenConfig(getState().auth.token))
+    return axios.put(`/api/missions/${id}/`, updates, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(editMission(id));
     }).catch((err)=>{

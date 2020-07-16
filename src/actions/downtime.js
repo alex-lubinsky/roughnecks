@@ -14,7 +14,7 @@ const downtimeLoading = () => ({
 export function startSetDowntime() {
   return (dispatch, getState) => {
     dispatch(downtimeLoading());
-    return axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/downtime/`, tokenConfig(getState().auth.token))
+    return axios.get(`/api/downtime/`, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(setDowntime(res.data));
       return(res.data);
@@ -40,7 +40,7 @@ export const startAddDowntime = (downtimeData = {}) => {
 
     const downtime = {description, downtimeType, character, numOfDaysSpent};
 
-    return axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/downtime/`, downtime, tokenConfig(getState().auth.token))
+    return axios.post(`/api/downtime/`, downtime, tokenConfig(getState().auth.token))
     .then(res => {
       dispatch(addDowntime(res.data));
       return res.data;
