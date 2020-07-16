@@ -35,7 +35,6 @@ class CharacterForm extends React.Component {
   componentDidMount() {
     this.props.startSetRaces()
     this.props.startSetSubclasses()
-    console.log("componentDidMount")
   }
 
   onFirstNameChange = (e) => {
@@ -164,7 +163,7 @@ class CharacterForm extends React.Component {
   }
 
   getRaceOptions = () => {
-    return this.props.races.map((race) => {
+    return this.props.races.sort((a,b) => (a.raceName > b.raceName) ? 1 : -1).map((race) => {
       return {value: race.id, label: race.raceName}
     })
   }

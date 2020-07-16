@@ -14,9 +14,11 @@ const ClassForm = (props) => {
   const classCount = props.characterLevels ? countClassOccurences(props.characterLevels) : {}
 
   const getClassOptions = () => {
-    return props.subclasses.filter((subclass) => subclass.isClass === true).map((subclass) => {
-      return {value: subclass.id, label: subclass.subclassName, subclassLevel: subclass.subclassLevel, className: subclass.className}
-    })
+    return props.subclasses.filter((subclass) => subclass.isClass === true)
+      .sort((a,b) => (a.className > b.className) ? 1 : -1)
+      .map((subclass) => {
+        return {value: subclass.id, label: subclass.subclassName, subclassLevel: subclass.subclassLevel, className: subclass.className}
+      })
   }
 
   const onClassChange = (selectedItem) => {
@@ -56,7 +58,7 @@ const ClassForm = (props) => {
     props.onChange({subclassName: subclassName, subclassValid: subclassValid})
   }
 
-  const selectSubclassOptions = filteredSubclasses.map((subclass) => {
+  const selectSubclassOptions = filteredSubclasses.sort().map((subclass) => {
     return {value: subclass.id, label: subclass.subclassName}
   })
 

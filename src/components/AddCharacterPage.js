@@ -27,8 +27,6 @@ const AddCharacterPage = (props) => {
             altVision: formData.altVision,
           }
 
-          console.log(character)
-
           props.startAddCharacter(character).then(res => {
             const subclassData = {
               playerClass: formData.subclassName,
