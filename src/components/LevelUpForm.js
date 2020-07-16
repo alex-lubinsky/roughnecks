@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startSetSubclasses } from '../actions/subclasses';
 import ClassForm from './ClassForm';
 import ValidationMessage from './ValidationMessage';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { startSetPCSubclasses } from '../actions/playercharacterclasses';
 import { buildClassArray } from '../functions/levels';
 
 
@@ -25,11 +23,6 @@ class LevelUpForm extends React.Component {
       errorMsg: {},
       formValid: false
     }
-  }
-
-  componentDidMount() {
-    this.props.startSetSubclasses()
-    this.props.startSetPCSubclasses() 
   }
 
   onPassivePerceptionChange = (e) => {
@@ -119,18 +112,16 @@ class LevelUpForm extends React.Component {
               placeholder={`Enter ${this.props.character.firstName}'s Max HP`} 
             /> 
             <ValidationMessage valid={this.state.maxHpValid} message={this.state.errorMsg.maxHp} />
-            
-            {(this.props.pcSubclassesIsLoading || this.props.subclassesIsLoading) ? null :
-              <ClassForm 
-                subclasses={this.props.subclasses} 
-                onChange={this.onClassFormChange} 
-                characterLevels={buildClassArray(
-                  this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.props.characterid), 
-                  this.props.subclasses
-                )}
-              />
-            }
 
+            <ClassForm 
+              subclasses={this.props.subclasses} 
+              onChange={this.onClassFormChange} 
+              characterLevels={buildClassArray(
+                this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.props.characterid), 
+                this.props.subclasses
+              )}
+            />
+          
           </Modal.Body>
           <Modal.Footer>
             <div>
@@ -151,20 +142,9 @@ class LevelUpForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, props) => ({
-  startSetSubclasses: () => dispatch(startSetSubclasses()),
-  startSetPCSubclasses: () => dispatch(startSetPCSubclasses()), 
-})
-
 const mapStateToProps = (state, props) => ({
-  subclasses: state.subclasses.data,
   character: state.characters.data.find((character) => character.id === props.character.id),
   characterid: props.character.id,
-  pcSubclasses: state.pcSubclasses.data,
-
-  pcSubclassesIsLoading: state.pcSubclasses.isLoading,
-  subclassesIsLoading: state.subclasses.isLoading,
-
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(LevelUpForm)
+export default connect(mapStateToProps)(LevelUpForm)

@@ -42,12 +42,10 @@ class DisplayCharacterPage extends React.Component {
   }
 
   handleLevelUpClose = () => {
-    console.log("close modal")
     this.setState({ showLevelUpModal: false });
   };
 
   handleLevelUpShow = () => {
-    console.log("show modal")
     this.setState({ showLevelUpModal: true });
   };
 
@@ -88,7 +86,12 @@ class DisplayCharacterPage extends React.Component {
             </Modal>
 
             <Modal show={this.state.showLevelUpModal} onHide={this.handleLevelUpClose} >
-              <AddLevelForm handleClose={this.handleLevelUpClose} character={this.props.character}/>
+              <AddLevelForm 
+                handleClose={this.handleLevelUpClose} 
+                character={this.props.character}  
+                subclasses={this.props.subclasses}
+                pcSubclasses={this.props.pcSubclasses}
+              />
             </Modal>
 
             <h1>{`${this.props.character.firstName} ${this.props.character.lastName}`}</h1>

@@ -35,6 +35,7 @@ class CharacterForm extends React.Component {
   componentDidMount() {
     this.props.startSetRaces()
     this.props.startSetSubclasses()
+    console.log("componentDidMount")
   }
 
   onFirstNameChange = (e) => {

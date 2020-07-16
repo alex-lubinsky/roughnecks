@@ -20,11 +20,11 @@
   float: right;
 }
 
-.icon-ok, .icon-legal {
+.icon-ok, .icon-legal, .icon-ok-circle {
   color: green;
 }
 
-.icon-remove {
+.icon-remove, .icon-remove-sign {
   color: red;
 }
 

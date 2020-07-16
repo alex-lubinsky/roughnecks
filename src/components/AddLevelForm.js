@@ -12,23 +12,26 @@ const AddLevelForm = (props) => {
       <Modal.Header closeButton>
         <Modal.Title>{` Add Level for ${props.character.firstName}`}</Modal.Title>
       </Modal.Header>
+      
       <LevelUpForm 
         character={props.character}
+        subclasses={props.subclasses}
+        pcSubclasses={props.pcSubclasses}
         onSubmit={formData => {
           
-          // const characterUpdate = {
-          //   passivePerception: formData.passivePerception,
-          //   maxHp: formData.maxHp
-          // }
+          const characterUpdate = {
+            passivePerception: formData.passivePerception,
+            maxHp: formData.maxHp
+          }
 
-          // const playerCharacterLevel = {
-          //   playerClass: formData.subclassName,
-          //   classCharacter: props.character.id
-          // }
+          const playerCharacterLevel = {
+            playerClass: formData.subclassName,
+            classCharacter: props.character.id
+          }
 
-          // props.startUpdateCharacter(props.character.id, characterUpdate)
-          // props.startAddPcSubclass(playerCharacterLevel)
-          // props.handleClose()
+          props.startUpdateCharacter(props.character.id, characterUpdate)
+          props.startAddPcSubclass(playerCharacterLevel)
+          props.handleClose()
 
         }}
       />
