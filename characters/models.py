@@ -22,6 +22,14 @@ class CharacterSubClass(models.Model):
     ('Bard', 'Bard'),
     ('Druid', 'Druid'),
     ('Barbarian', 'Barbarian'),
+    ('Druid', 'Druid'),
+    ('Monk', 'Monk'),
+    ('Paladin', 'Paladin'),
+    ('Ranger', 'Ranger'),
+    ('Rogue', 'Rogue'),
+    ('Sorcerer', 'Sorcerer'),
+    ('Warlock', 'Warlock'),
+    ("Artificer", "Artificer")    
   ]
 
   className = models.CharField(max_length=255, choices=CLASS_CHOICES)
