@@ -92,7 +92,6 @@ class LevelUpForm extends React.Component {
     })
   }
 
-
   render() {
     return (
       <Container>

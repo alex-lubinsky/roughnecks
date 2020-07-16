@@ -15,20 +15,20 @@ const AddLevelForm = (props) => {
       <LevelUpForm 
         character={props.character}
         onSubmit={formData => {
+          
+          // const characterUpdate = {
+          //   passivePerception: formData.passivePerception,
+          //   maxHp: formData.maxHp
+          // }
 
-          const characterUpdate = {
-            passivePerception: formData.passivePerception,
-            maxHp: formData.maxHp
-          }
+          // const playerCharacterLevel = {
+          //   playerClass: formData.subclassName,
+          //   classCharacter: props.character.id
+          // }
 
-          const playerCharacterLevel = {
-            playerClass: formData.subclassName,
-            classCharacter: props.character.id
-          }
-
-          props.startUpdateCharacter(props.character.id, characterUpdate)
-          props.startAddPcSubclass(playerCharacterLevel)
-          props.handleClose()
+          // props.startUpdateCharacter(props.character.id, characterUpdate)
+          // props.startAddPcSubclass(playerCharacterLevel)
+          // props.handleClose()
 
         }}
       />

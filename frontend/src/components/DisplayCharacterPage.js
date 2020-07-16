@@ -42,10 +42,12 @@ class DisplayCharacterPage extends React.Component {
   }
 
   handleLevelUpClose = () => {
+    console.log("close modal")
     this.setState({ showLevelUpModal: false });
   };
 
   handleLevelUpShow = () => {
+    console.log("show modal")
     this.setState({ showLevelUpModal: true });
   };
 

@@ -10,20 +10,20 @@ import itemReducer from '../reducers/items';
 import authReducer from '../reducers/auth';
 import itemsOwnedReducer from '../reducers/itemsowned';
 import thunk from 'redux-thunk';
-// import { persistStore, persistReducer } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage';
-// import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import usersReducers from '../reducers/users';
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-// const persistConfig = {
-//   key: 'root',
-//   storage,
+const persistConfig = {
+  key: 'root',
+  storage,
 //   blacklist: ['auth', 'characters', 'missions', 'races', 'subclasses', 'pcSubclasses', 'transactions', 'downtime', 'items', 'itemsOwned', 'users' ]
-// }
+}
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -40,12 +40,12 @@ const rootReducer = combineReducers({
 
 })
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 
 export default () => {
-  const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
-  // const persistor = persistStore(store)
-  // return {store, persistor}
-  return store
+  const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk)))
+  const persistor = persistStore(store)
+  return {store, persistor}
+  // return store
 };
