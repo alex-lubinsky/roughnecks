@@ -25,9 +25,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: true,
+        isLoading: false,
         ...action.payload
       };
     case AUTH_ERROR:
+      return {
+        ...state,
+        isLoading: false
+      }
     case AUTHENTICATION_ERROR:
     case LOGIN_FAIL:
       localStorage.removeItem('token');
