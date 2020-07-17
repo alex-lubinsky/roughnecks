@@ -30,11 +30,11 @@ class Skymall extends React.Component {
 
   onCharacterChange = (selectedValue) => {
     const pcs = selectedValue
-    const {gold, silver, copper} = totalBalance(
-      this.props.transactions.filter(transaction => 
-        transaction.characters.some(character => character === selectedValue.value)
-      )
+    const transactions =  this.props.transactions.filter(transaction => 
+      transaction.characters.some(character => character === selectedValue.value)
     )
+    console.log(transactions)
+    const {gold, silver, copper} = totalBalance(transactions)
     this.setState({characterGold: parseFloat(`${gold}.${silver}${copper}`)})
     this.setState({ character: pcs })
   }

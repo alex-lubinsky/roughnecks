@@ -10,7 +10,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { startSetMissions } from '../actions/missions';
-import {getDowntimeDays} from '../functions/levels';
+import { startSetTransactions } from '../actions/transactions';
+import { getDowntimeDays } from '../functions/levels';
 
 class DowntimeForm extends React.Component {
 
@@ -35,6 +36,7 @@ class DowntimeForm extends React.Component {
   componentDidMount() {
     this.props.startSetCharacters()
     this.props.startSetMissions()
+    this.props.startSetTransactions()
   }
 
   onDescriptionChange = (e) => {
@@ -101,7 +103,14 @@ class DowntimeForm extends React.Component {
   onCharacterChange = (selectedValue) => {
     const pcs = selectedValue
     const character = this.props.characters.find(character => character.id === selectedValue.value)
-    this.setState({characterDowntime: getDowntimeDays(this.props.missions, character.missions, character)})
+    console.log(character)
+    this.setState(
+      {characterDowntime: getDowntimeDays(
+        this.props.missions, 
+        character, 
+        this.props.transactions.filter((transaction) => transaction.characters.some(pc => pc.id === character.id))
+      )}
+    )
     this.setState({ character: pcs }, this.validateCharacter)
   }
 
@@ -133,11 +142,11 @@ class DowntimeForm extends React.Component {
     })
   }
 
-  render() {
+  selectCharacterOptions = this.props.characters.map(character => {
+    return {value: character.id, label: `${character.firstName} ${character.lastName}`}
+  })
 
-    const selectCharacterOptions = this.props.characters.map(character => {
-      return {value: character.id, label: `${character.firstName} ${character.lastName}`}
-    })
+  render() {
 
     return (
       <Container>
@@ -153,7 +162,7 @@ class DowntimeForm extends React.Component {
                 <Form.Label>Character</Form.Label>
                 {(this.props.missionsIsLoading || this.props.charactersIsLoading) ? <p>loading...</p> :
                   <Select
-                    options={selectCharacterOptions}
+                    options={this.selectCharacterOptions}
                     value={this.state.character}
                     onChange={this.onCharacterChange}
                   />
@@ -220,14 +229,17 @@ class DowntimeForm extends React.Component {
 
 const mapDispatchToProps = (dispatch, props) => ({
   startSetCharacters: () => dispatch(startSetCharacters()),
-  startSetMissions: () => dispatch(startSetMissions())
+  startSetMissions: () => dispatch(startSetMissions()),
+  startSetTransactions: () => dispatch(startSetTransactions()),
 })
 
 const mapStateToProps = (state, props) => ({
   characters: state.characters.data.filter(character => character.creator === state.auth.user.id),
   missions: state.missions.data,
+  transactions: state.transactions.data,
   missionsIsLoading: state.missions.isLoading,
   charactersIsLoading: state.characters.isLoading,
+  transactionsIsLoading: state.transactions.isLoading
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(DowntimeForm)

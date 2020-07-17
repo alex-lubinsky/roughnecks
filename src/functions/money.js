@@ -50,7 +50,6 @@ export const totalSpent = (transactions) => {
       silver = transaction.silverPcs + silver;
       copper = transaction.copperPcs + copper;
     }
-
   });
 
   silver = silver + (gold - Math.floor(gold)) * 10
@@ -74,6 +73,9 @@ export const totalBalance = (transactions) => {
 
   const earnedMoney = totalEarned(transactions)
   const spentMoney = totalSpent(transactions)
+  
+
+  console.log(earnedMoney, spentMoney)
 
   balanceCopper = earnedMoney.copper - spentMoney.copper
   balanceSilver = earnedMoney.silver - spentMoney.silver
