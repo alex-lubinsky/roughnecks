@@ -1,9 +1,11 @@
 import React from 'react';
-import { totalSpent } from '../functions/money';
+import { totalEarnedSpent } from '../functions/money';
 
 const TotalSpentMoney = (props) => {
 
-  const {gold, silver, copper} = totalSpent(props.transactions)
+  const {gold, silver, copper} = totalEarnedSpent(props.transactions.filter((transaction) => {
+    return transaction.earnedSpent === -1;
+  }))
 
   return (
     <div>
