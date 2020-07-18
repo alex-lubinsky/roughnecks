@@ -45,12 +45,12 @@ class LoginForm extends Component {
       <Container className="form-container">
         <Form onSubmit={this.onSubmit}>
           <Container className="input-container">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="text" 
               value={this.state.username} 
               onChange={this.onUsernameChange}
-              placeholder="Username" 
+              placeholder="Email" 
             />
           </Container >
           <Container className="input-container">
