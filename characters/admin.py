@@ -7,7 +7,7 @@ admin.site.register(Character)
 
 
 class MissionAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'visable')
+  list_display = ('id', 'name', 'visable', 'episode')
 
 admin.site.register(Mission, MissionAdmin)
 

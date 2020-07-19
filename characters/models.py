@@ -76,6 +76,7 @@ class Mission(models.Model):
   dm = models.ForeignKey(Character, on_delete=models.SET_NULL, null=True, related_name="dmed", blank=True)
   playedOn = models.DateField()
   visable = models.BooleanField(default=True)
+  episode = models.IntegerField(default=1)
 
   def __str__(self):
     return self.name

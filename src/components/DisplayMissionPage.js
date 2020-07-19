@@ -22,7 +22,7 @@ class DisplayMissionPage extends React.Component {
           this.props.charactersIsLoading)
         ? null :
         <div>  
-          <h1>{this.props.mission.name}</h1>
+          <h1>{`Episode ${this.props.mission.episode}: ${this.props.mission.name}`}</h1>
           <p>played on: {this.props.mission.playedOn}</p>
           <p>DM: {dm.firstName} {dm.lastName}</p>
           <p>Players: {this.props.mission.characters.map((pc) => {

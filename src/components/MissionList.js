@@ -27,6 +27,7 @@ class MissionList extends React.Component {
           <Table striped bordered size='sm'>
             <thead>
               <tr>
+                <th>Episode #</th>
                 <th>Name</th>
                 <th>Date Played</th>
                 <th>DM</th>
@@ -39,6 +40,7 @@ class MissionList extends React.Component {
                 const dm = this.props.characters.find(character => character.id === mission.dm)
                 return (
                   <tr key={mission.id}>
+                    <td>{mission.episode}</td>
                     <td>
                       <NavLink 
                         to={`/missions/${mission.id}`} 

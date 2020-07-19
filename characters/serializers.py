@@ -21,7 +21,7 @@ class MissionSerializer(serializers.ModelSerializer):
 
   class Meta:
       model = Mission
-      fields = ('id', 'name', 'dm', 'characters', 'playedOn', 'visable')
+      fields = ('id', 'name', 'dm', 'characters', 'playedOn', 'visable', 'episode')
 
 class CharacterSubClassSerializer(serializers.ModelSerializer):
   class Meta:

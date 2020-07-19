@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button'
 import DatePicker from 'react-datepicker'
 
 import "react-datepicker/dist/react-datepicker.css";
+import { startSetMissions } from '../actions/missions';
 
 
 class MissionForm extends React.Component {
@@ -32,11 +33,7 @@ class MissionForm extends React.Component {
 
   componentDidMount() {
     this.props.startSetCharacters()
-
-    // const filteredCharacters = this.props.characters.filter((character) => {
-    //   return true
-    // })
-    // this.setState(() => ({filteredCharacters}))
+    this.props.startSetMissions()
   }
 
   onNameChange = (e) => {
@@ -137,13 +134,14 @@ class MissionForm extends React.Component {
     const pcs = this.state.characters.map((character) => {
       return character.value
     })
+    console.log(this.props.highestEpisode + 1);
     this.props.onSubmit(
       { 
         name: this.state.name, 
         dm: this.state.dm, 
         characters: pcs, 
-        playedOn: `${this.state.startDate.getFullYear()}-${this.state.startDate.getMonth()+1}-${this.state.startDate.getDate()}`
-         
+        playedOn: `${this.state.startDate.getFullYear()}-${this.state.startDate.getMonth()+1}-${this.state.startDate.getDate()}`,
+        episode: `${this.props.highestEpisode + 1}`,
       }
     );
   }
@@ -232,12 +230,14 @@ class MissionForm extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
-  startSetCharacters: () => dispatch(startSetCharacters())
+  startSetCharacters: () => dispatch(startSetCharacters()),
+  startSetMissions: () => dispatch(startSetMissions()),
 })
 
 const mapStateToProps = (state, props) => ({
   characters: state.characters.data,
-  charactersIsLoading: state.characters.isLoading
+  charactersIsLoading: state.characters.isLoading,
+  highestEpisode: state.missions.data.sort((a,b) => (a.episode < b.episode) ? 1 : -1)[0].episode
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(MissionForm)

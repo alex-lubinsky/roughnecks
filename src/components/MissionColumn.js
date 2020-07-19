@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MissionColumn = ({ id, name }) => (
-  <th>{name}</th>
+const MissionColumn = ({ id, name, episode }) => (
+  <th>{`Ep. ${episode}: ${name}`}</th>
 )
 
 export default MissionColumn;
