@@ -45,13 +45,13 @@ class AppRouter extends React.Component {
         <div>
         <Header />
         <Switch>
+          <Route exact path="/login" component={LoginForm} />
           <PrivateRoute exact path="/" component={App} />
           <PrivateRoute path="/characters/:id" component={DisplayCharacterPage} />
           <PrivateRoute path="/missions" component={MissionList} exact={true} />
           <PrivateRoute path="/missions/:id" component={DisplayMissionPage} />
           <PrivateRoute path="/transactions" component={TransactionList} />
           <PrivateRoute path="/skymall" component={Skymall} />
-          <Route exact path="/login" component={LoginForm} />
           <Route exact path="/reset" component={ResetEmail} />
           <Route path="/reset/:uid/:token/" component={ResetForm} />
           <Route component={NotFoundPage} />

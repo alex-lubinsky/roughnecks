@@ -3,6 +3,7 @@ import {resetPasswordConfirm} from '../actions/auth';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ValidationMessage from './ValidationMessage';
+import Container from 'react-bootstrap/Container';
 
 const ResetForm = (props) => {
   
@@ -23,26 +24,31 @@ const ResetForm = (props) => {
 
   const onClick = (e) => {
     e.preventDefault();
-    resetPasswordConfirm(
-      {
-        uid: props.match.params.uid,
-        token: props.match.params.token,
-        new_password1: passwordOne,
-        new_password2: passwordTwo
-      }
-    )
+    if (passwordOne === passwordTwo && passwordTwo !== "") {
+      resetPasswordConfirm(
+        {
+          uid: props.match.params.uid,
+          token: props.match.params.token,
+          new_password1: passwordOne,
+          new_password2: passwordTwo
+        }
+      )
+    }
   }
 
   return (
-    <div>
+    <Container className="form-container">
       <Form>
-        <Form.Label>Password</Form.Label>
-        <Form.Control 
-          type="text" 
-          value={passwordOne} 
-          onChange={onPasswordOneChange}
-          placeholder="Enter new password" 
-        />
+        <Container className="input-container">
+          <Form.Label>Password</Form.Label>
+          <Form.Control 
+            type="text" 
+            value={passwordOne} 
+            onChange={onPasswordOneChange}
+            placeholder="Enter new password" 
+          />
+        </Container>
+        <Container  className="input-container">
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control 
           type="text" 
@@ -51,9 +57,12 @@ const ResetForm = (props) => {
           placeholder="Confirm Password" 
         />
         <ValidationMessage valid={passwordValid} message={errorMsg.password} />
+        </Container>
       </Form>
-      <Button onClick={onClick}>Click Me</Button>
-    </div>
+      <Container className="button-container">
+        <Button onClick={onClick}>Click Me</Button>
+      </Container>
+    </Container>
   )
 }
 
