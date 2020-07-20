@@ -24,7 +24,7 @@ class MissionForm extends React.Component {
       name: '', nameValid: false,
       dm: '', dmValid: false,
       characters: [], charactersValid: false,
-      filteredCharacters: [],
+      filteredCharacters: this.props.characters,
       errorMsg: {},
       formValid: false,
       startDate: new Date(), startDateValid: true
@@ -146,13 +146,14 @@ class MissionForm extends React.Component {
     );
   }
 
+  selectDMOptions = this.props.characters.map((character) => {
+    return {value: character.id, label: character.firstName + " " + character.lastName}
+  })
+
   render() {
+    
+    const selectFilteredCharacterOptions = this.state.filteredCharacters.map((character) => {
 
-    const selectDMOptions = this.props.characters.map((character) => {
-      return {value: character.id, label: character.firstName + " " + character.lastName}
-    })
-
-    const selectCharacterOptions = this.state.filteredCharacters.map((character) => {
       return {value: character.id, label: character.firstName + " " + character.lastName}
     })
 
@@ -177,7 +178,7 @@ class MissionForm extends React.Component {
               <Col>
                 <Form.Label>DM</Form.Label>
                 {this.props.characters.isLoading ? null : 
-                  <Select id='dm' name='dm' options={selectDMOptions} onChange={this.onDmChange} />
+                  <Select id='dm' name='dm' options={this.selectDMOptions} onChange={this.onDmChange} />
                 }
                 <ValidationMessage valid={this.state.dmValid} message={this.state.errorMsg.dm} />
               </Col>
@@ -190,7 +191,7 @@ class MissionForm extends React.Component {
                     id='characters'
                     name='characters'
                     isMulti
-                    options={selectCharacterOptions}
+                    options={selectFilteredCharacterOptions}
                     value={this.state.characters}
                     onChange={this.onCharactersChange}
                   />
@@ -235,7 +236,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 })
 
 const mapStateToProps = (state, props) => ({
-  characters: state.characters.data,
+  characters: state.characters.data.filter(character => character.dead === false),
   charactersIsLoading: state.characters.isLoading,
   highestEpisode: state.missions.data.sort((a,b) => (a.episode < b.episode) ? 1 : -1)[0].episode
 })

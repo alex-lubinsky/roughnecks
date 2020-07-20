@@ -12,6 +12,8 @@ class CharacterRaceSerializer(serializers.ModelSerializer):
       fields = ('id', 'raceName')
 
 class PlayerCharacterClassSerializer(serializers.ModelSerializer):
+  dateCreated = serializers.DateField(input_formats=['%d-%m-%Y','iso-8601'])
+
   class Meta:
       model = PlayerCharacterClass
       fields = ('id', 'playerClass', 'classCharacter', 'levelNumber', 'dateCreated')

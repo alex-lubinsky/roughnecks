@@ -338,7 +338,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 })
 
 const mapStateToProps = (state, props) => ({
-  characters: state.characters.data,
+  characters: state.characters.data.filter(character => character.dead === false),
   missions: state.missions.data,
   charactersIsLoading: state.characters.isLoading,
   missionsIsLoading: state.missions.isLoading,

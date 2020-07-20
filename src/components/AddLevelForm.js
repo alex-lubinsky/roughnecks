@@ -26,7 +26,9 @@ const AddLevelForm = (props) => {
 
           const playerCharacterLevel = {
             playerClass: formData.subclassName,
-            classCharacter: props.character.id
+            classCharacter: props.character.id,
+            levelNumber: formData.levelNumber,
+            dateCreated: formData.dateCreated,
           }
 
           props.startUpdateCharacter(props.character.id, characterUpdate)

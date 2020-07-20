@@ -78,10 +78,13 @@ class LevelUpForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    let date = new Date();
     this.props.onSubmit({ 
       passivePerception: this.state.passivePerception,
       maxHp: this.state.maxHp,
-      subclassName: this.state.subclassName
+      subclassName: this.state.subclassName,
+      levelNumber: this.props.pcNextLevelNumber,
+      dateCreated: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
     })
   }
 
@@ -90,7 +93,6 @@ class LevelUpForm extends React.Component {
       <Container>
         <Form onSubmit={this.onSubmit}>
           <Modal.Body>
-
             <Form.Label>Passive Perception</Form.Label>
             <Form.Control 
               type="number" 
@@ -145,6 +147,7 @@ class LevelUpForm extends React.Component {
 const mapStateToProps = (state, props) => ({
   character: state.characters.data.find((character) => character.id === props.character.id),
   characterid: props.character.id,
+  pcNextLevelNumber: state.pcSubclasses.data.filter(pcSubclass => pcSubclass.classCharacter === props.character.id).length + 1,
 })
 
 export default connect(mapStateToProps)(LevelUpForm)

@@ -20,11 +20,12 @@ export const totalEarnedSpent = (transactions) => {
   copper = copper + (silver - Math.floor(silver)) * 10
   silver = Math.floor(silver)
   copper = Math.ceil(copper)
-    
+  
   silver = silver + Math.floor(copper / 10);
   gold = gold + Math.floor(silver / 10);
   silver = (silver / 10 - Math.floor(silver / 10)) * 10;
-  copper = (copper / 10 - Math.floor(copper / 10)) * 10;
+  copper = Math.floor((copper / 10 - Math.floor(copper / 10)) * 10);
+
 
   return {gold, silver, copper}
 }

@@ -30,6 +30,8 @@ const CharacterRow = (props) => {
           pcClasses={props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === props.character.id)} 
           subclasses={props.subclasses}
         />
+        {getLevel(checkmarks) > props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === props.character.id).length ? 
+        <i className="icon-arrow-up" /> : null}
       </td>
       <td>{getLevel(checkmarks)}</td>
       <td>{ checkmarks}</td>
