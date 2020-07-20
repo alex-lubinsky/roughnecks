@@ -74,6 +74,9 @@ const Header = (props) => {
               <NavDropdown title="Spend" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={handleDowntimeFormShow}>Spend Downtime</NavDropdown.Item>
               <NavDropdown.Item href="/skymall">Skymall</NavDropdown.Item>
+              {props.isStaff ? 
+                <NavDropdown.Item href="/skymalladmin">SkymallAdmin</NavDropdown.Item>
+              : null }
               </NavDropdown>
             </Nav>
             <Nav className="justify-content-end">
@@ -95,7 +98,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state) => {
   if (state.auth.user) {
     return ({
-      userFirstName: state.auth.user.first_name
+      userFirstName: state.auth.user.first_name,
+      isStaff: state.auth.user.is_staff,
     })
   } else {
     return {}

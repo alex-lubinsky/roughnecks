@@ -9,6 +9,7 @@ import DisplayMissionPage from '../components/DisplayMissionPage';
 import MissionList from '../components/MissionList';
 import TransactionList from '../components/TransactionList';
 import Skymall from '../components/Skymall';
+import SkymallAdmin from '../components/SkymallAdmin';
 import LoginForm from '../components/Login';
 import PrivateRoute from '../components/PrivateRoute';
 import FallenHeroes from '../components/FallenHeroes';
@@ -53,6 +54,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/missions/:id" component={DisplayMissionPage} />
           <PrivateRoute path="/transactions" component={TransactionList} />
           <PrivateRoute path="/skymall" component={Skymall} />
+          <PrivateRoute path="/skymalladmin" component={SkymallAdmin} />
           <PrivateRoute path="/fallen" component={FallenHeroes} />
           <Route exact path="/reset" component={ResetEmail} />
           <Route path="/reset/:uid/:token/" component={ResetForm} />
