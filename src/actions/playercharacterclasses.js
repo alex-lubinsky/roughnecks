@@ -31,10 +31,12 @@ export const startAddPcSubclass = (pcSubclassData = {}) => {
   return (dispatch, getState) => {
     const {
       classCharacter = 0, 
-      playerClass = 0
+      playerClass = 0,
+      levelNumber = 1,
+      dateCreated = 0
     } = pcSubclassData;
 
-    const pcSubclass = {classCharacter, playerClass};
+    const pcSubclass = {classCharacter, playerClass, dateCreated, levelNumber};
 
     return axios.post(`/api/playercharacterclasses/`, pcSubclass, tokenConfig(getState().auth.token))
     .then(res => {

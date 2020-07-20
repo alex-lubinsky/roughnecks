@@ -22,7 +22,9 @@ const HeroTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.characters.map((character) => {
+        {props.characters.filter(character => {
+          return character.dead === props.fallen
+        }).map((character) => {
           return <CharacterRow 
             key={character.id} 
             character={character} 

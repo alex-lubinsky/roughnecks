@@ -17,7 +17,7 @@ class CharacterRaceAdmin(admin.ModelAdmin):
 admin.site.register(CharacterRace, CharacterRaceAdmin)
 
 class PlayerCharacterClassAdmin(admin.ModelAdmin):
-  list_display = ('id', 'classCharacter', 'playerClass')
+  list_display = ('id', 'classCharacter', 'playerClass', 'levelNumber', 'dateCreated')
 
 admin.site.register(PlayerCharacterClass, PlayerCharacterClassAdmin)
 

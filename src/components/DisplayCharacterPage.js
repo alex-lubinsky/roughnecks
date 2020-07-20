@@ -94,7 +94,9 @@ class DisplayCharacterPage extends React.Component {
               />
             </Modal>
 
-            <h1>{`${this.props.character.firstName} ${this.props.character.lastName}`}</h1>
+          <h1>
+            {`${this.props.character.firstName}${this.props.character.lastName === '' ? '' : this.props.character.lastName}${this.props.character.dead ? ': Dead' : ''}`}
+          </h1>
 
             {(this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.props.characterid).length < 
             getLevel(this.props.missions.filter(mission => 

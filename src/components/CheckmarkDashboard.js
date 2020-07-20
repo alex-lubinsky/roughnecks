@@ -44,6 +44,7 @@ class CheckmarkDashboard extends React.Component {
           users={this.props.users}
           subclasses={this.props.subclasses}
           downtime={this.props.downtime}
+          fallen={this.props.fallen}
         />
       }
       </div>

@@ -11,6 +11,7 @@ import TransactionList from '../components/TransactionList';
 import Skymall from '../components/Skymall';
 import LoginForm from '../components/Login';
 import PrivateRoute from '../components/PrivateRoute';
+import FallenHeroes from '../components/FallenHeroes';
 
 import { startLoadUser } from '../actions/auth';
 import { connect } from 'react-redux';
@@ -52,6 +53,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/missions/:id" component={DisplayMissionPage} />
           <PrivateRoute path="/transactions" component={TransactionList} />
           <PrivateRoute path="/skymall" component={Skymall} />
+          <PrivateRoute path="/fallen" component={FallenHeroes} />
           <Route exact path="/reset" component={ResetEmail} />
           <Route path="/reset/:uid/:token/" component={ResetForm} />
           <Route component={NotFoundPage} />

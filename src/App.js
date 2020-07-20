@@ -8,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
     <div>
-      <CheckmarkDashboard />
+      <CheckmarkDashboard fallen={false} />
     </div>
     )
   }

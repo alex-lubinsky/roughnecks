@@ -14,7 +14,7 @@ class CharacterRaceSerializer(serializers.ModelSerializer):
 class PlayerCharacterClassSerializer(serializers.ModelSerializer):
   class Meta:
       model = PlayerCharacterClass
-      fields = ('id', 'playerClass', 'classCharacter')
+      fields = ('id', 'playerClass', 'classCharacter', 'levelNumber', 'dateCreated')
 
 class MissionSerializer(serializers.ModelSerializer):
   playedOn = serializers.DateField(input_formats=['%d-%m-%Y','iso-8601'])

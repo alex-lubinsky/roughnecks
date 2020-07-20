@@ -65,6 +65,9 @@ class Character(models.Model):
 class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)
   classCharacter = models.ForeignKey(Character, on_delete=models.CASCADE, related_name='pcClasses')
+  levelNumber = models.IntegerField(default=1)
+  dateCreated = models.DateField(blank=True, null=True)
+
 
   def __str__(self):
     return self.playerClass.subclassName
