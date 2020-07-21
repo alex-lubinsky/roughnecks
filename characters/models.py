@@ -80,6 +80,8 @@ class Mission(models.Model):
   playedOn = models.DateField()
   visable = models.BooleanField(default=True)
   episode = models.IntegerField(default=1)
+  levelMin = models.IntegerField(default=1)
+  levelMax = models.IntegerField(default=20)
 
   def __str__(self):
     return self.name
@@ -114,7 +116,6 @@ class Downtime(models.Model):
   downtimeType = models.CharField(choices = DOWNTIME_TYPE_CHOICES, max_length=2)
   character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
   numOfDaysSpent = models.IntegerField()
-
 
 class Item(models.Model):
 

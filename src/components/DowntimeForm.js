@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import { startSetMissions } from '../actions/missions';
 import { startSetTransactions } from '../actions/transactions';
 import { getDowntimeDays } from '../functions/levels';
+import { startSetPCSubclasses } from '../actions/playercharacterclasses';
 
 class DowntimeForm extends React.Component {
 
@@ -37,6 +38,7 @@ class DowntimeForm extends React.Component {
     this.props.startSetCharacters()
     this.props.startSetMissions()
     this.props.startSetTransactions()
+    this.props.startSetPCSubclasses()
   }
 
   onDescriptionChange = (e) => {
@@ -103,12 +105,12 @@ class DowntimeForm extends React.Component {
   onCharacterChange = (selectedValue) => {
     const pcs = selectedValue
     const character = this.props.characters.find(character => character.id === selectedValue.value)
-    console.log(character)
     this.setState(
       {characterDowntime: getDowntimeDays(
-        this.props.missions, 
+        this.props.missions.filter(mission => mission.visable === true), 
         character, 
-        this.props.transactions.filter((transaction) => transaction.characters.some(pc => pc.id === character.id))
+        this.props.transactions.filter((transaction) => transaction.characters.some(pc => pc.id === character.id)),
+        this.props.pcSubclasses.filter(pcLevel => pcLevel.classCharacter === character.id),
       )}
     )
     this.setState({ character: pcs }, this.validateCharacter)
@@ -147,7 +149,6 @@ class DowntimeForm extends React.Component {
   })
 
   render() {
-
     return (
       <Container>
         <Form onSubmit={this.onSubmit}>
@@ -231,15 +232,21 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetCharacters: () => dispatch(startSetCharacters()),
   startSetMissions: () => dispatch(startSetMissions()),
   startSetTransactions: () => dispatch(startSetTransactions()),
+  startSetPCSubclasses: () => dispatch(startSetPCSubclasses()),
 })
 
 const mapStateToProps = (state, props) => ({
   characters: state.characters.data.filter(character => (character.creator === state.auth.user.id && !character.dead)),
+  characterarray: state.characters.data,
+  userid: state.auth.user.id,
   missions: state.missions.data,
   transactions: state.transactions.data,
+  pcSubclasses: state.pcSubclasses.data,
+
   missionsIsLoading: state.missions.isLoading,
   charactersIsLoading: state.characters.isLoading,
-  transactionsIsLoading: state.transactions.isLoading
+  transactionsIsLoading: state.transactions.isLoading,
+  pcSubclassesIsLoading: state.pcSubclasses.isLoading,
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(DowntimeForm)

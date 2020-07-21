@@ -39,12 +39,6 @@ class Skymall extends React.Component {
     this.setState({ character: pcs })
   }
 
-  onAddItemClick = (e) => {
-    const itemId = e.target.getAttribute("data-key")
-    const foundItem = this.props.items.find(item => item.id.toString() === itemId)
-    this.props.startUpdateItem(foundItem.id, {numberInSkymall: foundItem.numberInSkymall + 1})
-  }
-
   onBuyItemClick = (e) => {
     const itemId = e.target.getAttribute("data-key")
     const foundItem = this.props.items.find(item => item.id.toString() === itemId)
@@ -113,7 +107,6 @@ class Skymall extends React.Component {
                 <th>Cost (in gold) </th>
                 <th>Desctiption</th>
                 <th>Number in Skymall</th>
-                <th>Add to Skymall</th>
                 <th>Buy</th>
               </tr>
             </thead>
@@ -125,7 +118,6 @@ class Skymall extends React.Component {
                   <td> {`${item.costGold}.${item.costSilver}${item.costCopper}`} </td>
                   <td> {item.description} </td>
                   <td> {item.numberInSkymall} </td>
-                  <td><Button variant="info" onClick={this.onAddItemClick} data-key={item.id}>Add Item to Skymall</Button></td>
                   <td><Button variant="success" onClick={this.onBuyItemClick} data-key={item.id}>Buy Item</Button></td>
                 </tr>
                 )

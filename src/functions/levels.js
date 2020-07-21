@@ -8,8 +8,6 @@ export const buildClassArray = (levelArray, classObject) => {
   return classArray
 }
 
-
-
 export const countClassOccurences = (arr) => {
 
   let result = {}
@@ -34,17 +32,31 @@ export const countClassOccurences = (arr) => {
   return result
 }
 
-export const getDowntimeDays = (missions, character, downtime) => {
-  const numberOfMissions = missions.filter(mission => mission.visable === true).filter((mission) => mission.playedOn >= character.dateCreated).length;
-  const dmCount = missions.filter((mission) => mission.dm === character.id).length
-  const playCount = missions.filter(mission => mission.characters.some(pc => pc === character.id)).length
-  const downtimeSpent = downtime.filter(dtTransaction => dtTransaction.character === character.id).map(dtTransaction => {
-      return dtTransaction.numOfDaysSpent
-    }).reduce((accumulator, currentValue) => {
-      return accumulator + currentValue
-    }, 0)
+export const getDowntimeDays = (missions, character, downtime, pcLevels) => {
 
-  return ((dmCount*7+playCount*5+(numberOfMissions-dmCount-playCount)*2) - downtimeSpent)
+  let downtimeDayTotal = 0;
+
+  missions.forEach(mission => {
+
+    if (mission.characters.includes(character.id)) {
+      downtimeDayTotal += 5;
+    } else if (mission.dm === character.id) {
+      downtimeDayTotal += 7;
+    } else {
+      const levelAtTimeOfMission = pcLevels.filter(level => level.dateCreated <= mission.playedOn).length;
+      if (mission.playedOn >= character.dateCreated && levelAtTimeOfMission >= mission.levelMin && levelAtTimeOfMission <= mission.levelMax) {
+        downtimeDayTotal += 2;
+      }
+    }
+  });
+
+  const downtimeSpent = downtime.filter(dtTransaction => dtTransaction.character === character.id).map(dtTransaction => {
+    return dtTransaction.numOfDaysSpent
+  }).reduce((accumulator, currentValue) => {
+    return accumulator + currentValue
+  }, 0)
+
+  return (downtimeDayTotal - downtimeSpent)
 }
 
 export const getCheckmarks = (missions, character) => {

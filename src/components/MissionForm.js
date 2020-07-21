@@ -25,6 +25,8 @@ class MissionForm extends React.Component {
       dm: '', dmValid: false,
       characters: [], charactersValid: false,
       filteredCharacters: this.props.characters,
+      minLevel: 1, minLevelValid: true,
+      maxLevel: 1, maxLevelValid: false,
       errorMsg: {},
       formValid: false,
       startDate: new Date(), startDateValid: true
@@ -108,6 +110,53 @@ class MissionForm extends React.Component {
     this.setState({charactersValid, errorMsg}, this.validateForm)
   }
 
+  onMinLevelChange = (e) => {
+    const minLevel = e.target.value;
+    this.setState({minLevel}, this.validateMinMaxLevel)
+  }
+
+  onMaxLevelChange = (e) => {
+    const maxLevel = e.target.value;
+    this.setState({maxLevel}, this.validateMinMaxLevel)
+  }
+
+  validateMinMaxLevel = () => {
+    const {minLevel, maxLevel} = this.state;
+    let maxLevelValid = true;
+    let minLevelValid = true;
+    let errorMsg = {...this.state.errorMsg}
+
+    if (!Number.isInteger(Number(maxLevel))) {
+      maxLevelValid = false;
+      errorMsg.maxLevel = 'Must be a whole number';
+    } else if (maxLevel < 1) {
+      maxLevelValid = false;
+      errorMsg.maxLevel = 'Must be a larger than 0';
+    } else if (maxLevel > 20) {
+      maxLevelValid = false;
+      errorMsg.maxLevel = 'Must be lower than 20';
+    } else if (minLevel > maxLevel) {
+      maxLevelValid = false;
+      errorMsg.maxLevel = 'Maximum level must be higher than to or equal the minimum level';      
+    }
+
+    if (!Number.isInteger(Number(minLevel))) {
+      minLevelValid = false;
+      errorMsg.minLevel = 'Must be a whole number';
+    } else if (minLevel < 1) {
+      minLevelValid = false;
+      errorMsg.minLevel = 'Must be a number larger than 0';
+    } else if (minLevel > 20) {
+      minLevelValid = false;
+      errorMsg.minLevel = 'Must be lower than 20';
+    } else if (minLevel > maxLevel) {
+      minLevelValid = false;
+      errorMsg.minLevel = 'Minimum level must be lower than to or equal the maximum level';      
+    }
+
+    this.setState({maxLevelValid, errorMsg, minLevelValid}, this.validateForm)
+  }
+
   onDatePickerChange = (date) => {
     this.setState({startDate: date}, this.validateStartDate);
   };
@@ -125,8 +174,8 @@ class MissionForm extends React.Component {
   }
 
   validateForm = () => {
-    const { nameValid, dmValid, charactersValid, startDateValid} = this.state
-    this.setState({formValid: nameValid && dmValid && charactersValid && startDateValid})
+    const { nameValid, dmValid, charactersValid, startDateValid, minLevelValid, maxLevelValid} = this.state
+    this.setState({formValid: nameValid && dmValid && charactersValid && startDateValid && minLevelValid && maxLevelValid})
   }
 
   onSubmit = (e) => {
@@ -142,6 +191,8 @@ class MissionForm extends React.Component {
         characters: pcs, 
         playedOn: `${this.state.startDate.getFullYear()}-${this.state.startDate.getMonth()+1}-${this.state.startDate.getDate()}`,
         episode: `${this.props.highestEpisode + 1}`,
+        levelMin: this.state.minLevel,
+        levelMax: this.state.maxLevel,
       }
     );
   }
@@ -201,6 +252,34 @@ class MissionForm extends React.Component {
             </Row>
             <Row>
               <Col>
+                <Form.Label>Minimum Level</Form.Label>
+                <Form.Control 
+                  type="number" 
+                  min="1"
+                  step="1"
+                  placeholder="Minimum level for the mission" 
+                  value={this.state.minLevel} 
+                  onChange={this.onMinLevelChange}
+                />
+                <ValidationMessage valid={this.state.minLevelValid} message={this.state.errorMsg.minLevel} />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Label>Maximum Level</Form.Label>
+                <Form.Control 
+                  type="number" 
+                  min="1"
+                  step="1"
+                  placeholder="Maximum level for the mission" 
+                  value={this.state.maxLevel} 
+                  onChange={this.onMaxLevelChange}
+                />
+                <ValidationMessage valid={this.state.maxLevelValid} message={this.state.errorMsg.maxLevel} />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
                 <Form.Label>Played On</Form.Label>
                 <DatePicker selected={this.state.startDate} onChange={this.onDatePickerChange} />
                 <ValidationMessage valid={this.state.startDateValid} message={this.state.errorMsg.startDate} /> 
@@ -219,6 +298,12 @@ class MissionForm extends React.Component {
               </div>
               <div>
                 Played On Date: {this.state.startDateValid ? <i className='valid-input icon-ok-circle' /> : <i className='invalid-input icon-remove-sign' />}
+              </div>
+              <div>
+                Minimum Level: {this.state.minLevelValid ? <i className='valid-input icon-ok-circle' /> : <i className='invalid-input icon-remove-sign' />}
+              </div>
+              <div>
+                Maximum Level: {this.state.maxLevelValid ? <i className='valid-input icon-ok-circle' /> : <i className='invalid-input icon-remove-sign' />}
               </div>
               <div>
                 <Button disabled={!this.state.formValid} variant="primary" type="submit">Add Mission</Button>

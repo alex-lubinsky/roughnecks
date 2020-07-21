@@ -30,6 +30,7 @@ class MissionList extends React.Component {
                 <th>Episode #</th>
                 <th>Name</th>
                 <th>Date Played</th>
+                <th>Mission Min/Max Level</th>
                 <th>DM</th>
                 <th>Characters</th>
                 <th>Transactions</th>
@@ -46,6 +47,9 @@ class MissionList extends React.Component {
                         to={`/missions/${mission.id}`} 
                         activeClassName="is-active"
                       >{mission.name}</NavLink>
+                    </td>
+                    <td>
+                      {`Min Level: ${mission.levelMin} Max Level: ${mission.levelMax}`}
                     </td>
                     <td>
                       {mission.playedOn}

@@ -13,6 +13,7 @@ import SkymallAdmin from '../components/SkymallAdmin';
 import LoginForm from '../components/Login';
 import PrivateRoute from '../components/PrivateRoute';
 import FallenHeroes from '../components/FallenHeroes';
+import AdminRoute from '../components/AdminRoute';
 
 import { startLoadUser } from '../actions/auth';
 import { connect } from 'react-redux';
@@ -26,8 +27,6 @@ import { startSetSubclasses } from '../actions/subclasses';
 import { startSetDowntime } from '../actions/downtime';
 import { startSetMissions } from '../actions/missions';
 import { startSetPCSubclasses } from '../actions/playercharacterclasses';
-
-
 
 class AppRouter extends React.Component {
 
@@ -54,7 +53,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/missions/:id" component={DisplayMissionPage} />
           <PrivateRoute path="/transactions" component={TransactionList} />
           <PrivateRoute path="/skymall" component={Skymall} />
-          <PrivateRoute path="/skymalladmin" component={SkymallAdmin} />
+          <AdminRoute path="/skymalladmin" component={SkymallAdmin} />
           <PrivateRoute path="/fallen" component={FallenHeroes} />
           <Route exact path="/reset" component={ResetEmail} />
           <Route path="/reset/:uid/:token/" component={ResetForm} />

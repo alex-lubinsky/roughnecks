@@ -34,8 +34,8 @@ const CharacterRow = (props) => {
         <i className="icon-arrow-up" /> : null}
       </td>
       <td>{getLevel(checkmarks)}</td>
-      <td>{ checkmarks}</td>
-      <td>{getDowntimeDays(props.missions, props.character, props.downtime)}</td>
+      <td>{checkmarks}</td>
+      <td>{getDowntimeDays(props.missions, props.character, props.downtime, props.pcSubclasses.filter(pcLevel => pcLevel.classCharacter === props.character.id))}</td>
       {props.missions.map((mission) => {
         if (mission.dm === props.character.id) {
           return <td key={mission.id}><i className="icon-legal" /></td>
@@ -46,7 +46,7 @@ const CharacterRow = (props) => {
         }
       })}
     </tr>
-  )  
+  )
 }
 
 export default CharacterRow;

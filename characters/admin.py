@@ -3,11 +3,13 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Character)
+class CharacterAdmin(admin.ModelAdmin):
+  list_display = ('id', 'firstName', 'lastName', 'dateCreated', 'creator', 'dead')
 
+admin.site.register(Character, CharacterAdmin)
 
 class MissionAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'visable', 'episode')
+  list_display = ('id', 'name', 'visable', 'episode', 'levelMin', 'levelMax')
 
 admin.site.register(Mission, MissionAdmin)
 

@@ -15,9 +15,11 @@ export const startAddMission = (missionData = {}) => {
       characters = [],
       playedOn = '',
       episode = 1,
+      levelMin = 1,
+      levelMax = 1
     } = missionData;
 
-    const mission = {name, dm, characters, playedOn, episode};
+    const mission = {name, dm, characters, playedOn, episode, levelMin, levelMax};
 
     return axios.post(`/api/missions/`, mission, tokenConfig(getState().auth.token))
     .then(res => {
