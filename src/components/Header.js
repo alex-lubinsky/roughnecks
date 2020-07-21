@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
   if (state.auth.user) {
     return ({
       userFirstName: state.auth.user.first_name,
-      isStaff: state.auth.user.is_staff,
+      isStaff: state.auth.user.isSkymallAdmin,
     })
   } else {
     return {}

@@ -14,7 +14,6 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import usersReducers from '../reducers/users';
 
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
@@ -35,7 +34,6 @@ const rootReducer = combineReducers({
   items: itemReducer,
   itemsOwned: itemsOwnedReducer,
   users: usersReducers,
-
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -13,7 +13,7 @@ import SkymallAdmin from '../components/SkymallAdmin';
 import LoginForm from '../components/Login';
 import PrivateRoute from '../components/PrivateRoute';
 import FallenHeroes from '../components/FallenHeroes';
-import AdminRoute from '../components/AdminRoute';
+import SkymallAdminRoute from '../components/SkymallAdminRoute';
 
 import { startLoadUser } from '../actions/auth';
 import { connect } from 'react-redux';
@@ -27,6 +27,7 @@ import { startSetSubclasses } from '../actions/subclasses';
 import { startSetDowntime } from '../actions/downtime';
 import { startSetMissions } from '../actions/missions';
 import { startSetPCSubclasses } from '../actions/playercharacterclasses';
+
 
 class AppRouter extends React.Component {
 
@@ -53,7 +54,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/missions/:id" component={DisplayMissionPage} />
           <PrivateRoute path="/transactions" component={TransactionList} />
           <PrivateRoute path="/skymall" component={Skymall} />
-          <AdminRoute path="/skymalladmin" component={SkymallAdmin} />
+          <SkymallAdminRoute path="/skymalladmin" component={SkymallAdmin} />
           <PrivateRoute path="/fallen" component={FallenHeroes} />
           <Route exact path="/reset" component={ResetEmail} />
           <Route path="/reset/:uid/:token/" component={ResetForm} />
@@ -68,6 +69,7 @@ class AppRouter extends React.Component {
 
 const mapDispatchToProps = (dispatch, props) => ({
   startLoadUser: token => dispatch(startLoadUser(token)),
+
   startSetCharacters: () => dispatch(startSetCharacters()),
   startSetMissions: () => dispatch(startSetMissions()),
   startSetPCSubclasses: () => dispatch(startSetPCSubclasses()),
@@ -75,6 +77,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startLoadUsers: () => dispatch(startLoadUsers()), 
   startSetSubclasses: () => dispatch(startSetSubclasses()),
   startSetDowntime: () => dispatch(startSetDowntime()),
+
 })
 
 const mapStateToProps = (state, props) => ({

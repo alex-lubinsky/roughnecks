@@ -10,7 +10,7 @@ const AdminRoute = ({ component: Component, auth, ...rest }) => (
         return <div>Loading...</div>;
       } else if (!auth.isAuthenticated) {
         return <Redirect to='/' />;
-      } else if (!auth.user.is_staff) {
+      } else if (!auth.user.isSkymallAdmin) {
         return <Redirect to='/' />;
       } else {
         return <Component {...props} />;
@@ -20,7 +20,7 @@ const AdminRoute = ({ component: Component, auth, ...rest }) => (
 );
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(AdminRoute);

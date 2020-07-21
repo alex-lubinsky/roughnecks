@@ -11,7 +11,6 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 
-
 class CharacterForm extends React.Component {
 
   constructor(props) {
