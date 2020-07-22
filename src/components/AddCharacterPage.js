@@ -25,10 +25,15 @@ const AddCharacterPage = (props) => {
             altVision: formData.altVision,
           };
 
+          const date = new Date();
           props.startAddCharacter(character).then((res) => {
             const subclassData = {
               playerClass: formData.subclassName,
               classCharacter: res.id,
+              dateCreated: `${date.getFullYear()}-${
+                date.getMonth() + 1
+              }-${date.getDate()}`,
+
             };
             props.startAddPcSubclass(subclassData);
             const startingGoldTransaction = {

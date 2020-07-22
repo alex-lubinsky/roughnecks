@@ -206,7 +206,7 @@ class MissionForm extends React.Component {
     const pcs = this.state.characters.map((character) => {
       return character.value;
     });
-    console.log(this.props.highestEpisode + 1);
+
     this.props.onSubmit({
       name: this.state.name,
       dm: this.state.dm,

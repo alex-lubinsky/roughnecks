@@ -66,7 +66,7 @@ class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)
   classCharacter = models.ForeignKey(Character, on_delete=models.CASCADE, related_name='pcClasses')
   levelNumber = models.IntegerField(default=1)
-  dateCreated = models.DateField(blank=True, null=True)
+  dateCreated = models.DateField(blank=True, null=True, default=datetime.date.today)
 
 
   def __str__(self):
@@ -119,12 +119,24 @@ class Downtime(models.Model):
 
 class Item(models.Model):
 
+  ITEM_TYPE_CHOICES = [
+    ('Weapon', 'Weapon'),
+    ('Armor', 'Armor'),
+    ('Gear', 'Gear'),
+    ('Magic', 'Magic'),
+  ]
+
   name = models.CharField(max_length=255)
-  costGold = models.IntegerField()
-  costSilver = models.IntegerField()
-  costCopper = models.IntegerField()
+  costGold = models.IntegerField(default=0)
+  costSilver = models.IntegerField(default=0)
+  costCopper = models.IntegerField(default=0)
   description = models.TextField()
   numberInSkymall = models.IntegerField()
+  canBePurchasesBy = models.ManyToManyField(Character, related_name="itemPurchasedBy", blank=True)
+  allPcsCanPurchase = models.BooleanField(default=True)
+  downtimeCost = models.IntegerField(default=0)
+  typeOfItem = models.CharField(choices = ITEM_TYPE_CHOICES, max_length=6, default='Gear')
+
 
   def __str__(self):
     return self.name

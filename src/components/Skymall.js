@@ -37,7 +37,7 @@ class Skymall extends React.Component {
         (character) => character === selectedValue.value
       )
     );
-    console.log(transactions);
+
     const { gold, silver, copper } = totalBalance(transactions);
     this.setState({ characterGold: parseFloat(`${gold}.${silver}${copper}`) });
     this.setState({ character: pcs });
@@ -60,7 +60,6 @@ class Skymall extends React.Component {
         `${foundItem.costGold}.${foundItem.costSilver}${foundItem.costCopper}`
       ) > parseFloat(`${gold}.${silver}${copper}`)
     ) {
-      console.log("not enough gold");
     } else {
       this.props.startUpdateItem(foundItem.id, {
         numberInSkymall: foundItem.numberInSkymall - 1,

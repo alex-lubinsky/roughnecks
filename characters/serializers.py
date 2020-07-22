@@ -53,19 +53,10 @@ class ItemSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Item
-    fields = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall')
+    fields = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall', 'canBePurchasesBy', 'allPcsCanPurchase', 'downtimeCost', 'typeOfItem')
 
 class ItemsOwnedSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = ItemsOwned
     fields = ('id', 'item', 'character')
-
-
-class TransactionQuerySerializer(serializers.ModelSerializer):
-  mission = MissionSerializer()
-  characters = CharacterSerializer(many=True)
-
-  class Meta:
-    model = Transaction
-    fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent')

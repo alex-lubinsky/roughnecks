@@ -84,12 +84,6 @@ from django.http import HttpResponse
 from django.conf import settings
 import os
 
-
-# from django.views.generic import TemplateView
-# from django.views.decorators.cache import never_cache
-
-# index = never_cache(TemplateView.as_view(template_name='index.html'))
-
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn

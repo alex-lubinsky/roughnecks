@@ -109,7 +109,6 @@ export const startEditCharacter = (id, updates) => {
 
 export const startUpdateCharacter = (id, updates) => {
   return (dispatch, getState) => {
-    console.log(id, updates);
     return axios
       .patch(
         `/api/characters/${id}/`,

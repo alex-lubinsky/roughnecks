@@ -13,7 +13,6 @@ class TransactionList extends React.Component {
   render() {
     return (
       <div>
-        {console.log(this.props.transactions)}
         {this.props.transactionsIsLoading ||
         this.props.charactersIsLoading ? null : (
           <TransactionsTable

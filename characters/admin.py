@@ -39,7 +39,7 @@ class DowntimeAdmin(admin.ModelAdmin):
 admin.site.register(Downtime, DowntimeAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall')
+  list_display = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall', 'allPcsCanPurchase', 'downtimeCost')
 
 admin.site.register(Item, ItemAdmin)
 
