@@ -1,48 +1,51 @@
 import axios from "axios";
-import { tokenConfig } from './auth';
-import { SET_ITEMS_OWNED, ADD_ITEMS_OWNED, ITEMS_OWNED_LOADING } from './actionvariables';
+import { tokenConfig } from "./auth";
+import {
+  SET_ITEMS_OWNED,
+  ADD_ITEMS_OWNED,
+  ITEMS_OWNED_LOADING,
+} from "./actionvariables";
 
 const setItemsOwned = (itemsOwned) => ({
   type: SET_ITEMS_OWNED,
-  itemsOwned
+  itemsOwned,
 });
 
 const itemsOwnedLoading = () => ({
-  type: ITEMS_OWNED_LOADING
+  type: ITEMS_OWNED_LOADING,
 });
-
 
 export function startSetItemsOwned() {
   return (dispatch, getState) => {
     dispatch(itemsOwnedLoading());
-    return axios.get(`/api/itemsowned/`, tokenConfig(getState().auth.token))
-    .then(res => {
-      dispatch(setItemsOwned(res.data));
-      return(res.data);
-    });
+    return axios
+      .get(`/api/itemsowned/`, tokenConfig(getState().auth.token))
+      .then((res) => {
+        dispatch(setItemsOwned(res.data));
+        return res.data;
+      });
   };
-};
+}
 
 const addItemsOwned = (itemsOwned) => ({
   type: ADD_ITEMS_OWNED,
-  itemsOwned
+  itemsOwned,
 });
 
 export const startAddItemsOwned = (itemsOwnedData = {}) => {
   return (dispatch, getState) => {
-    const {
-        item = 0,
-        character = 0,
-    } = itemsOwnedData;
+    const { item = 0, character = 0 } = itemsOwnedData;
 
-    const itemOwned = {item, character};
+    const itemOwned = { item, character };
 
-    return axios.post(`/api/itemsowned/`, itemOwned, tokenConfig(getState().auth.token))
-    .then(res => {
-      dispatch(addItemsOwned(res.data));
-      return(res.data);
-    }).catch(err => {
-      console.log(err);
-    });
+    return axios
+      .post(`/api/itemsowned/`, itemOwned, tokenConfig(getState().auth.token))
+      .then((res) => {
+        dispatch(addItemsOwned(res.data));
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };

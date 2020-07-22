@@ -1,16 +1,25 @@
-import { SET_TRANSACTIONS, ADD_TRANSACTION, TRANSACTIONS_LOADING } from '../actions/actionvariables';
+import {
+  SET_TRANSACTIONS,
+  ADD_TRANSACTION,
+  TRANSACTIONS_LOADING,
+} from "../actions/actionvariables";
 
-const transactionsReducerDefaultState={data: [], isLoading: false};
+const transactionsReducerDefaultState = { data: [], isLoading: false };
 
 export default (state = transactionsReducerDefaultState, action) => {
   switch (action.type) {
     case ADD_TRANSACTION:
-      return Object.assign({}, state, {data: [...state.data, action.transaction]});
+      return Object.assign({}, state, {
+        data: [...state.data, action.transaction],
+      });
     case SET_TRANSACTIONS:
-      return Object.assign({}, state, {isLoading: false, data: action.transactions});
+      return Object.assign({}, state, {
+        isLoading: false,
+        data: action.transactions,
+      });
     case TRANSACTIONS_LOADING:
-      return Object.assign({}, state, {isLoading: true});
+      return Object.assign({}, state, { isLoading: true });
     default:
       return state;
-  };
+  }
 };

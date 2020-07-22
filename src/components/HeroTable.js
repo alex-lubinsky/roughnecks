@@ -1,12 +1,11 @@
-import React from 'react';
-import CharacterRow from './CharacterRow';
-import MissionColumn from './MissionColumn';
-import Table from 'react-bootstrap/Table'
+import React from "react";
+import CharacterRow from "./CharacterRow";
+import MissionColumn from "./MissionColumn";
+import Table from "react-bootstrap/Table";
 
 const HeroTable = (props) => {
-
   return (
-    <Table striped bordered size='sm'>
+    <Table striped bordered size="sm">
       <thead>
         <tr>
           <th>Creator</th>
@@ -16,30 +15,37 @@ const HeroTable = (props) => {
           <th>LVL</th>
           <th>Checks</th>
           <th>Downtime Available</th>
-          {props.missions.filter((mission) => mission.visable === true).map((mission) => {
-            return <MissionColumn key={mission.id} {...mission}/>
-          })}
+          {props.missions
+            .filter((mission) => mission.visable === true)
+            .map((mission) => {
+              return <MissionColumn key={mission.id} {...mission} />;
+            })}
         </tr>
       </thead>
       <tbody>
-        {props.characters.filter(character => {
-          return character.dead === props.fallen
-        }).map((character) => {
-          return <CharacterRow 
-            key={character.id} 
-            character={character} 
-            missions={props.missions.filter((mission) => mission.visable === true)} 
-            pcSubclasses={props.pcSubclasses} 
-            races={props.races}
-            users={props.users}
-            subclasses={props.subclasses}
-            downtime={props.downtime}
-
-          />
-        })}
+        {props.characters
+          .filter((character) => {
+            return character.dead === props.fallen;
+          })
+          .map((character) => {
+            return (
+              <CharacterRow
+                key={character.id}
+                character={character}
+                missions={props.missions.filter(
+                  (mission) => mission.visable === true
+                )}
+                pcSubclasses={props.pcSubclasses}
+                races={props.races}
+                users={props.users}
+                subclasses={props.subclasses}
+                downtime={props.downtime}
+              />
+            );
+          })}
       </tbody>
     </Table>
-  )
-}
+  );
+};
 
 export default HeroTable;

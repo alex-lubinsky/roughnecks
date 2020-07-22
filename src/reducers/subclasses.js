@@ -1,14 +1,17 @@
-import { SET_SUBCLASSES, SUBCLASSES_LOADING} from '../actions/actionvariables';
+import { SET_SUBCLASSES, SUBCLASSES_LOADING } from "../actions/actionvariables";
 
-const subclassesReducerDefaultState={data: [], isLoading: false};
+const subclassesReducerDefaultState = { data: [], isLoading: false };
 
 export default (state = subclassesReducerDefaultState, action) => {
   switch (action.type) {
     case SET_SUBCLASSES:
-      return Object.assign({}, state, {isLoading: false, data: action.subclasses});
+      return Object.assign({}, state, {
+        isLoading: false,
+        data: action.subclasses,
+      });
     case SUBCLASSES_LOADING:
-      return Object.assign({}, state, {isLoading: true});
+      return Object.assign({}, state, { isLoading: true });
     default:
       return state;
-  };
+  }
 };
