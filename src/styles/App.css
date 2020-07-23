@@ -16,6 +16,10 @@
   padding: 10px;
 }
 
+.table {
+  margin: 1rem 1rem 1rem 1rem;
+}
+
 .float-right {
   float: right;
 }

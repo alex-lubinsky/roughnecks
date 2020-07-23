@@ -104,7 +104,7 @@ class DisplayCharacterPage extends React.Component {
               {`${this.props.character.firstName}${
                 this.props.character.lastName === ""
                   ? ""
-                  : this.props.character.lastName
+                  : " " + this.props.character.lastName
               }${this.props.character.dead ? ": Dead" : ""}`}
             </h1>
             {this.props.pcSubclasses.filter(
@@ -146,10 +146,6 @@ class DisplayCharacterPage extends React.Component {
                     Passive Perception: {this.props.character.passivePerception}
                   </p>
                   <p>Max HP: {this.props.character.maxHp}</p>
-                </Container>
-              </Col>
-              <Col>
-                <Container>
                   Class:{" "}
                   <ClassBuilder
                     pcClasses={this.props.pcSubclasses.filter(
@@ -158,6 +154,10 @@ class DisplayCharacterPage extends React.Component {
                     )}
                     subclasses={this.props.subclasses}
                   />
+                </Container>
+              </Col>
+              <Col>
+                <Container>
                   <ClassTable
                     pcClasses={this.props.pcSubclasses.filter(
                       (pcSubclass) =>
@@ -168,54 +168,78 @@ class DisplayCharacterPage extends React.Component {
                 </Container>
               </Col>
             </Row>
-            Missions:
-            {this.props.missions
-              .filter((mission) =>
-                mission.characters.some(
-                  (character) => character === this.props.characterid
-                )
-              )
-              .map((mission) => {
-                return <p key={mission.id}>{mission.name}</p>;
-              })}
-            DMed:
-            {this.props.missions
-              .filter((mission) => mission.dm === this.props.characterid)
-              .map((dm) => {
-                return <p key={dm.id}>{dm.name}</p>;
-              })}
-            Earned:{" "}
-            <TotalEarnedMoney
-              transactions={this.props.transactions.filter((transaction) =>
-                transaction.characters.some(
-                  (character) => character === this.props.characterid
-                )
-              )}
-            />
-            Spent:{" "}
-            <TotalSpentMoney
-              transactions={this.props.transactions.filter((transaction) =>
-                transaction.characters.some(
-                  (character) => character === this.props.characterid
-                )
-              )}
-            />
-            Balance:{" "}
-            <TotalBalanceMoney
-              transactions={this.props.transactions.filter((transaction) =>
-                transaction.characters.some(
-                  (character) => character === this.props.characterid
-                )
-              )}
-            />
-            <TransactionsTable
-              transactions={this.props.transactions.filter((transaction) =>
-                transaction.characters.some(
-                  (character) => character === this.props.characterid
-                )
-              )}
-              characters={this.props.characters}
-            />
+            <Row>
+              <Col>
+                <Container>
+                  Missions:
+                  {this.props.missions
+                    .filter((mission) =>
+                      mission.characters.some(
+                        (character) => character === this.props.characterid
+                      )
+                    )
+                    .map((mission) => {
+                      return <p key={mission.id}>{mission.name}</p>;
+                    })
+                  }
+                </Container>
+              </Col>
+              <Col>
+                DMed:
+                {this.props.missions
+                  .filter((mission) => mission.dm === this.props.characterid)
+                  .map((dm) => {
+                    return <p key={dm.id}>{dm.name}</p>;
+                  })}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Container>
+                  Earned:{" "}
+                  <TotalEarnedMoney
+                    transactions={this.props.transactions.filter((transaction) =>
+                      transaction.characters.some(
+                        (character) => character === this.props.characterid
+                      )
+                    )}
+                  />
+                </Container>
+              </Col>
+              <Col>
+                Spent:{" "}
+                <TotalSpentMoney
+                  transactions={this.props.transactions.filter((transaction) =>
+                    transaction.characters.some(
+                      (character) => character === this.props.characterid
+                    )
+                  )}
+                />
+              </Col>
+              <Col>
+                Balance:{" "}
+                <TotalBalanceMoney
+                  transactions={this.props.transactions.filter((transaction) =>
+                    transaction.characters.some(
+                      (character) => character === this.props.characterid
+                    )
+                  )}
+                />
+              </Col>
+            </Row>
+            <Row>
+                <Col>
+                  <TransactionsTable
+                    transactions={this.props.transactions.filter((transaction) =>
+                      transaction.characters.some(
+                        (character) => character === this.props.characterid
+                      )
+                    )}
+                    characters={this.props.characters}
+                    missions={this.props.missions}
+                  />
+                </Col>
+            </Row>
           </div>
         )}
       </div>

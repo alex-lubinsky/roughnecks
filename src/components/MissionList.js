@@ -20,7 +20,7 @@ class MissionList extends React.Component {
         {this.props.charactersIsLoading ||
         this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ? null : (
-          <Table striped bordered size="sm">
+          <Table striped bordered size="sm" className=".margin-boost">
             <thead>
               <tr>
                 <th>Episode #</th>
@@ -48,10 +48,10 @@ class MissionList extends React.Component {
                         {mission.name}
                       </NavLink>
                     </td>
+                    <td>{mission.playedOn}</td>
                     <td>
                       {`Min Level: ${mission.levelMin} Max Level: ${mission.levelMax}`}
                     </td>
-                    <td>{mission.playedOn}</td>
                     <td>{`${dm.firstName} ${dm.lastName}`}</td>
                     <td>
                       {mission.characters.map((pc) => {

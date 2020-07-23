@@ -5,9 +5,9 @@ const TotalBalanceMoney = (props) => {
   const { gold, silver, copper } = totalBalance(props.transactions);
 
   return (
-    <div>
-      <p>{`Total Gold: ${gold}, Total Silver: ${silver}, Total Copper: ${copper}`}</p>
-    </div>
+    <span>
+      {`Total Gold: ${gold}, Total Silver: ${silver}, Total Copper: ${copper}`}
+    </span>
   );
 };
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { startSetItems, startUpdateItem } from "../actions/items";
-import Table from "react-bootstrap/Table";
 import { connect } from "react-redux";
-import Button from "react-bootstrap/Button";
 import Select from "react-select";
 import Form from "react-bootstrap/Form";
 import { totalBalance } from "../functions/money";
@@ -13,6 +11,8 @@ import {
 } from "../actions/transactions";
 import { startSetMissions } from "../actions/missions";
 import { startSetCharacters } from "../actions/characters";
+import ValidationMessage from './ValidationMessage';
+import SkymallTable from "./SkymallTable";
 
 class Skymall extends React.Component {
   constructor(props) {
@@ -20,6 +20,9 @@ class Skymall extends React.Component {
 
     this.state = {
       character: "",
+      purchaseValid: true,
+      errorMsg: {},
+      filter: "",
     };
   }
 
@@ -31,17 +34,14 @@ class Skymall extends React.Component {
   }
 
   onCharacterChange = (selectedValue) => {
-    const pcs = selectedValue;
-    const transactions = this.props.transactions.filter((transaction) =>
-      transaction.characters.some(
-        (character) => character === selectedValue.value
-      )
-    );
-
-    const { gold, silver, copper } = totalBalance(transactions);
-    this.setState({ characterGold: parseFloat(`${gold}.${silver}${copper}`) });
-    this.setState({ character: pcs });
+    this.setState({ character: selectedValue });
+    this.setState({purchaseValid: true, errorMsg: {}})
   };
+
+  onFilterChange = (e) => {
+    const filter = e.target.value;
+    this.setState({filter});
+  }
 
   onBuyItemClick = (e) => {
     const itemId = e.target.getAttribute("data-key");
@@ -60,7 +60,9 @@ class Skymall extends React.Component {
         `${foundItem.costGold}.${foundItem.costSilver}${foundItem.costCopper}`
       ) > parseFloat(`${gold}.${silver}${copper}`)
     ) {
+      this.setState({purchaseValid: false, errorMsg: {purchase: "You do not have enough gold for this purchase"}})
     } else {
+      this.setState({purchaseValid: true, errorMsg: {}})
       this.props.startUpdateItem(foundItem.id, {
         numberInSkymall: foundItem.numberInSkymall - 1,
       });
@@ -99,6 +101,12 @@ class Skymall extends React.Component {
       )
     );
 
+    const filteredItems = this.props.items.filter(item => {
+      const nameMatch = item.name.toLowerCase().includes(this.state.filter.toLowerCase());
+      const typeMatch = item.typeOfItem.toLowerCase().includes(this.state.filter.toLowerCase());
+      return nameMatch || typeMatch
+    })
+
     return (
       <div>
         <h1>Skymall</h1>
@@ -120,48 +128,49 @@ class Skymall extends React.Component {
                 {`${this.state.character.label} has ${gold}.${silver}${copper} gold to spend.`}
               </div>
             )}
+            <ValidationMessage
+              valid={this.state.purchaseValid}
+              message={this.state.errorMsg.purchase}
+            />
           </div>
+          
         )}
+        <Form.Label>Filter</Form.Label>
+        <Form.Control
+          type="text"
+          value={this.state.filter}
+          onChange={this.onFilterChange}
+          placeholder="Use this to filter items in the store"
+        />
         {this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ||
         this.props.itemsIsLoading ? null : (
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Cost (in gold) </th>
-                <th>Desctiption</th>
-                <th>Number in Skymall</th>
-                <th>Buy</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.items
-                .filter((item) => item.numberInSkymall > 0)
-                .map((item) => {
-                  return (
-                    <tr key={item.id}>
-                      <td> {item.name} </td>
-                      <td>
-                        {" "}
-                        {`${item.costGold}.${item.costSilver}${item.costCopper}`}{" "}
-                      </td>
-                      <td> {item.description} </td>
-                      <td> {item.numberInSkymall} </td>
-                      <td>
-                        <Button
-                          variant="success"
-                          onClick={this.onBuyItemClick}
-                          data-key={item.id}
-                        >
-                          Buy Item
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </Table>
+          <div>
+            <h2>Weapons</h2>
+            <SkymallTable 
+              items = {this.props.items}
+              filteredItems = {filteredItems.filter(item => item.typeOfItem === "Weapon")}
+              onBuyItemClick = {this.onBuyItemClick}
+            />
+            <h2>Armor</h2>
+            <SkymallTable 
+              items = {this.props.items}
+              filteredItems = {filteredItems.filter(item => item.typeOfItem === "Armor")}
+              onBuyItemClick = {this.onBuyItemClick}
+            />
+            <h2>Gear</h2>
+            <SkymallTable 
+              items = {this.props.items}
+              filteredItems = {filteredItems.filter(item => item.typeOfItem === "Gear")}
+              onBuyItemClick = {this.onBuyItemClick}
+            />
+            <h2>Magic Items</h2>
+            <SkymallTable 
+              items = {this.props.items}
+              filteredItems = {filteredItems.filter(item => item.typeOfItem === "Magic")}
+              onBuyItemClick = {this.onBuyItemClick}
+            />
+          </div>
         )}
       </div>
     );

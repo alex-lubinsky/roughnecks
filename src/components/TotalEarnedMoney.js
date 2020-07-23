@@ -9,9 +9,9 @@ const TotalEarnedMoney = (props) => {
   );
 
   return (
-    <div>
-      <p>{`Total Gold: ${gold}, Total Silver: ${silver}, Total Copper: ${copper}`}</p>
-    </div>
+    <span>
+      {`Total Gold: ${gold}, Total Silver: ${silver}, Total Copper: ${copper}`}
+    </span>
   );
 };
 

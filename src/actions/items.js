@@ -17,7 +17,6 @@ export function startSetItems() {
     return axios
       .get(`/api/items/`, tokenConfig(getState().auth.token))
       .then((res) => {
-        console.log(res)
         dispatch(setItmes(res.data));
         return res.data;
       });

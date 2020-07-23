@@ -29,7 +29,6 @@ const userLoading = () => ({
 export const startLoadUser = () => {
   return (dispatch, getState) => {
     dispatch(userLoading());
-
     axios
       .get(`/api/auth/user/`, tokenConfig(getState().auth.token))
       .then((res) => {
@@ -156,6 +155,7 @@ export const tokenConfig = (authKey) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
     },
   };
 

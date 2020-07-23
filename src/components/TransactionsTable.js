@@ -9,6 +9,8 @@ const TransactionsTable = (props) => {
       <Table striped bordered size="sm">
         <thead>
           <tr>
+            <th>Episode Number</th>
+            <th>Mission Name</th>
             <th>Name</th>
             <th>Gold</th>
             <th>Silver</th>
@@ -25,6 +27,10 @@ const TransactionsTable = (props) => {
             .map((transaction) => {
               return (
                 <tr key={transaction.id}>
+                  <td>{props.missions.find((mission) => mission.id === transaction.mission).episode ? 
+                    props.missions.find((mission) => mission.id === transaction.mission).episode : ''}</td>
+                  <td>{props.missions.find((mission) => mission.id === transaction.mission).name !== "Starting Gold" ? 
+                    props.missions.find((mission) => mission.id === transaction.mission).name : '' }</td>
                   <td>{transaction.name}</td>
                   <td>{transaction.goldPcs}</td>
                   <td>{transaction.silverPcs}</td>
@@ -55,7 +61,6 @@ const TransactionsTable = (props) => {
             <th>Gold</th>
             <th>Silver</th>
             <th>Copper</th>
-            <th>Airship Pot</th>
             <th>Characters</th>
           </tr>
         </thead>
@@ -71,7 +76,6 @@ const TransactionsTable = (props) => {
                   <td>{transaction.goldPcs}</td>
                   <td>{transaction.silverPcs}</td>
                   <td>{transaction.copperPcs}</td>
-                  <td>{transaction.airshipPot}</td>
                   <td>
                     {transaction.characters.map((pc) => {
                       const character = props.characters.find(

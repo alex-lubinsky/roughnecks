@@ -5,13 +5,13 @@ export const totalEarnedSpent = (transactions) => {
 
   transactions.forEach((transaction) => {
     if (transaction.airshipPot) {
-      gold = transaction.goldPcs * 0.9 + gold;
-      silver = transaction.silverPcs * 0.9 + silver;
-      copper = transaction.copperPcs * 0.9 + copper;
+      gold = (transaction.goldPcs * 0.9) / transaction.characters.length + gold;
+      silver = (transaction.silverPcs * 0.9)  / transaction.characters.length + silver;
+      copper = (transaction.copperPcs * 0.9) / transaction.characters.length + copper;
     } else {
-      gold = transaction.goldPcs + gold;
-      silver = transaction.silverPcs + silver;
-      copper = transaction.copperPcs + copper;
+      gold = transaction.goldPcs / transaction.characters.length + gold ;
+      silver = transaction.silverPcs / transaction.characters.length + silver;
+      copper = transaction.copperPcs / transaction.characters.length + copper;
     }
   });
 
@@ -38,6 +38,7 @@ export const totalBalance = (transactions) => {
       return transaction.earnedSpent === 1;
     })
   );
+  
   const spentMoney = totalEarnedSpent(
     transactions.filter((transaction) => {
       return transaction.earnedSpent === -1;
