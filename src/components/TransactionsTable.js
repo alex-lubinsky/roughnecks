@@ -1,12 +1,11 @@
 import React from "react";
-import Table from "react-bootstrap/Table";
 
 const TransactionsTable = (props) => {
   return (
     <div>
       <p>Transactions:</p>
       <p>Earned:</p>
-      <Table striped bordered size="sm">
+      <table>
         <thead>
           <tr>
             <th>Episode Number</th>
@@ -27,10 +26,24 @@ const TransactionsTable = (props) => {
             .map((transaction) => {
               return (
                 <tr key={transaction.id}>
-                  <td>{props.missions.find((mission) => mission.id === transaction.mission).episode ? 
-                    props.missions.find((mission) => mission.id === transaction.mission).episode : ''}</td>
-                  <td>{props.missions.find((mission) => mission.id === transaction.mission).name !== "Starting Gold" ? 
-                    props.missions.find((mission) => mission.id === transaction.mission).name : '' }</td>
+                  <td>
+                    {props.missions.find(
+                      (mission) => mission.id === transaction.mission
+                    ).episode
+                      ? props.missions.find(
+                          (mission) => mission.id === transaction.mission
+                        ).episode
+                      : ""}
+                  </td>
+                  <td>
+                    {props.missions.find(
+                      (mission) => mission.id === transaction.mission
+                    ).name !== "Starting Gold"
+                      ? props.missions.find(
+                          (mission) => mission.id === transaction.mission
+                        ).name
+                      : ""}
+                  </td>
                   <td>{transaction.name}</td>
                   <td>{transaction.goldPcs}</td>
                   <td>{transaction.silverPcs}</td>
@@ -52,9 +65,9 @@ const TransactionsTable = (props) => {
               );
             })}
         </tbody>
-      </Table>
+      </table>
       <p>Spent:</p>
-      <Table striped bordered size="sm">
+      <table>
         <thead>
           <tr>
             <th>Name</th>
@@ -92,7 +105,7 @@ const TransactionsTable = (props) => {
               );
             })}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };

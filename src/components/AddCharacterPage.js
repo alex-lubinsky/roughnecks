@@ -1,6 +1,5 @@
 import React from "react";
 import CharacterForm from "./CharacterForm";
-import Modal from "react-bootstrap/Modal";
 import { startAddCharacter } from "../actions/characters";
 import { connect } from "react-redux";
 import { startAddPcSubclass } from "../actions/playercharacterclasses";
@@ -9,9 +8,7 @@ import { startaddTransaction } from "../actions/transactions";
 const AddCharacterPage = (props) => {
   return (
     <div>
-      <Modal.Header closeButton>
-        <Modal.Title>Create Player Character</Modal.Title>
-      </Modal.Header>
+      <h1>Create Player Character</h1>
       <CharacterForm
         onSubmit={(formData) => {
           const character = {
@@ -33,7 +30,6 @@ const AddCharacterPage = (props) => {
               dateCreated: `${date.getFullYear()}-${
                 date.getMonth() + 1
               }-${date.getDate()}`,
-
             };
             props.startAddPcSubclass(subclassData);
             const startingGoldTransaction = {

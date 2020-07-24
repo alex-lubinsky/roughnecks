@@ -1,5 +1,4 @@
 import React from "react";
-import Table from "react-bootstrap/Table";
 
 const getClassName = (pcClass, subclasses) => {
   let subclass = "";
@@ -24,7 +23,7 @@ const ClassTable = (props) => {
   const rows = [];
   for (var i = 1; i < 11; i++) {
     rows.push(
-      <tr>
+      <tr key={i}>
         <td>{i}.</td>
         <td>{getClassName(props.pcClasses[i - 1], props.subclasses)}</td>
         <td>{i + 10}.</td>
@@ -34,7 +33,7 @@ const ClassTable = (props) => {
   }
 
   return (
-    <Table striped bordered size="sm">
+    <table>
       <thead>
         <tr>
           <th>Level #</th>
@@ -44,7 +43,7 @@ const ClassTable = (props) => {
         </tr>
       </thead>
       <tbody>{rows}</tbody>
-    </Table>
+    </table>
   );
 };
 

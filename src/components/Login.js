@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { startLogin, startLoadUser } from "../actions/auth";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -39,36 +36,28 @@ class LoginForm extends Component {
       return <Redirect to="/" />;
     }
     return (
-      <Container className="form-container">
-        <Form onSubmit={this.onSubmit}>
-          <Container className="input-container">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="text"
-              value={this.state.username}
-              onChange={this.onUsernameChange}
-              placeholder="Email"
-            />
-          </Container>
-          <Container className="input-container">
-            <Form.Label className="form-label">Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={this.state.password}
-              onChange={this.onPasswordChange}
-              placeholder="Password"
-            />
-          </Container>
-          <Container className="button-container">
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
-            <Button href="/reset" variant="link" className="float-right">
-              Click here to reset your password
-            </Button>
-          </Container>
-        </Form>
-      </Container>
+      <form onSubmit={this.onSubmit}>
+        <label>Email</label>
+        <input
+          type="text"
+          value={this.state.username}
+          onChange={this.onUsernameChange}
+          placeholder="Email"
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          value={this.state.password}
+          onChange={this.onPasswordChange}
+          placeholder="Password"
+        />
+        <button variant="primary" type="submit">
+          Login
+        </button>
+        <button href="/reset" variant="link" className="float-right">
+          Click here to reset your password
+        </button>
+      </form>
     );
   }
 }

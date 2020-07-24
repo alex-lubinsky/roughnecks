@@ -3,12 +3,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import AddMissionPage from "./AddMissionPage";
-import Modal from "react-bootstrap/Modal";
 import AddCharacterPage from "./AddCharacterPage";
 import AddTransactionPage from "./AddTransactionPage";
 import AddDowntimeForm from "./AddDowntimeForm";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
+import Modal from "react-modal";
 
 const Header = (props) => {
   const [showCharacterModal, setShowCharacterModal] = useState(false);
@@ -35,22 +35,35 @@ const Header = (props) => {
 
   return (
     <>
-      <Modal show={showCharacterModal} onHide={handleCharacterFormClose}>
+      <Modal
+        isOpen={showCharacterModal}
+        onRequestClose={handleCharacterFormClose}
+        ariaHideApp={false}
+      >
         <AddCharacterPage handleClose={handleCharacterFormClose} />
       </Modal>
 
-      <Modal show={showMissionFormModal} onHide={handleMissionFormClose}>
+      <Modal
+        isOpen={showMissionFormModal}
+        onRequestClose={handleMissionFormClose}
+        ariaHideApp={false}
+      >
         <AddMissionPage handleClose={handleMissionFormClose} />
       </Modal>
 
       <Modal
-        show={showTransactionFormModal}
-        onHide={handleTransactionFormClose}
+        isOpen={showTransactionFormModal}
+        onRequestClose={handleTransactionFormClose}
+        ariaHideApp={false}
       >
         <AddTransactionPage handleClose={handleTransactionFormClose} />
       </Modal>
 
-      <Modal show={showDowntimeFormModal} onHide={handleDowntimeFormClose}>
+      <Modal
+        isOpen={showDowntimeFormModal}
+        onRequestClose={handleDowntimeFormClose}
+        ariaHideApp={false}
+      >
         <AddDowntimeForm handleClose={handleDowntimeFormClose} />
       </Modal>
 

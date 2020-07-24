@@ -5,8 +5,7 @@ import TransactionsTable from "./TransactionsTable";
 import TotalEarnedMoney from "./TotalEarnedMoney";
 import TotalSpentMoney from "./TotalSpentMoney";
 import TotalBalanceMoney from "./TotalBalanceMoney";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import Modal from "react-modal";
 import AddLevelForm from "./AddLevelForm";
 import { getLevel } from "../functions/levels";
 import {
@@ -18,9 +17,6 @@ import { startSetMissions } from "../actions/missions";
 import { startSetRaces } from "../actions/races";
 import { startSetSubclasses } from "../actions/subclasses";
 import { startSetTransactions } from "../actions/transactions";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import ClassTable from "./ClassTable";
 
 class DisplayCharacterPage extends React.Component {
@@ -74,24 +70,23 @@ class DisplayCharacterPage extends React.Component {
         this.props.transactionsIsLoading ? null : (
           <div>
             <Modal
-              show={this.state.showKillPCModal}
-              onHide={this.handleKillPCClose}
+              isOpen={this.state.showKillPCModal}
+              onRequestClose={this.handleKillPCClose}
+              ariaHideApp={false}
             >
               <h3>Are you sure?</h3>
-              <Container>
-                <Button onClick={this.killPcConfirm} variant="danger">
-                  Yes, {this.props.character.firstName}{" "}
-                  {this.props.character.lastName} died a glorious death in
-                  battle.
-                </Button>
-                <Button onClick={this.handleKillPCClose} variant="link">
-                  ....Nevermind
-                </Button>
-              </Container>
+              <button onClick={this.killPcConfirm} variant="danger">
+                Yes, {this.props.character.firstName}{" "}
+                {this.props.character.lastName} died a glorious death in battle.
+              </button>
+              <button onClick={this.handleKillPCClose} variant="link">
+                ....Nevermind
+              </button>
             </Modal>
             <Modal
-              show={this.state.showLevelUpModal}
-              onHide={this.handleLevelUpClose}
+              isOpen={this.state.showLevelUpModal}
+              onRequestClose={this.handleLevelUpClose}
+              ariaHideApp={false}
             >
               <AddLevelForm
                 handleClose={this.handleLevelUpClose}
@@ -121,125 +116,90 @@ class DisplayCharacterPage extends React.Component {
                     (mission) => mission.dm === this.props.characterid
                   ).length
               ) && this.props.character.creator === this.props.userid ? (
-              <Button variant="success" onClick={this.handleLevelUpShow}>
+              <button variant="success" onClick={this.handleLevelUpShow}>
                 Level Up!
-              </Button>
+              </button>
             ) : null}
             {this.props.character.creator === this.props.userid ? (
-              <Button onClick={this.handleKillPCShow} variant="danger">
+              <button onClick={this.handleKillPCShow} variant="danger">
                 Character Died
-              </Button>
+              </button>
             ) : null}
-            <Row>
-              <Col>
-                <Container>
-                  <p>
-                    Race:{" "}
-                    {
-                      this.props.races.find(
-                        (race) => race.id === this.props.character.raceName
-                      ).raceName
-                    }
-                  </p>
-                  <p>Armor Class: {this.props.character.armorClass}</p>
-                  <p>
-                    Passive Perception: {this.props.character.passivePerception}
-                  </p>
-                  <p>Max HP: {this.props.character.maxHp}</p>
-                  Class:{" "}
-                  <ClassBuilder
-                    pcClasses={this.props.pcSubclasses.filter(
-                      (pcSubclass) =>
-                        pcSubclass.classCharacter === this.props.characterid
-                    )}
-                    subclasses={this.props.subclasses}
-                  />
-                </Container>
-              </Col>
-              <Col>
-                <Container>
-                  <ClassTable
-                    pcClasses={this.props.pcSubclasses.filter(
-                      (pcSubclass) =>
-                        pcSubclass.classCharacter === this.props.characterid
-                    )}
-                    subclasses={this.props.subclasses}
-                  />
-                </Container>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Container>
-                  Missions:
-                  {this.props.missions
-                    .filter((mission) =>
-                      mission.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )
-                    .map((mission) => {
-                      return <p key={mission.id}>{mission.name}</p>;
-                    })
-                  }
-                </Container>
-              </Col>
-              <Col>
-                DMed:
-                {this.props.missions
-                  .filter((mission) => mission.dm === this.props.characterid)
-                  .map((dm) => {
-                    return <p key={dm.id}>{dm.name}</p>;
-                  })}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Container>
-                  Earned:{" "}
-                  <TotalEarnedMoney
-                    transactions={this.props.transactions.filter((transaction) =>
-                      transaction.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )}
-                  />
-                </Container>
-              </Col>
-              <Col>
-                Spent:{" "}
-                <TotalSpentMoney
-                  transactions={this.props.transactions.filter((transaction) =>
-                    transaction.characters.some(
-                      (character) => character === this.props.characterid
-                    )
-                  )}
-                />
-              </Col>
-              <Col>
-                Balance:{" "}
-                <TotalBalanceMoney
-                  transactions={this.props.transactions.filter((transaction) =>
-                    transaction.characters.some(
-                      (character) => character === this.props.characterid
-                    )
-                  )}
-                />
-              </Col>
-            </Row>
-            <Row>
-                <Col>
-                  <TransactionsTable
-                    transactions={this.props.transactions.filter((transaction) =>
-                      transaction.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )}
-                    characters={this.props.characters}
-                    missions={this.props.missions}
-                  />
-                </Col>
-            </Row>
+            <p>
+              Race:{" "}
+              {
+                this.props.races.find(
+                  (race) => race.id === this.props.character.raceName
+                ).raceName
+              }
+            </p>
+            <p>Armor Class: {this.props.character.armorClass}</p>
+            <p>Passive Perception: {this.props.character.passivePerception}</p>
+            <p>Max HP: {this.props.character.maxHp}</p>
+            Class:{" "}
+            <ClassBuilder
+              pcClasses={this.props.pcSubclasses.filter(
+                (pcSubclass) =>
+                  pcSubclass.classCharacter === this.props.characterid
+              )}
+              subclasses={this.props.subclasses}
+            />
+            <ClassTable
+              pcClasses={this.props.pcSubclasses.filter(
+                (pcSubclass) =>
+                  pcSubclass.classCharacter === this.props.characterid
+              )}
+              subclasses={this.props.subclasses}
+            />
+            Missions:
+            {this.props.missions
+              .filter((mission) =>
+                mission.characters.some(
+                  (character) => character === this.props.characterid
+                )
+              )
+              .map((mission) => {
+                return <p key={mission.id}>{mission.name}</p>;
+              })}
+            DMed:
+            {this.props.missions
+              .filter((mission) => mission.dm === this.props.characterid)
+              .map((dm) => {
+                return <p key={dm.id}>{dm.name}</p>;
+              })}
+            Earned:{" "}
+            <TotalEarnedMoney
+              transactions={this.props.transactions.filter((transaction) =>
+                transaction.characters.some(
+                  (character) => character === this.props.characterid
+                )
+              )}
+            />
+            Spent:{" "}
+            <TotalSpentMoney
+              transactions={this.props.transactions.filter((transaction) =>
+                transaction.characters.some(
+                  (character) => character === this.props.characterid
+                )
+              )}
+            />
+            Balance:{" "}
+            <TotalBalanceMoney
+              transactions={this.props.transactions.filter((transaction) =>
+                transaction.characters.some(
+                  (character) => character === this.props.characterid
+                )
+              )}
+            />
+            <TransactionsTable
+              transactions={this.props.transactions.filter((transaction) =>
+                transaction.characters.some(
+                  (character) => character === this.props.characterid
+                )
+              )}
+              characters={this.props.characters}
+              missions={this.props.missions}
+            />
           </div>
         )}
       </div>

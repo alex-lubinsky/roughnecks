@@ -3,12 +3,6 @@ import Select from "react-select";
 import { startSetCharacters } from "../actions/characters";
 import { connect } from "react-redux";
 import ValidationMessage from "./ValidationMessage";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -238,169 +232,139 @@ class MissionForm extends React.Component {
     );
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
-          <Modal.Body>
-            <Row>
-              <Col>
-                <Form.Label>Mission Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Mission Name"
-                  value={this.state.name}
-                  onChange={this.onNameChange}
-                />
-                <ValidationMessage
-                  valid={this.state.nameValid}
-                  message={this.state.errorMsg.name}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label>DM</Form.Label>
-                {this.props.characters.isLoading ? null : (
-                  <Select
-                    id="dm"
-                    name="dm"
-                    options={this.selectDMOptions}
-                    onChange={this.onDmChange}
-                  />
-                )}
-                <ValidationMessage
-                  valid={this.state.dmValid}
-                  message={this.state.errorMsg.dm}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label>Characters</Form.Label>
-                {this.props.charactersIsLoading ? null : (
-                  <Select
-                    id="characters"
-                    name="characters"
-                    isMulti
-                    options={selectFilteredCharacterOptions}
-                    value={this.state.characters}
-                    onChange={this.onCharactersChange}
-                  />
-                )}
-                <ValidationMessage
-                  valid={this.state.charactersValid}
-                  message={this.state.errorMsg.characters}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label>Minimum Level</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="1"
-                  step="1"
-                  placeholder="Minimum level for the mission"
-                  value={this.state.minLevel}
-                  onChange={this.onMinLevelChange}
-                />
-                <ValidationMessage
-                  valid={this.state.minLevelValid}
-                  message={this.state.errorMsg.minLevel}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label>Maximum Level</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="1"
-                  step="1"
-                  placeholder="Maximum level for the mission"
-                  value={this.state.maxLevel}
-                  onChange={this.onMaxLevelChange}
-                />
-                <ValidationMessage
-                  valid={this.state.maxLevelValid}
-                  message={this.state.errorMsg.maxLevel}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label>Played On</Form.Label>
-                <DatePicker
-                  selected={this.state.startDate}
-                  onChange={this.onDatePickerChange}
-                />
-                <ValidationMessage
-                  valid={this.state.startDateValid}
-                  message={this.state.errorMsg.startDate}
-                />
-              </Col>
-            </Row>
-          </Modal.Body>
-          <Modal.Footer>
-            <div>
-              Name:{" "}
-              {this.state.nameValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              DM:{" "}
-              {this.state.dmValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Characters:{" "}
-              {this.state.charactersValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Played On Date:{" "}
-              {this.state.startDateValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Minimum Level:{" "}
-              {this.state.minLevelValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Maximum Level:{" "}
-              {this.state.maxLevelValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              <Button
-                disabled={!this.state.formValid}
-                variant="primary"
-                type="submit"
-              >
-                Add Mission
-              </Button>
-            </div>
-          </Modal.Footer>
-        </Form>
-      </Container>
+      <form onSubmit={this.onSubmit}>
+        <label>Mission Name</label>
+        <input
+          type="text"
+          placeholder="Enter Mission Name"
+          value={this.state.name}
+          onChange={this.onNameChange}
+        />
+        <ValidationMessage
+          valid={this.state.nameValid}
+          message={this.state.errorMsg.name}
+        />
+        <label>DM</label>
+        {this.props.characters.isLoading ? null : (
+          <Select
+            id="dm"
+            name="dm"
+            options={this.selectDMOptions}
+            onChange={this.onDmChange}
+          />
+        )}
+        <ValidationMessage
+          valid={this.state.dmValid}
+          message={this.state.errorMsg.dm}
+        />
+        <label>Characters</label>
+        {this.props.charactersIsLoading ? null : (
+          <Select
+            id="characters"
+            name="characters"
+            isMulti
+            options={selectFilteredCharacterOptions}
+            value={this.state.characters}
+            onChange={this.onCharactersChange}
+          />
+        )}
+        <ValidationMessage
+          valid={this.state.charactersValid}
+          message={this.state.errorMsg.characters}
+        />
+        <label>Minimum Level</label>
+        <input
+          type="number"
+          min="1"
+          step="1"
+          placeholder="Minimum level for the mission"
+          value={this.state.minLevel}
+          onChange={this.onMinLevelChange}
+        />
+        <ValidationMessage
+          valid={this.state.minLevelValid}
+          message={this.state.errorMsg.minLevel}
+        />
+        <label>Maximum Level</label>
+        <input
+          type="number"
+          min="1"
+          step="1"
+          placeholder="Maximum level for the mission"
+          value={this.state.maxLevel}
+          onChange={this.onMaxLevelChange}
+        />
+        <ValidationMessage
+          valid={this.state.maxLevelValid}
+          message={this.state.errorMsg.maxLevel}
+        />
+        <label>Played On</label>
+        <DatePicker
+          selected={this.state.startDate}
+          onChange={this.onDatePickerChange}
+        />
+        <ValidationMessage
+          valid={this.state.startDateValid}
+          message={this.state.errorMsg.startDate}
+        />
+        <div>
+          Name:{" "}
+          {this.state.nameValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          DM:{" "}
+          {this.state.dmValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Characters:{" "}
+          {this.state.charactersValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Played On Date:{" "}
+          {this.state.startDateValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Minimum Level:{" "}
+          {this.state.minLevelValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Maximum Level:{" "}
+          {this.state.maxLevelValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          <button
+            disabled={!this.state.formValid}
+            variant="primary"
+            type="submit"
+          >
+            Add Mission
+          </button>
+        </div>
+      </form>
     );
   }
 }

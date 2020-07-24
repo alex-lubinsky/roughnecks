@@ -2,7 +2,6 @@ import React from "react";
 import { startSetMissions } from "../actions/missions";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import Table from "react-bootstrap/Table";
 import { startSetCharacters } from "../actions/characters";
 import { startSetTransactions } from "../actions/transactions";
 
@@ -20,7 +19,7 @@ class MissionList extends React.Component {
         {this.props.charactersIsLoading ||
         this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ? null : (
-          <Table striped bordered size="sm" className=".margin-boost">
+          <table>
             <thead>
               <tr>
                 <th>Episode #</th>
@@ -76,7 +75,7 @@ class MissionList extends React.Component {
                 );
               })}
             </tbody>
-          </Table>
+          </table>
         )}
       </div>
     );

@@ -1,6 +1,5 @@
 import React from "react";
 import LevelUpForm from "./LevelUpForm";
-import Modal from "react-bootstrap/Modal";
 import { connect } from "react-redux";
 import { startUpdateCharacter } from "../actions/characters";
 import { startAddPcSubclass } from "../actions/playercharacterclasses";
@@ -8,10 +7,7 @@ import { startAddPcSubclass } from "../actions/playercharacterclasses";
 const AddLevelForm = (props) => {
   return (
     <div>
-      <Modal.Header closeButton>
-        <Modal.Title>{` Add Level for ${props.character.firstName}`}</Modal.Title>
-      </Modal.Header>
-
+      <h1>{` Add Level for ${props.character.firstName}`}</h1>
       <LevelUpForm
         character={props.character}
         subclasses={props.subclasses}

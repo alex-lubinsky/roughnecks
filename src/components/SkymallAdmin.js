@@ -1,8 +1,6 @@
 import React from "react";
 import { startSetItems, startUpdateItem } from "../actions/items";
-import Table from "react-bootstrap/Table";
 import { connect } from "react-redux";
-import Button from "react-bootstrap/Button";
 
 class SkymallAdmin extends React.Component {
   componentDidMount() {
@@ -24,7 +22,7 @@ class SkymallAdmin extends React.Component {
       <div>
         <h1>Skymall Admin</h1>
         {this.props.itemsIsLoading ? null : (
-          <Table>
+          <table>
             <thead>
               <tr>
                 <th>Name</th>
@@ -46,19 +44,19 @@ class SkymallAdmin extends React.Component {
                     <td> {item.description} </td>
                     <td> {item.numberInSkymall} </td>
                     <td>
-                      <Button
+                      <button
                         variant="info"
                         onClick={this.onAddItemClick}
                         data-key={item.id}
                       >
                         Add Item to Skymall
-                      </Button>
+                      </button>
                     </td>
                   </tr>
                 );
               })}
             </tbody>
-          </Table>
+          </table>
         )}
       </div>
     );

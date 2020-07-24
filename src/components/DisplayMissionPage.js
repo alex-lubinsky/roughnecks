@@ -23,7 +23,7 @@ class DisplayMissionPage extends React.Component {
         this.props.charactersIsLoading ? null : (
           <div>
             <h1>{`Episode ${this.props.mission.episode}: ${this.props.mission.name}`}</h1>
-            <p>played on: {this.props.mission.playedOn}</p>
+            <p>Played on: {this.props.mission.playedOn}</p>
             <p>
               DM: {dm.firstName} {dm.lastName}
             </p>
@@ -41,6 +41,7 @@ class DisplayMissionPage extends React.Component {
                 (transaction) => transaction.mission === this.props.mission.id
               )}
               characters={this.props.characters}
+              missions={this.props.missions}
             />
           </div>
         )}
@@ -59,6 +60,7 @@ const mapStateToProps = (state, props) => ({
   mission: state.missions.data.find(
     (mission) => mission.id.toString() === props.match.params.id
   ),
+  missions: state.missions.data,
   characters: state.characters.data,
   transactions: state.transactions.data,
   missionsIsLoading: state.missions.isLoading,

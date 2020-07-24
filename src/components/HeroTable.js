@@ -1,11 +1,10 @@
 import React from "react";
 import CharacterRow from "./CharacterRow";
 import MissionColumn from "./MissionColumn";
-import Table from "react-bootstrap/Table";
 
 const HeroTable = (props) => {
   return (
-    <Table striped bordered size="sm">
+    <table>
       <thead>
         <tr>
           <th>Creator</th>
@@ -44,7 +43,7 @@ const HeroTable = (props) => {
             );
           })}
       </tbody>
-    </Table>
+    </table>
   );
 };
 

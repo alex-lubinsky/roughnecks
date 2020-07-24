@@ -155,7 +155,7 @@ export const tokenConfig = (authKey) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
   };
 

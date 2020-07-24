@@ -1,15 +1,12 @@
 import React from "react";
 import TransactionForm from "./TransactionForm";
-import Modal from "react-bootstrap/Modal";
 import { connect } from "react-redux";
 import { startaddTransaction } from "../actions/transactions";
 
 const AddTransactionPage = (props) => {
   return (
     <div>
-      <Modal.Header closeButton>
-        <Modal.Title>Create Transaction</Modal.Title>
-      </Modal.Header>
+      <h1>Create Transaction</h1>
       <TransactionForm
         onSubmit={(transaction) => {
           props.startaddTransaction(transaction);

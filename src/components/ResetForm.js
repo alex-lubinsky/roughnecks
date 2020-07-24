@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { resetPasswordConfirm } from "../actions/auth";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import ValidationMessage from "./ValidationMessage";
-import Container from "react-bootstrap/Container";
 
 const ResetForm = (props) => {
   const [passwordOne, setPasswordOne] = useState("");
@@ -34,35 +31,26 @@ const ResetForm = (props) => {
   };
 
   return (
-    <Container className="form-container">
-      <Form>
-        <Container className="input-container">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="text"
-            value={passwordOne}
-            onChange={onPasswordOneChange}
-            placeholder="Enter new password"
-          />
-        </Container>
-        <Container className="input-container">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="text"
-            value={passwordTwo}
-            onChange={onPasswordTwoChange}
-            placeholder="Confirm Password"
-          />
-          <ValidationMessage
-            valid={passwordValid}
-            message={errorMsg.password}
-          />
-        </Container>
-      </Form>
-      <Container className="button-container">
-        <Button onClick={onClick}>Click Me</Button>
-      </Container>
-    </Container>
+    <div>
+      <form>
+        <label>Password</label>
+        <input
+          type="text"
+          value={passwordOne}
+          onChange={onPasswordOneChange}
+          placeholder="Enter new password"
+        />
+        <label>Confirm Password</label>
+        <input
+          type="text"
+          value={passwordTwo}
+          onChange={onPasswordTwoChange}
+          placeholder="Confirm Password"
+        />
+        <ValidationMessage valid={passwordValid} message={errorMsg.password} />
+      </form>
+      <button onClick={onClick}>Click Me</button>
+    </div>
   );
 };
 

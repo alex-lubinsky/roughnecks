@@ -1,10 +1,8 @@
-import React from 'react';
-import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
+import React from "react";
 
 const SkymallTable = (props) => {
   return (
-    <Table>
+    <table>
       <thead>
         <tr>
           <th>Name</th>
@@ -17,7 +15,7 @@ const SkymallTable = (props) => {
       </thead>
       <tbody>
         {props.filteredItems
-          .filter((item) => (item.numberInSkymall > 0 && item.allPcsCanPurchase) )
+          .filter((item) => item.numberInSkymall > 0 && item.allPcsCanPurchase)
           .map((item) => {
             return (
               <tr key={item.id}>
@@ -29,20 +27,20 @@ const SkymallTable = (props) => {
                 <td>{item.description}</td>
                 <td>{item.numberInSkymall}</td>
                 <td>
-                  <Button
+                  <button
                     variant="success"
                     onClick={props.onBuyItemClick}
                     data-key={item.id}
                   >
                     Buy Item
-                  </Button>
+                  </button>
                 </td>
               </tr>
             );
           })}
       </tbody>
-    </Table>
-  )
-}
+    </table>
+  );
+};
 
 export default SkymallTable;

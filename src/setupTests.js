@@ -5,11 +5,11 @@
 
 import "@testing-library/jest-dom/extend-expect";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 import { shallow, render, mount, configure } from "enzyme";
-import toJson from 'enzyme-to-json';
-import Adapter from 'enzyme-adapter-react-16';
+import toJson from "enzyme-to-json";
+import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });

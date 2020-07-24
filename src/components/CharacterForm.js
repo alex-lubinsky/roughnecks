@@ -5,10 +5,6 @@ import { startSetRaces } from "../actions/races";
 import { startSetSubclasses } from "../actions/subclasses";
 import ClassForm from "./ClassForm";
 import ValidationMessage from "./ValidationMessage";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
 
 class CharacterForm extends React.Component {
   constructor(props) {
@@ -246,194 +242,183 @@ class CharacterForm extends React.Component {
     ];
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
-          <Modal.Body>
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={this.state.firstName}
-              onChange={this.onFirstNameChange}
-              placeholder="Enter Character's First Name"
-            />
-            <ValidationMessage
-              valid={this.state.firstNameValid}
-              message={this.state.errorMsg.firstName}
-            />
+      <form onSubmit={this.onSubmit}>
+        <label>First Name</label>
+        <input
+          type="text"
+          value={this.state.firstName}
+          onChange={this.onFirstNameChange}
+          placeholder="Enter Character's First Name"
+        />
+        <ValidationMessage
+          valid={this.state.firstNameValid}
+          message={this.state.errorMsg.firstName}
+        />
+        <label>Last Name</label>
+        <input
+          type="text"
+          value={this.state.lastName}
+          onChange={this.onLastNameChange}
+          placeholder="Enter Character's Last Name"
+        />
 
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={this.state.lastName}
-              onChange={this.onLastNameChange}
-              placeholder="Enter Character's Last Name"
-            />
+        <label>Armor Class</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          value={this.state.armorClass}
+          onChange={this.onArmorClassChange}
+          placeholder="Enter Character's Armor Class"
+        />
+        <ValidationMessage
+          valid={this.state.armorClassValid}
+          message={this.state.errorMsg.armorClass}
+        />
+        <label>Passive Perception</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          value={this.state.passivePerception}
+          onChange={this.onPassivePerceptionChange}
+          placeholder="Enter Character's Passive Perception"
+        />
+        <ValidationMessage
+          valid={this.state.passivePerceptionValid}
+          message={this.state.errorMsg.passivePerception}
+        />
+        <label>Max HP</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          value={this.state.maxHp}
+          onChange={this.onMaxHpChange}
+          placeholder="Enter Character's Max HP"
+        />
+        <ValidationMessage
+          valid={this.state.maxHpValid}
+          message={this.state.errorMsg.maxHp}
+        />
+        <label>Vision</label>
+        <Select options={altVisionChoices} onChange={this.onVisionChange} />
+        <ValidationMessage
+          valid={this.state.altVisionValid}
+          message={this.state.errorMsg.altVision}
+        />
 
-            <Form.Label>Armor Class</Form.Label>
-            <Form.Control
-              type="number"
-              min="0"
-              step="1"
-              value={this.state.armorClass}
-              onChange={this.onArmorClassChange}
-              placeholder="Enter Character's Armor Class"
-            />
-            <ValidationMessage
-              valid={this.state.armorClassValid}
-              message={this.state.errorMsg.armorClass}
-            />
+        <label>Starting Gold</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          value={this.state.gold}
+          onChange={this.onGoldPcsChange}
+          placeholder="Enter Character's Starting Gold"
+        />
+        <ValidationMessage
+          valid={this.state.goldValid}
+          message={this.state.errorMsg.gold}
+        />
 
-            <Form.Label>Passive Perception</Form.Label>
-            <Form.Control
-              type="number"
-              min="0"
-              step="1"
-              value={this.state.passivePerception}
-              onChange={this.onPassivePerceptionChange}
-              placeholder="Enter Character's Passive Perception"
-            />
-            <ValidationMessage
-              valid={this.state.passivePerceptionValid}
-              message={this.state.errorMsg.passivePerception}
-            />
+        <label>Race</label>
+        {this.props.racesIsLoading ? (
+          <p>loading races....</p>
+        ) : (
+          <Select
+            options={this.getRaceOptions()}
+            onChange={this.onRaceChange}
+          />
+        )}
+        <ValidationMessage
+          valid={this.state.raceNameValid}
+          message={this.state.errorMsg.raceName}
+        />
 
-            <Form.Label>Max HP</Form.Label>
-            <Form.Control
-              type="number"
-              min="0"
-              step="1"
-              value={this.state.maxHp}
-              onChange={this.onMaxHpChange}
-              placeholder="Enter Character's Max HP"
-            />
-            <ValidationMessage
-              valid={this.state.maxHpValid}
-              message={this.state.errorMsg.maxHp}
-            />
-
-            <Form.Label>Vision</Form.Label>
-            <Select options={altVisionChoices} onChange={this.onVisionChange} />
-            <ValidationMessage
-              valid={this.state.altVisionValid}
-              message={this.state.errorMsg.altVision}
-            />
-
-            <Form.Label>Starting Gold</Form.Label>
-            <Form.Control
-              type="number"
-              min="0"
-              step="1"
-              value={this.state.gold}
-              onChange={this.onGoldPcsChange}
-              placeholder="Enter Character's Starting Gold"
-            />
-            <ValidationMessage
-              valid={this.state.goldValid}
-              message={this.state.errorMsg.gold}
-            />
-
-            <Form.Label>Race</Form.Label>
-            {this.props.racesIsLoading ? (
-              <p>loading races....</p>
-            ) : (
-              <Select
-                options={this.getRaceOptions()}
-                onChange={this.onRaceChange}
-              />
-            )}
-            <ValidationMessage
-              valid={this.state.raceNameValid}
-              message={this.state.errorMsg.raceName}
-            />
-
-            {this.props.subclassesIsLoading ? (
-              <p>loading subclasses....</p>
-            ) : (
-              <ClassForm
-                subclasses={this.props.subclasses}
-                onChange={this.onClassFormChange}
-              />
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <div>
-              First Name:{" "}
-              {this.state.firstNameValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Last Name is Optional:{" "}
-              <i className="valid-input icon-ok-circle" />
-            </div>
-            <div>
-              Armor Class:{" "}
-              {this.state.armorClassValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Passive Perception:{" "}
-              {this.state.passivePerceptionValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Max HP:{" "}
-              {this.state.maxHpValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Vision:{" "}
-              {this.state.altVisionValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Starting Gold:{" "}
-              {this.state.goldValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Race:{" "}
-              {this.state.raceNameValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <div>
-              Class:{" "}
-              {this.state.subclassNameValid ? (
-                <i className="valid-input icon-ok-circle" />
-              ) : (
-                <i className="invalid-input icon-remove-sign" />
-              )}
-            </div>
-            <Button
-              variant="primary"
-              disabled={!this.state.formValid}
-              type="submit"
-            >
-              Add Character
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Container>
+        {this.props.subclassesIsLoading ? (
+          <p>loading subclasses....</p>
+        ) : (
+          <ClassForm
+            subclasses={this.props.subclasses}
+            onChange={this.onClassFormChange}
+          />
+        )}
+        <div>
+          First Name:{" "}
+          {this.state.firstNameValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Last Name is Optional: <i className="valid-input icon-ok-circle" />
+        </div>
+        <div>
+          Armor Class:{" "}
+          {this.state.armorClassValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Passive Perception:{" "}
+          {this.state.passivePerceptionValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Max HP:{" "}
+          {this.state.maxHpValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Vision:{" "}
+          {this.state.altVisionValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Starting Gold:{" "}
+          {this.state.goldValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Race:{" "}
+          {this.state.raceNameValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <div>
+          Class:{" "}
+          {this.state.subclassNameValid ? (
+            <i className="valid-input icon-ok-circle" />
+          ) : (
+            <i className="invalid-input icon-remove-sign" />
+          )}
+        </div>
+        <button
+          variant="primary"
+          disabled={!this.state.formValid}
+          type="submit"
+        >
+          Add Character
+        </button>
+      </form>
     );
   }
 }
