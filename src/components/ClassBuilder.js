@@ -18,7 +18,7 @@ const ClassBuilder = (props) => {
     return className.substring(3, className.length);
   };
 
-  return <div>{getClass(classArray)}</div>;
+  return <>{getClass(classArray)}</>;
 };
 
 export default ClassBuilder;

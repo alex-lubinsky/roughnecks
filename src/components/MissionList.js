@@ -14,7 +14,7 @@ class MissionList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="div-margin-sm">
         <h1>Mission List</h1>
         {this.props.charactersIsLoading ||
         this.props.missionsIsLoading ||

@@ -7,7 +7,7 @@ const HeroTable = (props) => {
     <table>
       <thead>
         <tr>
-          <th>Creator</th>
+          <th>Player Name</th>
           <th>Name</th>
           <th>Race</th>
           <th>Class</th>
@@ -21,25 +21,28 @@ const HeroTable = (props) => {
             })}
         </tr>
       </thead>
-      <tbody>
+      <tbody className='checkmark-dashboard'>
         {props.characters
           .filter((character) => {
             return character.dead === props.fallen;
           })
           .map((character) => {
             return (
-              <CharacterRow
-                key={character.id}
-                character={character}
-                missions={props.missions.filter(
-                  (mission) => mission.visable === true
-                )}
-                pcSubclasses={props.pcSubclasses}
-                races={props.races}
-                users={props.users}
-                subclasses={props.subclasses}
-                downtime={props.downtime}
-              />
+              <>
+                <CharacterRow
+                  key={character.id}
+                  character={character}
+                  missions={props.missions.filter(
+                    (mission) => mission.visable === true
+                  )}
+                  pcSubclasses={props.pcSubclasses}
+                  races={props.races}
+                  users={props.users}
+                  subclasses={props.subclasses}
+                  downtime={props.downtime}
+                />
+                <tr className="spacer"><td></td></tr>
+              </>
             );
           })}
       </tbody>

@@ -14,7 +14,7 @@ class TransactionList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="div-margin-sm">
         {this.props.transactionsIsLoading ||
         this.props.charactersIsLoading ? null : (
           <TransactionsTable

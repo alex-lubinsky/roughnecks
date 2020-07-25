@@ -121,7 +121,7 @@ class Skymall extends React.Component {
     });
 
     return (
-      <div>
+      <div className="div-margin-sm">
         <h1>Skymall</h1>
         {this.props.charactersIsLoading ||
         this.props.transactionsIsLoading ? null : (

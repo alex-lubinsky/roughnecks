@@ -2,6 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import ClassBuilder from "./ClassBuilder";
 import { getLevel, getDowntimeDays, getCheckmarks } from "../functions/levels";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 const CharacterRow = (props) => {
   const checkmarks =
@@ -23,7 +25,7 @@ const CharacterRow = (props) => {
     );
 
   return (
-    <tr>
+    <tr className="character-row">
       <td>
         {
           props.users.find((user) => user.id === props.character.creator)
@@ -51,6 +53,7 @@ const CharacterRow = (props) => {
           )}
           subclasses={props.subclasses}
         />
+        {" "}
         {getLevel(checkmarks) >
         props.pcSubclasses.filter(
           (pcSubclass) => pcSubclass.classCharacter === props.character.id
@@ -70,30 +73,34 @@ const CharacterRow = (props) => {
           )
         )}
       </td>
-      {props.missions.map((mission) => {
+      {props.missions.sort((a,b) => (a.episode > b.episode) ? 1 : -1).map((mission) => {
+        let iconName = ""
         if (mission.dm === props.character.id) {
-          return (
-            <td key={mission.id}>
-              <i className="icon-legal" />
-            </td>
-          );
+          iconName = "icon-legal"
         } else if (
           mission.characters.some(
             (missionCharacters) => props.character.id === missionCharacters
           )
         ) {
-          return (
-            <td key={mission.id}>
-              <i className="icon-ok" />
-            </td>
-          );
+          iconName = "icon-ok"
         } else {
-          return (
-            <td key={mission.id}>
-              <i className="icon-remove" />
-            </td>
-          );
+          iconName = "icon-remove"
         }
+        return (
+          <td key={mission.id}>
+            <OverlayTrigger
+              key={mission.id}
+              placement='top'
+              overlay={
+                <Tooltip id={`${mission.id}`}>
+                  {`Ep ${mission.episode}: ${mission.name}`}
+                </Tooltip>
+              }
+              >
+                <NavLink to={`/missions/${mission.id}`}><i className={iconName} /></NavLink>
+              </OverlayTrigger>              
+          </td>
+        );
       })}
     </tr>
   );

@@ -91,6 +91,9 @@ const Header = (props) => {
                 <NavDropdown.Item href="/transactions">
                   Transactions
                 </NavDropdown.Item>
+                <NavDropdown.Item href="/downtime">
+                  Downtime
+                </NavDropdown.Item>
                 <NavDropdown.Item href="/fallen">
                   Hall of Fallen Heroes
                 </NavDropdown.Item>

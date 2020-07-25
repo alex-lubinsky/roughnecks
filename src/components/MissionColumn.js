@@ -1,7 +1,7 @@
 import React from "react";
 
-const MissionColumn = ({ id, name, episode }) => (
-  <th>{`Ep. ${episode}: ${name}`}</th>
+const MissionColumn = ({ id }) => (
+  <th className="rotate" key={id}></th>
 );
 
 export default MissionColumn;

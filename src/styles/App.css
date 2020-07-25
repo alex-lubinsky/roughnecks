@@ -1,29 +1,5 @@
 @import "ValidationMessage.css";
 
-.form-container {
-  margin: 50px;
-  border-color: lightgray;
-  border-style: solid;
-  padding: 20px;
-  border-width: 1px;
-}
-
-.form-label {
-  margin-top: 0.5rem !important;
-}
-
-.button-container {
-  padding: 10px;
-}
-
-.table {
-  margin: 1rem 1rem 1rem 1rem;
-}
-
-.float-right {
-  float: right;
-}
-
 .icon-ok,
 .icon-legal,
 .icon-ok-circle {
@@ -37,4 +13,26 @@
 
 .div-margin-sm {
   margin: 20px;
+}
+
+.checkmark-dashboard tr:nth-child(4n+3) {
+  background: rgb(240, 240, 240);
+}
+
+.character-row {
+  border-bottom: 1px solid rgb(175, 174, 174);
+  border-top: 1px solid rgb(175, 174, 174);
+}
+
+.character-row td {
+  padding: 0px 10px;
+}
+
+.spacer td {
+  padding: 5px;
+}
+
+table th, table td {
+  padding: 5px;
+  text-align: center;
 }

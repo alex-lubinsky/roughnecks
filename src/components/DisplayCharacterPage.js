@@ -18,6 +18,8 @@ import { startSetRaces } from "../actions/races";
 import { startSetSubclasses } from "../actions/subclasses";
 import { startSetTransactions } from "../actions/transactions";
 import ClassTable from "./ClassTable";
+import { startSetDowntime } from '../actions/downtime';
+import DowntimeTable from './DowntimeTable';
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -36,6 +38,7 @@ class DisplayCharacterPage extends React.Component {
     this.props.startSetTransactions();
     this.props.startSetSubclasses();
     this.props.startSetRaces();
+    this.props.startSetDowntime();
   }
 
   handleLevelUpClose = () => {
@@ -67,7 +70,8 @@ class DisplayCharacterPage extends React.Component {
         this.props.pcSubclassesIsLoading ||
         this.props.racesIsLoading ||
         this.props.subclassesIsLoading ||
-        this.props.transactionsIsLoading ? null : (
+        this.props.transactionsIsLoading ||
+        this.props.downtimeIsLoading ? null : (
           <div>
             <Modal
               isOpen={this.state.showKillPCModal}
@@ -200,6 +204,13 @@ class DisplayCharacterPage extends React.Component {
               characters={this.props.characters}
               missions={this.props.missions}
             />
+            {this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid).length === 0 ?
+              null : 
+              <DowntimeTable 
+                characters={this.props.characters} 
+                downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)} 
+              />
+            }
           </div>
         )}
       </div>
@@ -214,6 +225,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetRaces: () => dispatch(startSetRaces()),
   startSetSubclasses: () => dispatch(startSetSubclasses()),
   startSetTransactions: () => dispatch(startSetTransactions()),
+  startSetDowntime: () => dispatch(startSetDowntime()),
   startUpdateCharacter: (id, updates) =>
     dispatch(startUpdateCharacter(id, updates)),
 });
@@ -230,6 +242,7 @@ const mapStateToProps = (state, props) => ({
   transactions: state.transactions.data,
   characters: state.characters.data,
   userid: state.auth.user.id,
+  downtime: state.downtime.data,
 
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
   missionsIsLoading: state.missions.isLoading,
@@ -237,6 +250,8 @@ const mapStateToProps = (state, props) => ({
   subclassesIsLoading: state.subclasses.isLoading,
   transactionsIsLoading: state.transactions.isLoading,
   charactersIsLoading: state.characters.isLoading,
+  downtimeIsLoading: state.downtime.isLoading,
+
 });
 
 export default connect(
