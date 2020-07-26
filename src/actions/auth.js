@@ -89,6 +89,7 @@ export const startLogin = (loginData = {}) => {
       .catch((err) => {
         console.log(err);
         dispatch(loginFail());
+        return err
       });
   };
 };
@@ -120,13 +121,14 @@ export const logout = () => {
 };
 
 export const resetPassword = (email) => {
-  axios
+  
+  return axios
     .post(`/api/dj-rest-auth/password/reset/`, { email: email })
     .then((res) => {
-      console.log(res);
+      return res
     })
     .catch((err) => {
-      console.log(err);
+      return err
     });
 };
 

@@ -36,3 +36,19 @@ table th, table td {
   padding: 5px;
   text-align: center;
 }
+
+.form-container {
+  border: .2rem solid #ececec;
+  padding: 1rem;
+
+  border-width: .2rem;
+  border-radius: 8px;
+}
+
+.form-bump-down {
+  margin-top: 40px;
+}
+
+.link-margin {
+  padding-bottom: 10px;
+}
