@@ -7,6 +7,14 @@ import { startSetMissions } from "../actions/missions";
 import { startSetTransactions } from "../actions/transactions";
 import { getDowntimeDays } from "../functions/levels";
 import { startSetPCSubclasses } from "../actions/playercharacterclasses";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from 'react-bootstrap/Container';
+import { AiOutlineCheck } from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -169,103 +177,117 @@ class DowntimeForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        {this.state.character !== "" ? (
-          <div>
-            {this.state.character.label} has {this.state.characterDowntime}{" "}
-            downtime days available
-          </div>
-        ) : null}
-        <label>Character</label>
-        {this.props.missionsIsLoading || this.props.charactersIsLoading ? (
-          <p>loading...</p>
-        ) : (
-          <Select
-            options={this.selectCharacterOptions}
-            value={this.state.character}
-            onChange={this.onCharacterChange}
-          />
-        )}
-        <ValidationMessage
-          valid={this.state.characterValid}
-          message={this.state.errorMsg.character}
-        />
-        <label className="inputlabel">Downtime Type</label>
-        <Select
-          options={this.state.selectDowntimeTypeOptions}
-          value={this.state.downtimeType}
-          onChange={this.onDowntimeTypeChange}
-        />
-        <ValidationMessage
-          valid={this.state.downtimeTypeValid}
-          message={this.state.errorMsg.downtimeType}
-        />
-        <label>Number of Days Spent</label>
-        <input
-          type="number"
-          min="0"
-          step="1"
-          placeholder="Enter Number of Days Spent"
-          value={this.state.numOfDaysSpent}
-          onChange={this.onNumOfDaysSpentChange}
-        />
-        <ValidationMessage
-          valid={this.state.numOfDaysSpentValid}
-          message={this.state.errorMsg.numOfDaysSpent}
-        />
-        <label>Description</label>
-        <input
-          type="text"
-          placeholder="Enter Description"
-          value={this.state.description}
-          onChange={this.onDescriptionChange}
-        />
-        <ValidationMessage
-          valid={this.state.descriptionValid}
-          message={this.state.errorMsg.description}
-        />
-        <div>
-          Description:{" "}
-          {this.state.descriptionValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Downtime Type:{" "}
-          {this.state.downtimeTypeValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Character:{" "}
-          {this.state.characterValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Number of Downtime Days:{" "}
-          {this.state.numOfDaysSpentValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          <button
+      <Form onSubmit={this.onSubmit}>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col>
+                <Form.Group>
+                  {this.state.character !== "" ? (
+                    <>
+                      {this.state.character.label} has {this.state.characterDowntime}{" "}
+                      downtime days available
+                    </>
+                  ) : null}
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.characterValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Character</Form.Label>
+                    {this.state.characterValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  {this.props.missionsIsLoading || this.props.charactersIsLoading ? (
+                    <p>loading...</p>
+                  ) : (
+                    <Select
+                      options={this.selectCharacterOptions}
+                      value={this.state.character}
+                      onChange={this.onCharacterChange}
+                    />
+                  )}
+                  <ValidationMessage
+                    valid={this.state.characterValid}
+                    message={this.state.errorMsg.character}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.downtimeTypeValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Downtime Type</Form.Label>
+                    {this.state.downtimeTypeValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Select
+                    options={this.state.selectDowntimeTypeOptions}
+                    value={this.state.downtimeType}
+                    onChange={this.onDowntimeTypeChange}
+                  />
+                  <ValidationMessage
+                    valid={this.state.downtimeTypeValid}
+                    message={this.state.errorMsg.downtimeType}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.numOfDaysSpent ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Number of Days Spent</Form.Label>
+                    {this.state.numOfDaysSpent ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="Enter Number of Days Spent"
+                    value={this.state.numOfDaysSpent}
+                    onChange={this.onNumOfDaysSpentChange}
+                  />
+                  <ValidationMessage
+                    valid={this.state.numOfDaysSpentValid}
+                    message={this.state.errorMsg.numOfDaysSpent}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.descriptionValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Short Description</Form.Label>
+                    {this.state.descriptionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Description"
+                    value={this.state.description}
+                    onChange={this.onDescriptionChange}
+                  />
+                  <ValidationMessage
+                    valid={this.state.descriptionValid}
+                    message={this.state.errorMsg.description}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
             disabled={!this.state.formValid}
             type="submit"
             variant="primary"
           >
             Add Downtime
-          </button>
-        </div>
-      </form>
+          </Button>
+        </Modal.Footer>
+      </Form>
     );
   }
 }

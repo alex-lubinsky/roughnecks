@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { startSetCharacters } from "../actions/characters";
 import { startSetTransactions } from "../actions/transactions";
 
+
 class MissionList extends React.Component {
   componentDidMount() {
     this.props.startSetMissions();

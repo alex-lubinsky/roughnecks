@@ -1,13 +1,13 @@
 @import "ValidationMessage.css";
 
-.icon-ok,
-.icon-legal,
-.icon-ok-circle {
+.dm,
+.player,
+.valid-input {
   color: green;
 }
 
-.icon-remove,
-.icon-remove-sign {
+.na,
+.invalid-input {
   color: red;
 }
 
@@ -91,4 +91,22 @@ th.mission-column {
 
 .hero-pagination {
   float: right;
+}
+
+.inline-icon {
+  display: inline-block;
+}
+
+.date-picker{
+  margin-right: 10px;
+}
+
+.date-picker-box {
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #495057;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+
 }

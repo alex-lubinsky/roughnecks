@@ -4,6 +4,14 @@ import { startSetCharacters } from "../actions/characters";
 import { startSetMissions } from "../actions/missions";
 import { connect } from "react-redux";
 import ValidationMessage from "./ValidationMessage";
+import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import {AiOutlineCheck} from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
 
 class TransactionForm extends React.Component {
   constructor(props) {
@@ -24,9 +32,9 @@ class TransactionForm extends React.Component {
       copperValid: true,
       moneyValid: false,
       airshipPot: true,
-      airshipPotVisable: true,
+      airshipPotDisabled: false,
       earnedSpent: { label: "Earned", value: "Earned" },
-      errorMsg: {},
+      errorMsg: {moneyValid: "Total Gold, Silver and Copper must be greater than 0."},
       formValid: false,
     };
   }
@@ -55,16 +63,16 @@ class TransactionForm extends React.Component {
   };
 
   onAirshipPotChange = (e) => {
-    const airshipPot = e.target.value;
+    const airshipPot = !!e.target.value;
     this.setState({ airshipPot });
   };
 
   onEarnedSpentChange = (selectedValue) => {
     this.setState({ earnedSpent: selectedValue });
     if (selectedValue.value === "Earned") {
-      this.setState({ airshipPotVisable: true });
+      this.setState({ airshipPotDisabled: false });
     } else {
-      this.setState({ airshipPotVisable: false, airshipPot: false });
+      this.setState({ airshipPotDisabled: true, airshipPot: false });
     }
   };
 
@@ -80,10 +88,10 @@ class TransactionForm extends React.Component {
 
     if (!Number.isInteger(Number(gold))) {
       goldValid = false;
-      errorMsg.gold = "Must be a whole number";
+      errorMsg.gold = "Gold must be a whole number";
     } else if (gold < 0) {
       goldValid = false;
-      errorMsg.gold = "Must be a number larger than 0";
+      errorMsg.gold = "Gold must be a number larger than 0";
     }
 
     if (
@@ -97,6 +105,7 @@ class TransactionForm extends React.Component {
         this.validateForm
       );
     } else {
+      errorMsg.moneyValid = "Total Gold, Silver and Copper must be greater than 0."
       this.setState(
         { goldValid, errorMsg, moneyValid: false },
         this.validateForm
@@ -116,10 +125,10 @@ class TransactionForm extends React.Component {
 
     if (!Number.isInteger(Number(silver))) {
       silverValid = false;
-      errorMsg.silver = "Must be a whole number";
+      errorMsg.silver = "Silver must be a whole number";
     } else if (silver < 0) {
       silverValid = false;
-      errorMsg.silver = "Must be a number larger than 0";
+      errorMsg.silver = "Silver must be a number larger than 0";
     }
     if (
       goldValid &&
@@ -132,6 +141,7 @@ class TransactionForm extends React.Component {
         this.validateForm
       );
     } else {
+      errorMsg.moneyValid = "Total Gold, Silver and Copper must be greater than 0."
       this.setState(
         { silverValid, errorMsg, moneyValid: false },
         this.validateForm
@@ -151,10 +161,10 @@ class TransactionForm extends React.Component {
 
     if (!Number.isInteger(Number(copper))) {
       copperValid = false;
-      errorMsg.copper = "Must be a whole number";
+      errorMsg.copper = "Copper must be a whole number";
     } else if (copper < 0) {
       copperValid = false;
-      errorMsg.copper = "Must be a number larger than 0";
+      errorMsg.copper = "Copper must be a number larger than 0";
     }
 
     if (
@@ -168,6 +178,7 @@ class TransactionForm extends React.Component {
         this.validateForm
       );
     } else {
+      errorMsg.moneyValid = "Total Gold, Silver and Copper must be greater than 0."
       this.setState(
         { copperValid, errorMsg, moneyValid: false },
         this.validateForm
@@ -274,162 +285,179 @@ class TransactionForm extends React.Component {
     });
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <label>Name</label>
-        <input
-          type="text"
-          value={this.state.name}
-          onChange={this.onNameChange}
-          placeholder="Enter Short Transaction Description"
-        />
-        <ValidationMessage
-          valid={this.state.nameValid}
-          message={this.state.errorMsg.name}
-        />
-        <label>Gold</label>
-        <input
-          type="number"
-          min="0"
-          step="1"
-          value={this.state.gold}
-          onChange={this.onGoldPcsChange}
-          placeholder="Enter Transaction Gold"
-        />
-        <ValidationMessage
-          valid={this.state.goldValid}
-          message={this.state.errorMsg.gold}
-        />
-        <label>Silver</label>
-        <input
-          type="number"
-          min="0"
-          step="1"
-          value={this.state.silver}
-          onChange={this.onSilverPcsChange}
-          placeholder="Enter Transaction Silver"
-        />
-        <ValidationMessage
-          valid={this.state.silverValid}
-          message={this.state.errorMsg.silver}
-        />
-        <label>Copper</label>
-        <input
-          type="number"
-          min="0"
-          step="1"
-          value={this.state.copper}
-          onChange={this.onCopperPcsChange}
-          placeholder="Enter Transaction Copper"
-        />
-        <ValidationMessage
-          valid={this.state.copperValid}
-          message={this.state.errorMsg.copper}
-        />
-        <label>Transaction Type</label>
-        <Select
-          options={[
-            { value: "Earned", label: "Earned" },
-            { value: "Spent", label: "Spent" },
-          ]}
-          value={this.state.earnedSpent}
-          onChange={this.onEarnedSpentChange}
-        />
-
-        {this.state.airshipPotVisable ? (
-          <div>
-            <label>Airship Pot</label>
-            <input
-              type="checkbox"
-              defaultChecked={this.state.airshipPot}
-              onChange={this.onAirshipPotChange}
-            />
-          </div>
-        ) : null}
-        <label>Mission the Transaction happened on</label>
-        {this.props.missionsIsLoading ? null : (
-          <Select
-            options={selectMissionOptions}
-            onChange={this.onMissionChange}
-          />
-        )}
-        <ValidationMessage
-          valid={this.state.missionValid}
-          message={this.state.errorMsg.mission}
-        />
-        <label>Characters in the Transaction</label>
-        {this.props.charactersIsLoading ? null : (
-          <Select
-            isMulti
-            options={selectCharacterOptions}
-            value={this.state.characters}
-            onChange={this.onCharactersChange}
-          />
-        )}
-        <ValidationMessage
-          valid={this.state.charactersValid}
-          message={this.state.errorMsg.characters}
-        />
-        <div>
-          Name:{" "}
-          {this.state.nameValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Gold Amount:{" "}
-          {this.state.goldValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Silver Amount:{" "}
-          {this.state.silverValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Copper Amount:{" "}
-          {this.state.copperValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Total Money Amount:{" "}
-          {this.state.moneyValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Mission:{" "}
-          {this.state.missionValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Characters:{" "}
-          {this.state.charactersValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-
-        <button disabled={!this.state.formValid} type="submit">
-          Add Transaction
-        </button>
-      </form>
+      <Form onSubmit={this.onSubmit}>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.nameValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Name</Form.Label>
+                    {this.state.nameValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="text"
+                    value={this.state.name}
+                    onChange={this.onNameChange}
+                    placeholder="Enter Short Transaction Description"
+                  />
+                  <ValidationMessage
+                    valid={this.state.nameValid}
+                    message={this.state.errorMsg.name}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.goldValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Gold</Form.Label>
+                    {this.state.goldValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={this.state.gold}
+                    onChange={this.onGoldPcsChange}
+                    placeholder="Enter Transaction Gold"
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.silverValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Silver</Form.Label>
+                    {this.state.silverValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={this.state.silver}
+                    onChange={this.onSilverPcsChange}
+                    placeholder="Enter Transaction Silver"
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.copperValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Copper</Form.Label>
+                    {this.state.copperValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={this.state.copper}
+                    onChange={this.onCopperPcsChange}
+                    placeholder="Enter Transaction Copper"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+              <Form.Group>
+                <ValidationMessage
+                  valid={this.state.goldValid}
+                  message={this.state.errorMsg.gold}
+                />
+                <ValidationMessage
+                  valid={this.state.silverValid}
+                  message={this.state.errorMsg.silver}
+                />
+                <ValidationMessage
+                  valid={this.state.copperValid}
+                  message={this.state.errorMsg.copper}
+                />
+                <ValidationMessage
+                  valid={this.state.moneyValid}
+                  message={this.state.errorMsg.moneyValid}
+                />
+              </Form.Group>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className="valid-input">
+                    <Form.Label>Transaction Type</Form.Label>
+                    <AiOutlineCheck />
+                  </span>
+                  <Select
+                    options={[
+                      { value: "Earned", label: "Earned" },
+                      { value: "Spent", label: "Spent" },
+                    ]}
+                    value={this.state.earnedSpent}
+                    onChange={this.onEarnedSpentChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+              <Form.Group>
+                  <span className="valid-input">
+                    <Form.Label>Airship Pot</Form.Label>
+                    <AiOutlineCheck />
+                  </span>
+                  <Form.Control
+                    type="checkbox"
+                    checked={this.state.airshipPot}
+                    onChange={this.onAirshipPotChange}
+                    disabled = {this.state.airshipPotDisabled ? "disabled" : ""}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.missionValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Mission</Form.Label>
+                    {this.state.missionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  {this.props.missionsIsLoading ? null : (
+                    <Select
+                      options={selectMissionOptions}
+                      onChange={this.onMissionChange}
+                    />
+                  )}
+                  <ValidationMessage
+                    valid={this.state.missionValid}
+                    message={this.state.errorMsg.mission}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.missionValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Characters</Form.Label>
+                    {this.state.charactersValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  {this.props.charactersIsLoading ? null : (
+                    <Select
+                      isMulti
+                      options={selectCharacterOptions}
+                      value={this.state.characters}
+                      onChange={this.onCharactersChange}
+                    />
+                  )}
+                  <ValidationMessage
+                    valid={this.state.charactersValid}
+                    message={this.state.errorMsg.characters}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button disabled={!this.state.formValid} type="submit">
+            Add Transaction
+          </Button>
+        </Modal.Footer>
+      </Form>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import CharacterRow from "./CharacterRow";
-
+import MissionColumn from './MissionColumn';
 import Pagination from 'react-bootstrap/Pagination'
 
 class HeroTable extends React.Component {
@@ -48,16 +48,15 @@ class HeroTable extends React.Component {
             <th className="lvl">Level</th>
             <th className="checks">Checks</th>
             <th className="dta">Downtime Available</th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
-            <th className="mission-column"></th>
+            {this.props.missions.filter(
+              mission => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1))))
+              .map(mission => {
+              return <MissionColumn key={mission.id} mission={mission} />
+            })}
+            {[0,1,2,3,4,5,6,7,8,9].slice(0+this.props.missions.filter(
+              mission => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1)))).length).map(num => {
+                return <th key={num} className="mission-column"></th>
+              })}
           </tr>
         </thead>
         <tbody className='checkmark-dashboard'>
@@ -67,22 +66,19 @@ class HeroTable extends React.Component {
             })
             .map((character) => {
               return (
-                <>
-                  <CharacterRow
-                    key={character.id}
-                    character={character}
-                    missionsForMissionList={this.props.missions.filter(
-                      (mission) => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1)))
-                    )}
-                    missions={this.props.missions.filter(mission => mission.visable === true)}
-                    pcSubclasses={this.props.pcSubclasses}
-                    races={this.props.races}
-                    users={this.props.users}
-                    subclasses={this.props.subclasses}
-                    downtime={this.props.downtime}
-                  />
-                  <tr className="spacer"><td></td></tr>
-                </>
+                <CharacterRow
+                  key={character.id}
+                  character={character}
+                  missionsForMissionList={this.props.missions.filter(
+                    (mission) => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1)))
+                  )}
+                  missions={this.props.missions.filter(mission => mission.visable === true)}
+                  pcSubclasses={this.props.pcSubclasses}
+                  races={this.props.races}
+                  users={this.props.users}
+                  subclasses={this.props.subclasses}
+                  downtime={this.props.downtime}
+                />
               );
             })}
         </tbody>

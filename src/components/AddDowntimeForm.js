@@ -2,11 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { startAddDowntime } from "../actions/downtime";
 import DowntimeForm from "./DowntimeForm";
+import Modal from "react-bootstrap/Modal";
 
 const AddDowntimeForm = (props) => {
   return (
     <div>
-      <h1>{`Add Downtime Spend`}</h1>
+      <Modal.Header closeButton>
+        <h1>{`Add Downtime Spend`}</h1>
+      </Modal.Header>
       <DowntimeForm
         onSubmit={(formData) => {
           const downtime = {

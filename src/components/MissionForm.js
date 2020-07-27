@@ -7,6 +7,15 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { startSetMissions } from "../actions/missions";
+import Modal from 'react-bootstrap/Modal'
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Col from 'react-bootstrap/Col';
+import {AiOutlineCheck} from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
+import Button from "react-bootstrap/Button";
+
 
 class MissionForm extends React.Component {
   constructor(props) {
@@ -125,13 +134,13 @@ class MissionForm extends React.Component {
 
     if (!Number.isInteger(Number(maxLevel))) {
       maxLevelValid = false;
-      errorMsg.maxLevel = "Must be a whole number";
+      errorMsg.maxLevel = "Maximum level must be a whole number";
     } else if (maxLevel < 1) {
       maxLevelValid = false;
-      errorMsg.maxLevel = "Must be a larger than 0";
+      errorMsg.maxLevel = "Maximum level must be larger than 0";
     } else if (maxLevel > 20) {
       maxLevelValid = false;
-      errorMsg.maxLevel = "Must be lower than 20";
+      errorMsg.maxLevel = "Maximum level must be lower than 20";
     } else if (minLevel > maxLevel) {
       maxLevelValid = false;
       errorMsg.maxLevel =
@@ -140,13 +149,13 @@ class MissionForm extends React.Component {
 
     if (!Number.isInteger(Number(minLevel))) {
       minLevelValid = false;
-      errorMsg.minLevel = "Must be a whole number";
+      errorMsg.minLevel = "Minimum level must be a whole number";
     } else if (minLevel < 1) {
       minLevelValid = false;
-      errorMsg.minLevel = "Must be a number larger than 0";
+      errorMsg.minLevel = "Minimum level must be larger than 0";
     } else if (minLevel > 20) {
       minLevelValid = false;
-      errorMsg.minLevel = "Must be lower than 20";
+      errorMsg.minLevel = "Minimum level must be lower than 20";
     } else if (minLevel > maxLevel) {
       minLevelValid = false;
       errorMsg.minLevel =
@@ -232,139 +241,152 @@ class MissionForm extends React.Component {
     );
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <label>Mission Name</label>
-        <input
-          type="text"
-          placeholder="Enter Mission Name"
-          value={this.state.name}
-          onChange={this.onNameChange}
-        />
-        <ValidationMessage
-          valid={this.state.nameValid}
-          message={this.state.errorMsg.name}
-        />
-        <label>DM</label>
-        {this.props.characters.isLoading ? null : (
-          <Select
-            id="dm"
-            name="dm"
-            options={this.selectDMOptions}
-            onChange={this.onDmChange}
-          />
-        )}
-        <ValidationMessage
-          valid={this.state.dmValid}
-          message={this.state.errorMsg.dm}
-        />
-        <label>Characters</label>
-        {this.props.charactersIsLoading ? null : (
-          <Select
-            id="characters"
-            name="characters"
-            isMulti
-            options={selectFilteredCharacterOptions}
-            value={this.state.characters}
-            onChange={this.onCharactersChange}
-          />
-        )}
-        <ValidationMessage
-          valid={this.state.charactersValid}
-          message={this.state.errorMsg.characters}
-        />
-        <label>Minimum Level</label>
-        <input
-          type="number"
-          min="1"
-          step="1"
-          placeholder="Minimum level for the mission"
-          value={this.state.minLevel}
-          onChange={this.onMinLevelChange}
-        />
-        <ValidationMessage
-          valid={this.state.minLevelValid}
-          message={this.state.errorMsg.minLevel}
-        />
-        <label>Maximum Level</label>
-        <input
-          type="number"
-          min="1"
-          step="1"
-          placeholder="Maximum level for the mission"
-          value={this.state.maxLevel}
-          onChange={this.onMaxLevelChange}
-        />
-        <ValidationMessage
-          valid={this.state.maxLevelValid}
-          message={this.state.errorMsg.maxLevel}
-        />
-        <label>Played On</label>
-        <DatePicker
-          selected={this.state.startDate}
-          onChange={this.onDatePickerChange}
-        />
-        <ValidationMessage
-          valid={this.state.startDateValid}
-          message={this.state.errorMsg.startDate}
-        />
-        <div>
-          Name:{" "}
-          {this.state.nameValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          DM:{" "}
-          {this.state.dmValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Characters:{" "}
-          {this.state.charactersValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Played On Date:{" "}
-          {this.state.startDateValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Minimum Level:{" "}
-          {this.state.minLevelValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Maximum Level:{" "}
-          {this.state.maxLevelValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          <button
+      <Form onSubmit={this.onSubmit}>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.nameValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Mission Name</Form.Label>
+                    {this.state.nameValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Mission Name"
+                    value={this.state.name}
+                    onChange={this.onNameChange}
+                  />
+                  <ValidationMessage
+                    valid={this.state.nameValid}
+                    message={this.state.errorMsg.name}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.dmValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>DM</Form.Label>
+                    {this.state.dmValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  {this.props.characters.isLoading ? null : (
+                    <Select
+                      id="dm"
+                      name="dm"
+                      options={this.selectDMOptions}
+                      onChange={this.onDmChange}
+                    />
+                  )}
+                  <ValidationMessage
+                    valid={this.state.dmValid}
+                    message={this.state.errorMsg.dm}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.charactersValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Characters</Form.Label>
+                    {this.state.charactersValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  {this.props.charactersIsLoading ? null : (
+                    <Select
+                      id="characters"
+                      name="characters"
+                      isMulti
+                      options={selectFilteredCharacterOptions}
+                      value={this.state.characters}
+                      onChange={this.onCharactersChange}
+                    />
+                  )}
+                  <ValidationMessage
+                    valid={this.state.charactersValid}
+                    message={this.state.errorMsg.characters}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.minLevelValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Minimum Level</Form.Label>
+                    {this.state.minLevelValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="Minimum level for the mission"
+                    value={this.state.minLevel}
+                    onChange={this.onMinLevelChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.maxLevelValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Maximum Level</Form.Label>
+                    {this.state.maxLevelValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="Maximum level for the mission"
+                    value={this.state.maxLevel}
+                    onChange={this.onMaxLevelChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Form.Group>
+                <ValidationMessage
+                  valid={this.state.minLevelValid}
+                  message={this.state.errorMsg.minLevel}
+                />
+                <ValidationMessage
+                  valid={this.state.maxLevelValid}
+                  message={this.state.errorMsg.maxLevel}
+                />
+              </Form.Group>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.startDateValid ? "valid-input date-picker" : "invalid-input date-picker"}>
+                    <Form.Label>Played On</Form.Label>
+                    {this.state.startDateValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <DatePicker
+                    selected={this.state.startDate}
+                    onChange={this.onDatePickerChange}
+                    className="date-picker-box"
+                  />
+                  <ValidationMessage
+                    valid={this.state.startDateValid}
+                    message={this.state.errorMsg.startDate}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
             disabled={!this.state.formValid}
             variant="primary"
             type="submit"
           >
             Add Mission
-          </button>
-        </div>
-      </form>
+          </Button>
+        </Modal.Footer>
+      </Form>
     );
   }
 }

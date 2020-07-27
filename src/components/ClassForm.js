@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ValidationMessage from "./ValidationMessage";
 import { countClassOccurences } from "../functions/levels";
+import Form from 'react-bootstrap/Form'
+import {AiOutlineCheck} from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
+
 
 const ClassForm = (props) => {
   const [subclassName, setSubclassName] = useState("");
@@ -74,18 +78,26 @@ const ClassForm = (props) => {
   });
 
   return (
-    <div>
-      <label htmlFor="class">Class</label>
-      <Select
-        id="class"
-        name="class"
-        options={getClassOptions()}
-        onChange={onClassChange}
-      />
+    <>
+      <Form.Group>
+        <span className={subclassValid ? "valid-input" : "invalid-input"}>
+          <Form.Label>Class</Form.Label>
+          {subclassValid ? <AiOutlineCheck /> : <IoMdClose />}
+        </span>
+        <Select
+          id="class"
+          name="class"
+          options={getClassOptions()}
+          onChange={onClassChange}
+        />
+      </Form.Group>
 
       {subclassVisable ? (
-        <div>
-          <label htmlFor="subclass">Subclass</label>
+        <Form.Group>
+          <span className={subclassValid ? "valid-input" : "invalid-input"}>
+            <Form.Label>Subclass</Form.Label>
+            {subclassValid ? <AiOutlineCheck /> : <IoMdClose />}
+          </span>
           <Select
             options={selectSubclassOptions}
             onChange={onSubclassChange}
@@ -93,10 +105,10 @@ const ClassForm = (props) => {
             id="subclass"
             name="subclass"
           />
-        </div>
+        </Form.Group>
       ) : null}
       <ValidationMessage valid={subclassValid} message={errorMsg.subclass} />
-    </div>
+    </>
   );
 };
 

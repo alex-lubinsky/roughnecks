@@ -1,7 +1,15 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-const MissionColumn = ({ id }) => (
-  <th className="rotate" key={id}></th>
+const MissionColumn = (props) => (
+  <th className="mission-column">
+    <NavLink
+      to={`/missions/${props.mission.id}`}
+      activeClassName="is-active"
+    >
+      {`Ep. ${props.mission.episode}`}
+    </NavLink>
+  </th>
 );
 
 export default MissionColumn;

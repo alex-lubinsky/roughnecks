@@ -4,11 +4,14 @@ import { startAddCharacter } from "../actions/characters";
 import { connect } from "react-redux";
 import { startAddPcSubclass } from "../actions/playercharacterclasses";
 import { startaddTransaction } from "../actions/transactions";
+import Modal from "react-bootstrap/Modal";
 
 const AddCharacterPage = (props) => {
   return (
     <div>
+      <Modal.Header closeButton>
       <h1>Create Player Character</h1>
+      </Modal.Header>
       <CharacterForm
         onSubmit={(formData) => {
           const character = {

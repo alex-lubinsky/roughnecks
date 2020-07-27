@@ -5,7 +5,7 @@ import TransactionsTable from "./TransactionsTable";
 import TotalEarnedMoney from "./TotalEarnedMoney";
 import TotalSpentMoney from "./TotalSpentMoney";
 import TotalBalanceMoney from "./TotalBalanceMoney";
-import Modal from "react-modal";
+import Modal from "react-bootstrap/Modal";
 import AddLevelForm from "./AddLevelForm";
 import { getLevel } from "../functions/levels";
 import {
@@ -20,13 +20,16 @@ import { startSetTransactions } from "../actions/transactions";
 import ClassTable from "./ClassTable";
 import { startSetDowntime } from '../actions/downtime';
 import DowntimeTable from './DowntimeTable';
+import Button from "react-bootstrap/Button";
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container'
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showLevelUpModal: false,
+      showLevelUpModal: true,
       showKillPCModal: false,
     };
   }
@@ -73,25 +76,28 @@ class DisplayCharacterPage extends React.Component {
         this.props.transactionsIsLoading ||
         this.props.downtimeIsLoading ? null : (
           <div>
-            <Modal
-              isOpen={this.state.showKillPCModal}
-              onRequestClose={this.handleKillPCClose}
-              ariaHideApp={false}
-            >
-              <h3>Are you sure?</h3>
-              <button onClick={this.killPcConfirm} variant="danger">
-                Yes, {this.props.character.firstName}{" "}
-                {this.props.character.lastName} died a glorious death in battle.
-              </button>
-              <button onClick={this.handleKillPCClose} variant="link">
-                ....Nevermind
-              </button>
+            <Modal show={this.state.showKillPCModal} onHide={this.handleKillPCClose}>
+              <Modal.Header closeButton>
+                <h3>Are you sure?</h3>
+              </Modal.Header>
+              <Modal.Body>
+                <Container>
+                  <Row>
+                    <Button onClick={this.killPcConfirm} variant="danger">
+                      Yes, {this.props.character.firstName}{" "}
+                      {this.props.character.lastName} died a glorious death in battle.
+                    </Button>
+                  </Row>
+                  <Row>
+                    <Button onClick={this.handleKillPCClose} variant="link">
+                      ....Nevermind
+                    </Button>
+                  </Row>
+                </Container>
+              </Modal.Body>
             </Modal>
-            <Modal
-              isOpen={this.state.showLevelUpModal}
-              onRequestClose={this.handleLevelUpClose}
-              ariaHideApp={false}
-            >
+
+            <Modal show={this.state.showLevelUpModal} onHide={this.handleLevelUpClose}>
               <AddLevelForm
                 handleClose={this.handleLevelUpClose}
                 character={this.props.character}

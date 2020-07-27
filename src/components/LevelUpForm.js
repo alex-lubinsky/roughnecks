@@ -3,6 +3,15 @@ import { connect } from "react-redux";
 import ClassForm from "./ClassForm";
 import ValidationMessage from "./ValidationMessage";
 import { buildClassArray } from "../functions/levels";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import {AiOutlineCheck} from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
+
 
 class LevelUpForm extends React.Component {
   constructor(props) {
@@ -34,10 +43,10 @@ class LevelUpForm extends React.Component {
 
     if (!Number.isInteger(Number(passivePerception))) {
       passivePerceptionValid = false;
-      errorMsg.passivePerception = "Must be a whole number";
+      errorMsg.passivePerception = "Passive Perception must be a whole number";
     } else if (passivePerception < 1) {
       passivePerceptionValid = false;
-      errorMsg.passivePerception = "Must be a number larger than 0";
+      errorMsg.passivePerception = "Passive Perception must be a number larger than 0";
     }
 
     this.setState({ passivePerceptionValid, errorMsg }, this.validateForm);
@@ -55,10 +64,10 @@ class LevelUpForm extends React.Component {
 
     if (!Number.isInteger(Number(maxHp))) {
       maxHpValid = false;
-      errorMsg.maxHp = "Must be a whole number";
+      errorMsg.maxHp = "Max HP must be a whole number";
     } else if (maxHp < 1) {
       maxHpValid = false;
-      errorMsg.maxHp = "Must be a number larger than 0";
+      errorMsg.maxHp = "Max Hp must be a number larger than 0";
     }
 
     this.setState({ maxHpValid, errorMsg }, this.validateForm);
@@ -97,73 +106,78 @@ class LevelUpForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <label>Passive Perception</label>
-        <input
-          type="number"
-          min="0"
-          step="1"
-          value={this.state.passivePerception}
-          onChange={this.onPassivePerceptionChange}
-          placeholder={`Enter ${this.props.character.firstName}'s Passive Perception`}
-        />
-        <ValidationMessage
-          valid={this.state.passivePerceptionValid}
-          message={this.state.errorMsg.passivePerception}
-        />
-        <label>Max HP</label>
-        <input
-          type="number"
-          min="0"
-          step="1"
-          value={this.state.maxHp}
-          onChange={this.onMaxHpChange}
-          placeholder={`Enter ${this.props.character.firstName}'s Max HP`}
-        />
-        <ValidationMessage
-          valid={this.state.maxHpValid}
-          message={this.state.errorMsg.maxHp}
-        />
-        <ClassForm
-          subclasses={this.props.subclasses}
-          onChange={this.onClassFormChange}
-          characterLevels={buildClassArray(
-            this.props.pcSubclasses.filter(
-              (pcSubclass) =>
-                pcSubclass.classCharacter === this.props.characterid
-            ),
-            this.props.subclasses
-          )}
-        />
-        <div>
-          Passive Perception:{" "}
-          {this.state.passivePerceptionValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Max HP:{" "}
-          {this.state.maxHpValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-        <div>
-          Class/Subclass:{" "}
-          {this.state.subclassValid ? (
-            <i className="valid-input icon-ok-circle" />
-          ) : (
-            <i className="invalid-input icon-remove-sign" />
-          )}
-        </div>
-
-        <button disabled={!this.state.formValid} type="submit">
-          Level Up
-        </button>
-      </form>
+      <Form onSubmit={this.onSubmit}>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.passivePerceptionValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Passive Perception</Form.Label>
+                    {this.state.passivePerceptionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={this.state.passivePerception}
+                    onChange={this.onPassivePerceptionChange}
+                    placeholder={`Enter ${this.props.character.firstName}'s Passive Perception`}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.maxHpValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Max HP</Form.Label>
+                    {this.state.maxHpValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={this.state.maxHp}
+                    onChange={this.onMaxHpChange}
+                    placeholder={`Enter ${this.props.character.firstName}'s Max HP`}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <ValidationMessage
+                  valid={this.state.passivePerceptionValid}
+                  message={this.state.errorMsg.passivePerception}
+                />
+                <ValidationMessage
+                  valid={this.state.maxHpValid}
+                  message={this.state.errorMsg.maxHp}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <ClassForm
+                  subclasses={this.props.subclasses}
+                  onChange={this.onClassFormChange}
+                  characterLevels={buildClassArray(
+                    this.props.pcSubclasses.filter(
+                      (pcSubclass) =>
+                        pcSubclass.classCharacter === this.props.characterid
+                    ),
+                    this.props.subclasses
+                  )}
+                />
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button disabled={!this.state.formValid} type="submit">
+            Level Up
+          </Button>
+        </Modal.Footer>        
+      </Form>
     );
   }
 }

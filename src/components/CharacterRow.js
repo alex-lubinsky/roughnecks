@@ -2,8 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import ClassBuilder from "./ClassBuilder";
 import { getLevel, getDowntimeDays, getCheckmarks } from "../functions/levels";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import CharacterRowIcon from './CharacterRowIcon';
+
 
 const CharacterRow = (props) => {
   const checkmarks =
@@ -25,6 +25,7 @@ const CharacterRow = (props) => {
     );
 
   return (
+    <>
     <tr className="character-row">
       <td>
         {
@@ -76,33 +77,35 @@ const CharacterRow = (props) => {
       {props.missionsForMissionList.sort((a,b) => (a.episode > b.episode) ? 1 : -1).map((mission) => {
         let iconName = ""
         if (mission.dm === props.character.id) {
-          iconName = "icon-legal"
+          iconName = "dm"
         } else if (
           mission.characters.some(
             (missionCharacters) => props.character.id === missionCharacters
           )
         ) {
-          iconName = "icon-ok"
+          iconName = "player"
         } else {
-          iconName = "icon-remove"
+          const levelAtTimeOfMission = props.pcSubclasses.filter(
+            (level) => (level.dateCreated <= mission.playedOn && level.classCharacter === props.character.id)
+          ).length;
+          if (
+            mission.playedOn >= props.character.dateCreated &&
+            levelAtTimeOfMission >= mission.levelMin &&
+            levelAtTimeOfMission <= mission.levelMax
+          ) {
+            iconName = "na";
+          }
+
         }
         return (
-          <td key={mission.id}>
-            <OverlayTrigger
-              key={mission.id}
-              placement='top'
-              overlay={
-                <Tooltip id={`${mission.id}`}>
-                  {`Ep ${mission.episode}: ${mission.name}`}
-                </Tooltip>
-              }
-              >
-                <NavLink to={`/missions/${mission.id}`}><i className={iconName} /></NavLink>
-              </OverlayTrigger>              
+          <td key={mission.id} className={iconName}>
+            <CharacterRowIcon iconName={iconName} />          
           </td>
         );
       })}
     </tr>
+    <tr className="spacer"><td></td></tr>
+    </>
   );
 };
 
