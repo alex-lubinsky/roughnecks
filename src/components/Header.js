@@ -112,7 +112,7 @@ const Header = (props) => {
                 ) : null}
               </NavDropdown>
             </Nav>
-            <Nav className="justify-content-end">
+            <Nav>
               {props.userFirstName ? (
                 <NavDropdown
                   title={`${props.userFirstName}`}

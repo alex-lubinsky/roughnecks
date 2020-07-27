@@ -52,3 +52,43 @@ table th, table td {
 .link-margin {
   padding-bottom: 10px;
 }
+
+.hero-table {
+  width: 100%;
+}
+
+th.player-name {
+  width: 5%;
+}
+
+th.name {
+  width: 15%;
+}
+
+th.character-race {
+  width: 10%;
+}
+
+th.character-class {
+  width: 20%;
+}
+
+th.lvl {
+  width: 3%;
+}
+
+th.checks {
+  width: 2%;
+}
+
+th.dta {
+  width: 5%;
+}
+
+th.mission-column {
+  width: 4%;  
+}
+
+.hero-pagination {
+  float: right;
+}

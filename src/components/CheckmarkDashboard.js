@@ -40,6 +40,7 @@ class CheckmarkDashboard extends React.Component {
             subclasses={this.props.subclasses}
             downtime={this.props.downtime}
             fallen={this.props.fallen}
+            totalPages={Math.ceil(this.props.missions.filter(mission => mission.visable === true).length/10)}
           />
         )}
       </div>

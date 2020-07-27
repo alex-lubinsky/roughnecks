@@ -73,7 +73,7 @@ const CharacterRow = (props) => {
           )
         )}
       </td>
-      {props.missions.sort((a,b) => (a.episode > b.episode) ? 1 : -1).map((mission) => {
+      {props.missionsForMissionList.sort((a,b) => (a.episode > b.episode) ? 1 : -1).map((mission) => {
         let iconName = ""
         if (mission.dm === props.character.id) {
           iconName = "icon-legal"
