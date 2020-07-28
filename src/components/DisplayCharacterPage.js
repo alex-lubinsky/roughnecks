@@ -29,7 +29,7 @@ class DisplayCharacterPage extends React.Component {
     super(props);
 
     this.state = {
-      showLevelUpModal: true,
+      showLevelUpModal: false,
       showKillPCModal: false,
     };
   }

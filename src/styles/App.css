@@ -19,7 +19,15 @@
   background: rgb(240, 240, 240);
 }
 
-.character-row {
+.mission-list tr:nth-child(2n+2) {
+  background: rgb(240, 240, 240);
+}
+
+.character-mission-list {
+  text-align: left;
+}
+
+.character-row, .mission-row {
   border-bottom: 1px solid rgb(175, 174, 174);
   border-top: 1px solid rgb(175, 174, 174);
 }
@@ -53,7 +61,7 @@ table th, table td {
   padding-bottom: 10px;
 }
 
-.hero-table {
+.hero-table, .mission-table {
   width: 100%;
 }
 

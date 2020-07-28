@@ -20,7 +20,7 @@ class MissionList extends React.Component {
         {this.props.charactersIsLoading ||
         this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ? null : (
-          <table>
+          <table className="mission-table mission-list">
             <thead>
               <tr>
                 <th>Episode #</th>
@@ -38,7 +38,7 @@ class MissionList extends React.Component {
                   (character) => character.id === mission.dm
                 );
                 return (
-                  <tr key={mission.id}>
+                  <tr key={mission.id} className="mission-row">
                     <td>{mission.episode}</td>
                     <td>
                       <NavLink
@@ -50,20 +50,22 @@ class MissionList extends React.Component {
                     </td>
                     <td>{mission.playedOn}</td>
                     <td>
-                      {`Min Level: ${mission.levelMin} Max Level: ${mission.levelMax}`}
+                      {`Min: ${mission.levelMin} Max: ${mission.levelMax}`}
                     </td>
                     <td>{`${dm.firstName} ${dm.lastName}`}</td>
                     <td>
-                      {mission.characters.map((pc) => {
-                        const character = this.props.characters.find(
-                          (character) => character.id === pc
-                        );
-                        return (
-                          <div
-                            key={character.id}
-                          >{`${character.firstName} ${character.lastName}`}</div>
-                        );
-                      })}
+                      <ul className="character-mission-list">
+                        {mission.characters.map((pc) => {
+                          const character = this.props.characters.find(
+                            (character) => character.id === pc
+                          );
+                          return (
+                            <li
+                              key={character.id}
+                            >{`${character.firstName} ${character.lastName}`}</li>
+                          );
+                        })}
+                      </ul>
                     </td>
                     <td>
                       {
