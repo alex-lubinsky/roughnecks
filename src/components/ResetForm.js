@@ -51,7 +51,7 @@ const ResetForm = (props) => {
           <ValidationMessage valid={!errors.passwordTwo} message={errors.passwordTwo} />
         </Form.Group>
         <Button variant="primary" type="submit">
-        Change Password
+          Change Password
         </Button>
       </Form>
     </Container>

@@ -24,7 +24,7 @@ urlpatterns = [
     path('api/', include('characters.urls')),
     path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('reset/<uidb64>/<token>/', UserAPIView.as_view(), name="password_reset_confirm"),
+    path('reset/<uidb64>/<token>/', FrontendAppView.as_view(), name="password_reset_confirm"),
     path('api/auth/', include('userapi.urls')),
     re_path('^', FrontendAppView.as_view()),
 ]
