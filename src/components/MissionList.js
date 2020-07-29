@@ -54,7 +54,7 @@ class MissionList extends React.Component {
                     </td>
                     <td>{`${dm.firstName} ${dm.lastName}`}</td>
                     <td>
-                      <ul className="character-mission-list">
+                      <ul className="character-list">
                         {mission.characters.map((pc) => {
                           const character = this.props.characters.find(
                             (character) => character.id === pc

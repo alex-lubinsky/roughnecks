@@ -23,11 +23,15 @@
   background: rgb(240, 240, 240);
 }
 
-.character-mission-list {
+.transaction-list tr:nth-child(2n+2) {
+  background: rgb(240, 240, 240);
+}
+
+.character-list {
   text-align: left;
 }
 
-.character-row, .mission-row {
+.character-row, .mission-row, .transaction-row {
   border-bottom: 1px solid rgb(175, 174, 174);
   border-top: 1px solid rgb(175, 174, 174);
 }
@@ -61,11 +65,11 @@ table th, table td {
   padding-bottom: 10px;
 }
 
-.hero-table, .mission-table {
+.hero-table, .mission-table, .transaction-table {
   width: 100%;
 }
 
-th.player-name {
+th.player-name, th.dta{
   width: 5%;
 }
 
@@ -85,12 +89,8 @@ th.lvl {
   width: 3%;
 }
 
-th.checks {
+th.checks, th.episode-number  {
   width: 2%;
-}
-
-th.dta {
-  width: 5%;
 }
 
 th.mission-column {
