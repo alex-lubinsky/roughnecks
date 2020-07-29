@@ -44,10 +44,12 @@ class TransactionSerializer(serializers.ModelSerializer):
     fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent')
 
 class DowntimeSerializer(serializers.ModelSerializer):
+  downtimeDisplayType = serializers.CharField(source='get_downtimeType_display', read_only=True)
 
   class Meta:
     model = Downtime
-    fields = ('id', 'description', 'downtimeType', 'character', 'numOfDaysSpent')
+    fields = ('id', 'description', 'downtimeType', 'character', 'numOfDaysSpent', 'downtimeDisplayType')
+    read_only_fields = ['downtimeDisplayType']
 
 class ItemSerializer(serializers.ModelSerializer):
 

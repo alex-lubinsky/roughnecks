@@ -1,39 +1,41 @@
 import React from "react";
+import Button from 'react-bootstrap/Button'
 
 const SkymallTable = (props) => {
   return (
-    <table>
+    <table className="skymall-table skymall-list">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Cost (in gold)</th>
-          <th>Cost (in downtime)</th>
+          <th className="character-class">Name</th>
+          <th className="character-race">Cost (in gold)</th>
           <th>Desctiption</th>
-          <th>Number in Skymall</th>
-          <th>Buy</th>
+          <th className="character-race">Number in Skymall</th>
+          {props.skymallAdmin === true ? 
+            <th className="character-race">Add to Skymall</th> :
+            <th className="character-race">Buy</th>
+          } 
         </tr>
       </thead>
       <tbody>
         {props.filteredItems
-          .filter((item) => item.numberInSkymall > 0 && item.allPcsCanPurchase)
           .map((item) => {
             return (
-              <tr key={item.id}>
+              <tr key={item.id} className="skymall-row">
                 <td>{item.name}</td>
                 <td>
                   {`${item.costGold}.${item.costSilver}${item.costCopper}`}{" "}
                 </td>
-                <td>{item.downtimecost}</td>
                 <td>{item.description}</td>
                 <td>{item.numberInSkymall}</td>
                 <td>
-                  <button
+                  <Button
                     variant="success"
-                    onClick={props.onBuyItemClick}
+                    onClick={props.onClick}
                     data-key={item.id}
                   >
-                    Buy Item
-                  </button>
+                    {props.skymallAdmin ? "Add Item" : "Buy Item"}
+                  </Button>
+                  
                 </td>
               </tr>
             );

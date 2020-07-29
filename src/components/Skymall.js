@@ -12,6 +12,7 @@ import { startSetMissions } from "../actions/missions";
 import { startSetCharacters } from "../actions/characters";
 import ValidationMessage from "./ValidationMessage";
 import SkymallTable from "./SkymallTable";
+import Form from "react-bootstrap/Form";
 
 class Skymall extends React.Component {
   constructor(props) {
@@ -125,15 +126,13 @@ class Skymall extends React.Component {
         <h1>Skymall</h1>
         {this.props.charactersIsLoading ||
         this.props.transactionsIsLoading ? null : (
-          <div>
-            <div>
-              <label>Purchasing Character</label>
+            <Form.Group>
+              <Form.Label>Purchasing Character</Form.Label>
               <Select
                 options={selectCharacterOptions}
                 value={this.state.character}
                 onChange={this.onCharacterChange}
               />
-            </div>
             {this.state.character === "" ? (
               <div>Select a character to purchase items</div>
             ) : (
@@ -145,15 +144,18 @@ class Skymall extends React.Component {
               valid={this.state.purchaseValid}
               message={this.state.errorMsg.purchase}
             />
-          </div>
+          </Form.Group>
         )}
-        <label>Filter</label>
-        <input
-          type="text"
-          value={this.state.filter}
-          onChange={this.onFilterChange}
-          placeholder="Use this to filter items in the store"
-        />
+        <Form.Group>
+          <Form.Label>Filter</Form.Label>
+          <Form.Control
+            type="text"
+            value={this.state.filter}
+            onChange={this.onFilterChange}
+            placeholder="Use this to filter items in the store"
+          />
+        </Form.Group>
+        
         {this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ||
         this.props.itemsIsLoading ? null : (
@@ -162,33 +164,33 @@ class Skymall extends React.Component {
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Weapon"
+                (item) => item.typeOfItem === "Weapon" && item.numberInSkymall > 0 && item.allPcsCanPurchase
               )}
-              onBuyItemClick={this.onBuyItemClick}
+              onClick={this.onBuyItemClick}
             />
             <h2>Armor</h2>
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Armor"
+                (item) => item.typeOfItem === "Armor" && item.numberInSkymall > 0 && item.allPcsCanPurchase
               )}
-              onBuyItemClick={this.onBuyItemClick}
+              onClick={this.onBuyItemClick}
             />
             <h2>Gear</h2>
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Gear"
+                (item) => item.typeOfItem === "Gear" && item.numberInSkymall > 0 && item.allPcsCanPurchase
               )}
-              onBuyItemClick={this.onBuyItemClick}
+              onClick={this.onBuyItemClick}
             />
             <h2>Magic Items</h2>
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Magic"
+                (item) => item.typeOfItem === "Magic" && item.numberInSkymall > 0 && item.allPcsCanPurchase
               )}
-              onBuyItemClick={this.onBuyItemClick}
+              onClick={this.onBuyItemClick}
             />
           </div>
         )}

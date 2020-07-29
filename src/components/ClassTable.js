@@ -23,7 +23,7 @@ const ClassTable = (props) => {
   const rows = [];
   for (var i = 1; i < 11; i++) {
     rows.push(
-      <tr key={i}>
+      <tr key={i} className="class-row">
         <td>{i}.</td>
         <td>{getClassName(props.pcClasses[i - 1], props.subclasses)}</td>
         <td>{i + 10}.</td>
@@ -33,7 +33,7 @@ const ClassTable = (props) => {
   }
 
   return (
-    <table>
+    <table className="class-table">
       <thead>
         <tr>
           <th>Level #</th>

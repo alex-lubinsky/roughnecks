@@ -13,7 +13,7 @@ class DowntimeList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="div-margin-sm">
         <h1>Downtime Spent</h1>
         {this.props.charactersIsLoading || this.props.downtimeIsLoading ? null :
           <DowntimeTable downtime={this.props.downtime} characters={this.props.characters}/>

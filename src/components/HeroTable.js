@@ -50,7 +50,7 @@ class HeroTable extends React.Component {
             <th className="dta">Downtime Available</th>
             {this.props.missions.filter(
               mission => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1))))
-              .map(mission => {
+              .sort((a,b) => (a.episode > b.episode) ? 1 : -2).map(mission => {
               return <MissionColumn key={mission.id} mission={mission} />
             })}
             {[0,1,2,3,4,5,6,7,8,9].slice(0+this.props.missions.filter(
@@ -71,7 +71,7 @@ class HeroTable extends React.Component {
                   character={character}
                   missionsForMissionList={this.props.missions.filter(
                     (mission) => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1)))
-                  )}
+                  ).sort((a,b) => (a.episode > b.episode) ? 1 : -2)}
                   missions={this.props.missions.filter(mission => mission.visable === true)}
                   pcSubclasses={this.props.pcSubclasses}
                   races={this.props.races}

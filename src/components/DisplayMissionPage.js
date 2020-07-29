@@ -17,7 +17,7 @@ class DisplayMissionPage extends React.Component {
       (character) => character.id === this.props.mission.dm
     );
     return (
-      <div>
+      <div className="div-margin-sm">
         {this.props.transactionsIsLoading ||
         this.props.missionsIsLoading ||
         this.props.charactersIsLoading ? null : (
@@ -27,15 +27,15 @@ class DisplayMissionPage extends React.Component {
             <p>
               DM: {dm.firstName} {dm.lastName}
             </p>
-            <p>
-              Players:{" "}
-              {this.props.mission.characters.map((pc) => {
-                const character = this.props.characters.find(
-                  (character) => character.id === pc
-                );
-                return `${character.firstName} ${character.lastName}`;
-              })}
-            </p>
+            Players:{" "}
+            <ul>
+            {this.props.mission.characters.map((pc) => {
+              const character = this.props.characters.find(
+                (character) => character.id === pc
+              );
+              return <li key={character.id}>{`${character.firstName} ${character.lastName}`}</li>;
+            })}
+            </ul>
             <TransactionsTable
               transactions={this.props.transactions.filter(
                 (transaction) => transaction.mission === this.props.mission.id

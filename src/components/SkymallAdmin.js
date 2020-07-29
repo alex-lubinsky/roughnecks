@@ -1,11 +1,27 @@
 import React from "react";
 import { startSetItems, startUpdateItem } from "../actions/items";
 import { connect } from "react-redux";
+import SkymallTable from './SkymallTable'
+import Form from 'react-bootstrap/Form'
 
 class SkymallAdmin extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      filter: ""
+    };
+  }
+
   componentDidMount() {
     this.props.startSetItems();
   }
+
+  onFilterChange = (e) => {
+    const filter = e.target.value;
+    this.setState({ filter });
+  };
 
   onAddItemClick = (e) => {
     const itemId = e.target.getAttribute("data-key");
@@ -18,45 +34,68 @@ class SkymallAdmin extends React.Component {
   };
 
   render() {
+
+    const filteredItems = this.props.items.filter((item) => {
+      const nameMatch = item.name
+        .toLowerCase()
+        .includes(this.state.filter.toLowerCase());
+      const typeMatch = item.typeOfItem
+        .toLowerCase()
+        .includes(this.state.filter.toLowerCase());
+      return nameMatch || typeMatch;
+    });
+
     return (
-      <div>
+      <div className="div-margin-sm">
         <h1>Skymall Admin</h1>
+        <Form.Group>
+          <Form.Label>Filter</Form.Label>
+          <Form.Control
+            type="text"
+            value={this.state.filter}
+            onChange={this.onFilterChange}
+            placeholder="Use this to filter items in the store"
+          />
+        </Form.Group>
         {this.props.itemsIsLoading ? null : (
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Cost (in gold) </th>
-                <th>Desctiption</th>
-                <th>Number in Skymall</th>
-                <th>Add to Skymall</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.items.map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td> {item.name} </td>
-                    <td>
-                      {" "}
-                      {`${item.costGold}.${item.costSilver}${item.costCopper}`}{" "}
-                    </td>
-                    <td> {item.description} </td>
-                    <td> {item.numberInSkymall} </td>
-                    <td>
-                      <button
-                        variant="info"
-                        onClick={this.onAddItemClick}
-                        data-key={item.id}
-                      >
-                        Add Item to Skymall
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <>
+            <h2>Weapons</h2>
+            <SkymallTable
+              items={this.props.items}
+              filteredItems={filteredItems.filter(
+                (item) => item.typeOfItem === "Weapon" && item.allPcsCanPurchase
+              )}
+              onClick={this.onAddItemClick}
+              skymallAdmin={true}
+            />
+            <h2>Armor</h2>
+            <SkymallTable
+              items={this.props.items}
+              filteredItems={filteredItems.filter(
+                (item) => item.typeOfItem === "Armor" && item.allPcsCanPurchase
+              )}
+              onClick={this.onAddItemClick}
+              skymallAdmin={true}
+            />
+            <h2>Gear</h2>
+            <SkymallTable
+              items={this.props.items}
+              filteredItems={filteredItems.filter(
+                (item) => item.typeOfItem === "Gear" && item.allPcsCanPurchase
+              )}
+              onClick={this.onAddItemClick}
+              skymallAdmin={true}
+            />
+            <h2>Magic Items</h2>
+            <SkymallTable
+              items={this.props.items}
+              filteredItems={filteredItems.filter(
+                (item) => item.typeOfItem === "Magic" && item.allPcsCanPurchase
+              )}
+              onClick={this.onAddItemClick}
+              skymallAdmin={true}
+            />
+          </>
         )}
       </div>
     );

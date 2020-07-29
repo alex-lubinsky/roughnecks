@@ -2,7 +2,7 @@ import React from 'react';
 
 const DowntimeTable = (props) => {
   return(
-    <table>
+    <table className="downtime-list downtime-table">
       <thead>
         <tr>
           <th>Character</th>
@@ -14,13 +14,13 @@ const DowntimeTable = (props) => {
       <tbody>
         {props.downtime.map(downtime => {
           return(
-            <tr key={downtime.id}>
+            <tr key={downtime.id} className="downtime-row">
               {props.characters.filter(character => character.id === downtime.character).map(character => {
                 return <td key={character.id}>{`${character.firstName} ${character.lastName}`}</td>
               })}
               <td>{downtime.numOfDaysSpent}</td>
-              <td>{downtime.downtimeType}</td>
-              <td>{downtime.description}</td>
+              <td>{downtime.downtimeDisplayType}</td>
+              <td className="character-race">{downtime.description}</td>
             </tr>
           )
         })}
