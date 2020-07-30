@@ -95,6 +95,14 @@ class SkymallAdmin extends React.Component {
               onClick={this.onAddItemClick}
               skymallAdmin={true}
             />
+            <h2>Spell Components</h2>
+            <SkymallTable
+              items={this.props.items}
+              filteredItems={filteredItems.filter(
+                (item) => item.typeOfItem === "Component" && item.numberInSkymall > 0 && item.allPcsCanPurchase
+              )}
+              onClick={this.onBuyItemClick}
+            />
           </>
         )}
       </div>
