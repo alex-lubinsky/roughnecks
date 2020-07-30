@@ -150,5 +150,6 @@ class ItemsOwned(models.Model):
 
   item = models.ForeignKey(Item, related_name="item", on_delete=models.CASCADE)
   character = models.ForeignKey(Character, related_name="owningCharacter", on_delete=models.CASCADE)
+  qty = models.IntegerField()
 
 

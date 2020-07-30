@@ -35,9 +35,9 @@ const addItemsOwned = (itemsOwned) => ({
 
 export const startAddItemsOwned = (itemsOwnedData = {}) => {
   return (dispatch, getState) => {
-    const { item = 0, character = 0 } = itemsOwnedData;
+    const { item = 0, character = 0, qty = 0} = itemsOwnedData;
 
-    const itemOwned = { item, character };
+    const itemOwned = { item, character, qty};
 
     return axios
       .post(`/api/itemsowned/`, itemOwned, tokenConfig(getState().auth.token))
@@ -46,7 +46,7 @@ export const startAddItemsOwned = (itemsOwnedData = {}) => {
         return res.data;
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
 };

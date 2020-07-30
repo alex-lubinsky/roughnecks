@@ -61,4 +61,4 @@ class ItemsOwnedSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = ItemsOwned
-    fields = ('id', 'item', 'character')
+    fields = ('id', 'item', 'character', 'qty')

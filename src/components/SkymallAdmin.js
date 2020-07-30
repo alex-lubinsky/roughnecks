@@ -3,6 +3,7 @@ import { startSetItems, startUpdateItem } from "../actions/items";
 import { connect } from "react-redux";
 import SkymallTable from './SkymallTable'
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
 
 class SkymallAdmin extends React.Component {
 
@@ -10,7 +11,8 @@ class SkymallAdmin extends React.Component {
     super(props);
 
     this.state = {
-      filter: ""
+      filter: "",
+      showAlert: false,
     };
   }
 
@@ -25,12 +27,21 @@ class SkymallAdmin extends React.Component {
 
   onAddItemClick = (e) => {
     const itemId = e.target.getAttribute("data-key");
-    const foundItem = this.props.items.find(
-      (item) => item.id.toString() === itemId
-    );
-    this.props.startUpdateItem(foundItem.id, {
-      numberInSkymall: foundItem.numberInSkymall + 1,
-    });
+    const qty = e.target.getAttribute("data-qty");
+    console.log(qty)
+
+    if (!Number.isInteger(Number(qty))) {
+      this.setState({showAlert: true})
+    } else {
+      const foundItem = this.props.items.find(
+        (item) => item.id.toString() === itemId
+      );
+      const newQty = parseInt(foundItem.numberInSkymall) + parseInt(qty)
+
+      this.props.startUpdateItem(foundItem.id, {
+        numberInSkymall: newQty,
+      });
+    }
   };
 
   render() {
@@ -47,6 +58,11 @@ class SkymallAdmin extends React.Component {
 
     return (
       <div className="div-margin-sm">
+        <Alert show={this.state.showAlert} variant="danger" onClose={() => this.setState({showAlert: false})} dismissible>
+          <Alert.Heading>There was an Issue!</Alert.Heading>
+          <p>You must make the quantity to add a whole number.</p>
+        </Alert>
+
         <h1>Skymall Admin</h1>
         <Form.Group>
           <Form.Label>Filter</Form.Label>

@@ -13,6 +13,7 @@ import { startSetCharacters } from "../actions/characters";
 import ValidationMessage from "./ValidationMessage";
 import SkymallTable from "./SkymallTable";
 import Form from "react-bootstrap/Form";
+import Alert from 'react-bootstrap/Alert';
 
 class Skymall extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Skymall extends React.Component {
       purchaseValid: true,
       errorMsg: {},
       filter: "",
+      showAlert:false,
     };
   }
 
@@ -45,9 +47,14 @@ class Skymall extends React.Component {
 
   onBuyItemClick = (e) => {
     const itemId = e.target.getAttribute("data-key");
+    const qty = e.target.getAttribute("data-qty");
     const foundItem = this.props.items.find(
       (item) => item.id.toString() === itemId
     );
+    if (!Number.isInteger(Number(qty)) || foundItem.numberInSkymall < qty) {
+      this.setState({showAlert: true})
+    }
+
     const { gold, silver, copper } = totalBalance(
       this.props.transactions.filter((transaction) =>
         transaction.characters.some(
@@ -55,6 +62,7 @@ class Skymall extends React.Component {
         )
       )
     );
+
     if (this.state.character === "") {
       this.setState({
         purchaseValid: false,
@@ -63,9 +71,9 @@ class Skymall extends React.Component {
         },
       });
     } else if (
-      parseFloat(
+      (parseFloat(
         `${foundItem.costGold}.${foundItem.costSilver}${foundItem.costCopper}`
-      ) > parseFloat(`${gold}.${silver}${copper}`)
+      ) * qty) > parseFloat(`${gold}.${silver}${copper}`)
     ) {
       this.setState({
         purchaseValid: false,
@@ -74,17 +82,23 @@ class Skymall extends React.Component {
     } else {
       this.setState({ purchaseValid: true, errorMsg: {} });
       this.props.startUpdateItem(foundItem.id, {
-        numberInSkymall: foundItem.numberInSkymall - 1,
+        numberInSkymall: foundItem.numberInSkymall - qty,
       });
       this.props.startAddItemsOwned({
         item: foundItem.id,
         character: this.state.character.value,
+        qty: qty,
       });
+
+      const goldCost = foundItem.costGold * qty
+      const silverCost = foundItem.costSilver * qty
+      const copperCost = foundItem.costCopper * qty
+
       this.props.startaddTransaction({
-        name: `Bought ${foundItem.name}`,
-        goldPcs: foundItem.costGold,
-        silverPcs: foundItem.costSilver,
-        copperPcs: foundItem.costCopper,
+        name: `Bought ${foundItem.name} (x${qty})`,
+        goldPcs: goldCost,
+        silverPcs: silverCost,
+        copperPcs: copperCost,
         mission: this.props.missions.find(
           (mission) => mission.name === "Skymall"
         ).id,
@@ -123,6 +137,10 @@ class Skymall extends React.Component {
 
     return (
       <div className="div-margin-sm">
+        <Alert show={this.state.showAlert} variant="danger" onClose={() => this.setState({showAlert: false})} dismissible>
+          <Alert.Heading>There was an Issue!</Alert.Heading>
+          <p>You must make the quantity to buy a whole number and must be less than or equal to number currently in the skymall.</p>
+        </Alert>
         <h1>Skymall</h1>
         {this.props.charactersIsLoading ||
         this.props.transactionsIsLoading ? null : (

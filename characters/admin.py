@@ -44,6 +44,6 @@ class ItemAdmin(admin.ModelAdmin):
 admin.site.register(Item, ItemAdmin)
 
 class ItemsOwnedAdmin(admin.ModelAdmin):
-  list_display = ('id', 'item', 'character')
+  list_display = ('id', 'item', 'character', 'qty')
 
 admin.site.register(ItemsOwned, ItemsOwnedAdmin)
