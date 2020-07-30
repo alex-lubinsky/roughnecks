@@ -2,7 +2,7 @@ import React from 'react';
 
 const DowntimeTable = (props) => {
   return(
-    <table className="downtime-list downtime-table">
+    <table className="downtime-list mission-table">
       <thead>
         <tr>
           <th>Character</th>

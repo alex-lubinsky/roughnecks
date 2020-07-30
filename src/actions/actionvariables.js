@@ -30,6 +30,7 @@ export const ITEMS_LOADING = "ITEMS_LOADING";
 export const SET_ITEMS_OWNED = "SET_ITEMS_OWNED";
 export const ADD_ITEMS_OWNED = "ADD_ITEMS_OWNED";
 export const ITEMS_OWNED_LOADING = "ITEMS_OWNED_LOADING";
+export const REMOVE_ITEM_OWNED = "REMOVE_ITEM_OWNED";
 
 // Mission Action Types
 export const ADD_MISSION = "ADD_MISSION";

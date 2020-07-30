@@ -4,6 +4,7 @@ import {
   SET_ITEMS_OWNED,
   ADD_ITEMS_OWNED,
   ITEMS_OWNED_LOADING,
+  REMOVE_ITEM_OWNED,
 } from "./actionvariables";
 
 const setItemsOwned = (itemsOwned) => ({
@@ -49,3 +50,21 @@ export const startAddItemsOwned = (itemsOwnedData = {}) => {
       });
   };
 };
+
+
+const removeItemOwned = (id) => ({
+  type: REMOVE_ITEM_OWNED,
+  id
+})
+
+export const startRemoveItemOwned = (id) => {
+  return (dispatch, getState) => {
+    return axios
+      .delete(`/api/itemsowned/${id}/`, tokenConfig(getState().auth.token))
+      .then((res) => {
+        dispatch(removeItemOwned(id));
+      }).catch(err => {
+        console.log(err.response)
+      })
+  }
+} 

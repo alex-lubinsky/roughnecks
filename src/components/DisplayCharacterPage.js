@@ -25,6 +25,11 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import { getDowntimeDays } from '../functions/levels'
+import ItemsOwnedTable from './ItemsOwnedTable';
+import { startSetItems } from '../actions/items'
+import { startSetItemsOwned } from '../actions/itemsowned';
+import { startaddTransaction } from '../actions/transactions';
+import { startRemoveItemOwned } from '../actions/itemsowned';
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -44,6 +49,8 @@ class DisplayCharacterPage extends React.Component {
     this.props.startSetSubclasses();
     this.props.startSetRaces();
     this.props.startSetDowntime();
+    this.props.startSetItems();
+    this.props.startSetItemsOwned()
   }
 
   handleLevelUpClose = () => {
@@ -67,6 +74,32 @@ class DisplayCharacterPage extends React.Component {
     this.handleKillPCClose();
   };
 
+  sellItem = (itemId) => {
+    const itemsOwned = this.props.itemsOwned.find(item => item.id.toString() === itemId)
+    const item = this.props.items.find(item => item.id === itemsOwned.item)
+    const total = parseFloat(`${item.costGold}.${item.costSilver}${item.costCopper}`)
+
+    const gold = Math.floor(total/2)
+    const silver = Math.floor((total/2 - gold) * 10)
+    const copper = Math.floor((((total/2 - gold) * 10) - silver) * 10)
+    console.log(gold, silver, copper)
+
+    this.props.startaddTransaction({
+      name: `Sold ${item.name}`,
+        goldPcs: gold,
+        silverPcs: silver,
+        copperPcs: copper,
+        mission: this.props.missions.find(
+          (mission) => mission.name === "Skymall"
+        ).id,
+        characters: [this.props.characterid],
+        airshipPot: false,
+        earnedSpent: 1,
+    })
+    
+    this.props.startRemoveItemOwned(itemsOwned.id)
+  }
+
   render() {
     return (
       <div className="div-margin-sm">
@@ -76,7 +109,9 @@ class DisplayCharacterPage extends React.Component {
         this.props.racesIsLoading ||
         this.props.subclassesIsLoading ||
         this.props.transactionsIsLoading ||
-        this.props.downtimeIsLoading ? null : (
+        this.props.downtimeIsLoading || 
+        this.props.itemsIsLoading || 
+        this.props.itemsOwnedIsLoading ? null : (
           <div>
             <Modal show={this.state.showKillPCModal} onHide={this.handleKillPCClose}>
               <Modal.Header closeButton>
@@ -242,26 +277,43 @@ class DisplayCharacterPage extends React.Component {
                   </ul>
                 </Col>
               </Row>
+              <Row>
+                <Col>
+                  <TransactionsTable
+                    transactions={this.props.transactions.filter((transaction) =>
+                      transaction.characters.some(
+                        (character) => character === this.props.characterid
+                      )
+                    )}
+                    characters={this.props.characters}
+                    missions={this.props.missions}
+                  />
+                </Col>
+              </Row>
+              <Row className="margin-top margin-bottom">
+                <Col className="mission-table">
+                  {this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid).length === 0 ?
+                    null : 
+                    <div>
+                      <h3>Downtime Spent:</h3>
+                      <DowntimeTable 
+                        characters={this.props.characters} 
+                        downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)} 
+                      />
+                    </div>
+                  }
+                </Col>
+                <Col>
+                  <h3>Items Owned</h3>
+                  <ItemsOwnedTable
+                    items={this.props.items}
+                    itemsOwned={this.props.itemsOwned}
+                    onClick={this.sellItem}
+                  />
+                </Col>
+              </Row>
             </Container>
-            <TransactionsTable
-              transactions={this.props.transactions.filter((transaction) =>
-                transaction.characters.some(
-                  (character) => character === this.props.characterid
-                )
-              )}
-              characters={this.props.characters}
-              missions={this.props.missions}
-            />
-            {this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid).length === 0 ?
-              null : 
-              <div className="margin-top margin-bottom">
-                <h3>Downtime Spent:</h3>
-                <DowntimeTable 
-                  characters={this.props.characters} 
-                  downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)} 
-                />
-              </div>
-            }
+            
           </div>
         )}
       </div>
@@ -279,6 +331,12 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetDowntime: () => dispatch(startSetDowntime()),
   startUpdateCharacter: (id, updates) =>
     dispatch(startUpdateCharacter(id, updates)),
+  startSetItems: () => dispatch(startSetItems()),
+  startSetItemsOwned: () => dispatch(startSetItemsOwned()),
+  startaddTransaction: (transaction) =>
+    dispatch(startaddTransaction(transaction)),
+  startRemoveItemOwned: (id) => dispatch(startRemoveItemOwned(id)),
+
 });
 
 const mapStateToProps = (state, props) => ({
@@ -294,6 +352,9 @@ const mapStateToProps = (state, props) => ({
   characters: state.characters.data,
   userid: state.auth.user.id,
   downtime: state.downtime.data,
+  items: state.items.data,
+  itemsOwned: state.itemsOwned.data,
+  
 
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
   missionsIsLoading: state.missions.isLoading,
@@ -302,6 +363,8 @@ const mapStateToProps = (state, props) => ({
   transactionsIsLoading: state.transactions.isLoading,
   charactersIsLoading: state.characters.isLoading,
   downtimeIsLoading: state.downtime.isLoading,
+  itemsOwnedIsLoading: state.itemsOwned.isLoading,
+  itemsIsLoading: state.items.isLoading,
 
 });
 
