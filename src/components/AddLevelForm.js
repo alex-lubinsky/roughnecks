@@ -9,7 +9,7 @@ const AddLevelForm = (props) => {
   return (
     <div>
       <Modal.Header closeButton>
-        <h1>{` Add Level for ${props.character.firstName}`}</h1>
+        <h1>{` Add Level for ${props.character.fullName}`}</h1>
       </Modal.Header>
       
       <LevelUpForm

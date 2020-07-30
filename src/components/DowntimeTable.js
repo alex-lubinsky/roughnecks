@@ -16,7 +16,7 @@ const DowntimeTable = (props) => {
           return(
             <tr key={downtime.id} className="downtime-row">
               {props.characters.filter(character => character.id === downtime.character).map(character => {
-                return <td key={character.id}>{`${character.firstName} ${character.lastName}`}</td>
+                return <td key={character.id}>{`${character.fullName}`}</td>
               })}
               <td>{downtime.numOfDaysSpent}</td>
               <td>{downtime.downtimeDisplayType}</td>

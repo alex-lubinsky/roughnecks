@@ -64,7 +64,7 @@ class HeroTable extends React.Component {
             .filter((character) => {
               return character.dead === this.props.fallen;
             })
-            .map((character) => {
+            .sort((a,b) => (a.fullName > b.fullName) ? 1 : -1).map((character) => {
               return (
                 <CharacterRow
                   key={character.id}

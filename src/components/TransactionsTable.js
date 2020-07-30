@@ -63,7 +63,7 @@ const TransactionsTable = (props) => {
                           );
                           return (
                             <li key={character.id}>
-                              {character.firstName} {character.lastName}
+                              {character.fullName}
                             </li>
                           );
                         })}
@@ -109,7 +109,7 @@ const TransactionsTable = (props) => {
                             );
                             return (
                               <li key={character.id}>
-                                {character.firstName} {character.lastName}
+                                {character.fullName}
                               </li>
                             );
                           })}                 

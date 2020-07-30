@@ -49,7 +49,7 @@ class Character(models.Model):
   ]
 
   firstName = models.CharField(max_length=255)
-  lastName = models.CharField(max_length=255, blank=True, null=True)
+  lastName = models.CharField(max_length=255, blank=True)
   raceName = models.ForeignKey(CharacterRace, on_delete=models.SET_NULL, null=True)
   dateCreated = models.DateField(default=datetime.date.today, blank=True, null=True)
   maxHp = models.IntegerField(blank=True, null=True)
@@ -58,6 +58,10 @@ class Character(models.Model):
   altVision = models.CharField(max_length=4, choices=ALT_VISION_CHOICES, default='NORM')
   creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
   dead = models.BooleanField(default=False)
+
+  @property
+  def fullName(self):
+    return '%s %s' % (self.firstName, self.lastName)
 
   def __str__(self):
     return self.firstName

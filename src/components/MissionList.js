@@ -52,7 +52,7 @@ class MissionList extends React.Component {
                     <td>
                       {`Min: ${mission.levelMin} Max: ${mission.levelMax}`}
                     </td>
-                    <td>{`${dm.firstName} ${dm.lastName}`}</td>
+                    <td>{`${dm.fullName}`}</td>
                     <td>
                       <ul className="character-list">
                         {mission.characters.map((pc) => {
@@ -62,7 +62,7 @@ class MissionList extends React.Component {
                           return (
                             <li
                               key={character.id}
-                            >{`${character.firstName} ${character.lastName}`}</li>
+                            >{`${character.fullName}`}</li>
                           );
                         })}
                       </ul>

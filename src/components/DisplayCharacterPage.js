@@ -121,8 +121,7 @@ class DisplayCharacterPage extends React.Component {
                 <Container>
                   <Row>
                     <Button onClick={this.killPcConfirm} variant="danger">
-                      Yes, {this.props.character.firstName}{" "}
-                      {this.props.character.lastName} died a glorious death in battle.
+                      Yes, {this.props.character.fullName} died a glorious death in battle.
                     </Button>
                   </Row>
                   <Row>
@@ -146,11 +145,7 @@ class DisplayCharacterPage extends React.Component {
               <Row>
                 <Col>
                   <h1>
-                    {`${this.props.character.firstName}${
-                      this.props.character.lastName === ""
-                        ? ""
-                        : " " + this.props.character.lastName
-                    }${this.props.character.dead ? ": Dead" : ""}`}
+                    {`${this.props.character.fullName} ${this.props.character.dead ? ": Dead" : ""}`}
                   </h1>    
                 </Col>
                 <Col>        

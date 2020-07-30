@@ -66,7 +66,7 @@ class DisplayMissionPage extends React.Component {
               </span> */}
               <p>Played on: {this.props.mission.playedOn}</p>
               <p>
-                DM: {dm.firstName} {dm.lastName}
+                DM: {dm.fullName}
               </p>
               Players:{" "}
               <ul>
@@ -74,7 +74,7 @@ class DisplayMissionPage extends React.Component {
                 const character = this.props.characters.find(
                   (character) => character.id === pc
                 );
-                return <li key={character.id}>{`${character.firstName} ${character.lastName}`}</li>;
+                return <li key={character.id}>{`${character.fullName}`}</li>;
               })}
               </ul>
               <TransactionsTable

@@ -226,7 +226,7 @@ class MissionForm extends React.Component {
   selectDMOptions = this.props.characters.map((character) => {
     return {
       value: character.id,
-      label: character.firstName + " " + character.lastName,
+      label: character.fullName,
     };
   });
 
@@ -235,7 +235,7 @@ class MissionForm extends React.Component {
       (character) => {
         return {
           value: character.id,
-          label: character.firstName + " " + character.lastName,
+          label: character.fullName,
         };
       }
     );

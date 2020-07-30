@@ -122,7 +122,7 @@ class LevelUpForm extends React.Component {
                     step="1"
                     value={this.state.passivePerception}
                     onChange={this.onPassivePerceptionChange}
-                    placeholder={`Enter ${this.props.character.firstName}'s Passive Perception`}
+                    placeholder={`Enter ${this.props.character.fullName}'s Passive Perception`}
                   />
                 </Form.Group>
               </Col>
@@ -138,7 +138,7 @@ class LevelUpForm extends React.Component {
                     step="1"
                     value={this.state.maxHp}
                     onChange={this.onMaxHpChange}
-                    placeholder={`Enter ${this.props.character.firstName}'s Max HP`}
+                    placeholder={`Enter ${this.props.character.fullName}'s Max HP`}
                   />
                 </Form.Group>
               </Col>

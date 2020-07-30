@@ -280,7 +280,7 @@ class TransactionForm extends React.Component {
     const selectCharacterOptions = this.props.characters.map((character) => {
       return {
         value: character.id,
-        label: character.firstName + " " + character.lastName,
+        label: character.fullName,
       };
     });
 

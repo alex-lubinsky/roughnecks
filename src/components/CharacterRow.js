@@ -38,7 +38,7 @@ const CharacterRow = (props) => {
           to={`/characters/${props.character.id}`}
           activeClassName="is-active"
         >
-          {`${props.character.firstName} ${props.character.lastName}`}
+          {`${props.character.fullName}`}
         </NavLink>
       </td>
       <td>
