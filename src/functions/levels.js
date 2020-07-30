@@ -77,14 +77,29 @@ export const getDowntimeDays = (missions, character, downtime, pcLevels) => {
   return downtimeDayTotal - downtimeSpent;
 };
 
-export const getCheckmarks = (missions, character) => {
+export const getCheckmarks = (missions, character, downtime) => {
   const dmCount = missions.filter((mission) => mission.dm === character.id)
     .length;
   const playerCount = missions.filter((mission) =>
     mission.characters.some((pc) => pc === character.id)
   ).length;
+  const downtimeCheckmarks = Math.floor(
+    downtime
+      .filter((dtTransaction) => {
+        return (
+          dtTransaction.downtimeType === "TR" &&
+          dtTransaction.character === character.id
+        );
+      })
+      .map((transaction) => {
+        return transaction.numOfDaysSpent;
+      })
+      .reduce((accumulator, currentValue) => {
+        return accumulator + currentValue;
+      }, 0) / 10
+  )
 
-  return dmCount + playerCount;
+  return dmCount + playerCount + downtimeCheckmarks;
 };
 
 export const getLevel = (checkmarks) => {

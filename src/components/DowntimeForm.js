@@ -15,6 +15,7 @@ import Col from "react-bootstrap/Col";
 import Container from 'react-bootstrap/Container';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdClose } from 'react-icons/io';
+import { startSetDowntime } from '../actions/downtime';
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class DowntimeForm extends React.Component {
     this.props.startSetMissions();
     this.props.startSetTransactions();
     this.props.startSetPCSubclasses();
+    this.props.startSetDowntime();
   }
 
   onDescriptionChange = (e) => {
@@ -120,8 +122,8 @@ class DowntimeForm extends React.Component {
       characterDowntime: getDowntimeDays(
         this.props.missions.filter((mission) => mission.visable === true),
         character,
-        this.props.transactions.filter((transaction) =>
-          transaction.characters.some((pc) => pc.id === character.id)
+        this.props.downtime.filter(dtt =>
+          dtt.character === character.id
         ),
         this.props.pcSubclasses.filter(
           (pcLevel) => pcLevel.classCharacter === character.id
@@ -185,7 +187,7 @@ class DowntimeForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  {this.state.character !== "" ? (
+                  {(this.state.character !== "" && !this.props.downtimeIsLoading) ? (
                     <>
                       {this.state.character.label} has {this.state.characterDowntime}{" "}
                       downtime days available
@@ -301,6 +303,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetMissions: () => dispatch(startSetMissions()),
   startSetTransactions: () => dispatch(startSetTransactions()),
   startSetPCSubclasses: () => dispatch(startSetPCSubclasses()),
+  startSetDowntime: () => dispatch(startSetDowntime()),
 });
 
 const mapStateToProps = (state, props) => ({
@@ -312,11 +315,13 @@ const mapStateToProps = (state, props) => ({
   missions: state.missions.data,
   transactions: state.transactions.data,
   pcSubclasses: state.pcSubclasses.data,
+  downtime: state.downtime.data,
 
   missionsIsLoading: state.missions.isLoading,
   charactersIsLoading: state.characters.isLoading,
   transactionsIsLoading: state.transactions.isLoading,
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
+  downtimeIsLoading: state.downtime.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DowntimeForm);

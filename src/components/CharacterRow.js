@@ -7,22 +7,7 @@ import CharacterRowIcon from './CharacterRowIcon';
 
 const CharacterRow = (props) => {
   const checkmarks =
-    getCheckmarks(props.missions, props.character) +
-    Math.floor(
-      props.downtime
-        .filter((dtTransaction) => {
-          return (
-            dtTransaction.downtimeType === "TR" &&
-            dtTransaction.character === props.character.id
-          );
-        })
-        .map((transaction) => {
-          return transaction.numOfDaysSpent;
-        })
-        .reduce((accumulator, currentValue) => {
-          return accumulator + currentValue;
-        }, 0) / 10
-    );
+    getCheckmarks(props.missions, props.character, props.downtime)
 
   return (
     <>

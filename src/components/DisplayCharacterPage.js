@@ -7,7 +7,7 @@ import TotalSpentMoney from "./TotalSpentMoney";
 import TotalBalanceMoney from "./TotalBalanceMoney";
 import Modal from "react-bootstrap/Modal";
 import AddLevelForm from "./AddLevelForm";
-import { getLevel } from "../functions/levels";
+import { getLevel, getCheckmarks } from "../functions/levels";
 import {
   startSetCharacters,
   startUpdateCharacter,
@@ -82,7 +82,6 @@ class DisplayCharacterPage extends React.Component {
     const gold = Math.floor((itemsOwned.qty*total)/2)
     const silver = Math.floor(((itemsOwned.qty*total)/2 - gold) * 10)
     const copper = Math.floor(((((itemsOwned.qty*total)/2 - gold) * 10) - silver) * 10)
-    console.log(gold, silver, copper)
 
     this.props.startaddTransaction({
       name: `Sold ${item.name} (x${itemsOwned.qty})`,
@@ -148,21 +147,13 @@ class DisplayCharacterPage extends React.Component {
                     {`${this.props.character.fullName} ${this.props.character.dead ? ": Dead" : ""}`}
                   </h1>    
                 </Col>
-                <Col>        
+                <Col>  
                   {this.props.pcSubclasses.filter(
                     (pcSubclass) =>
                       pcSubclass.classCharacter === this.props.characterid
                   ).length <
-                    getLevel(
-                      this.props.missions.filter((mission) =>
-                        mission.characters.some(
-                          (character) => character === this.props.characterid
-                        )
-                      ).length +
-                        this.props.missions.filter(
-                          (mission) => mission.dm === this.props.characterid
-                        ).length
-                    ) && this.props.character.creator === this.props.userid ? (
+                    getLevel(getCheckmarks(this.props.missions, this.props.character, this.props.downtime)) 
+                      && this.props.character.creator === this.props.userid ? (
                     <Button variant="success" className="margin-right" onClick={this.handleLevelUpShow}>
                       Level Up!
                     </Button>

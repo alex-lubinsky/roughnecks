@@ -28,7 +28,6 @@ class SkymallAdmin extends React.Component {
   onAddItemClick = (e) => {
     const itemId = e.target.getAttribute("data-key");
     const qty = e.target.getAttribute("data-qty");
-    console.log(qty)
 
     if (!Number.isInteger(Number(qty)) || qty < 1) {
       this.setState({showAlert: true})
