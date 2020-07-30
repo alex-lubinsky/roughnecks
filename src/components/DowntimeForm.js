@@ -25,6 +25,7 @@ class DowntimeForm extends React.Component {
       descriptionValid: false,
       downtimeType: "",
       downtimeTypeValid: false,
+      downtimeTypeExplaination: '',
       character: "",
       characterValid: false,
       numOfDaysSpent: 0,
@@ -33,8 +34,8 @@ class DowntimeForm extends React.Component {
       formValid: false,
       characterDowntime: 0,
       selectDowntimeTypeOptions: [
-        { value: "TR", label: "Training Room" },
-        { value: "MC", label: "Miscellaneous" },
+        { value: "TR", label: "Training Room", explaination: "Spend 10 downtime days to earn 1 checkmark." },
+        { value: "MC", label: "Miscellaneous", explaination: "This is a catch all for activities that we have not yet defined. Please make sure you tell us what this is used for in the description" },
       ],
     };
   }
@@ -93,7 +94,8 @@ class DowntimeForm extends React.Component {
 
   onDowntimeTypeChange = (selectedValue) => {
     const downtimeType = selectedValue;
-    this.setState({ downtimeType }, this.validateDowntimeType);
+    this.setState({ downtimeType }, this.validateDowntimeType)
+    this.setState({ downtimeTypeExplaination: selectedValue.explaination});
   };
 
   validateDowntimeType = () => {
@@ -226,7 +228,9 @@ class DowntimeForm extends React.Component {
                     options={this.state.selectDowntimeTypeOptions}
                     value={this.state.downtimeType}
                     onChange={this.onDowntimeTypeChange}
+                    styles={{container: (provided, state) => ({...provided, marginBottom: '15px'})}}
                   />
+                  <div>{this.state.downtimeTypeExplaination}</div>
                   <ValidationMessage
                     valid={this.state.downtimeTypeValid}
                     message={this.state.errorMsg.downtimeType}

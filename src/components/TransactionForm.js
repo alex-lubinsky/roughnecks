@@ -63,7 +63,7 @@ class TransactionForm extends React.Component {
   };
 
   onAirshipPotChange = (e) => {
-    const airshipPot = !!e.target.value;
+    const airshipPot = e.target.checked;
     this.setState({ airshipPot });
   };
 
