@@ -18,7 +18,8 @@ const ItemsOwnedTable = (props) => {
           <th>Silver</th>
           <th>Copper</th>
           <th>Description</th>
-          <th>Sell</th>
+          <th>Qty</th>
+          {props.hasSellPermission ? <th>Sell</th> : null}
         </tr>
       </thead>
       <tbody>
@@ -31,7 +32,10 @@ const ItemsOwnedTable = (props) => {
               <td>{item.costSilver}</td>
               <td>{item.costCopper}</td>
               <td>{item.description}</td>
-              <td><Button onClick={onClick} data-key={ownedItem.id}>Sell Item</Button></td>
+              <td>{ownedItem.qty}</td>
+              {props.hasSellPermission ?
+                <td><Button onClick={onClick} data-key={ownedItem.id}>Sell Item</Button></td>
+              : null}
             </tr>
           )
         })}

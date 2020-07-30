@@ -79,13 +79,13 @@ class DisplayCharacterPage extends React.Component {
     const item = this.props.items.find(item => item.id === itemsOwned.item)
     const total = parseFloat(`${item.costGold}.${item.costSilver}${item.costCopper}`)
 
-    const gold = Math.floor(total/2)
-    const silver = Math.floor((total/2 - gold) * 10)
-    const copper = Math.floor((((total/2 - gold) * 10) - silver) * 10)
+    const gold = Math.floor((itemsOwned.qty*total)/2)
+    const silver = Math.floor(((itemsOwned.qty*total)/2 - gold) * 10)
+    const copper = Math.floor(((((itemsOwned.qty*total)/2 - gold) * 10) - silver) * 10)
     console.log(gold, silver, copper)
 
     this.props.startaddTransaction({
-      name: `Sold ${item.name}`,
+      name: `Sold ${item.name} (x${itemsOwned.qty})`,
         goldPcs: gold,
         silverPcs: silver,
         copperPcs: copper,
@@ -304,6 +304,7 @@ class DisplayCharacterPage extends React.Component {
                     items={this.props.items}
                     itemsOwned={this.props.itemsOwned}
                     onClick={this.sellItem}
+                    hasSellPermission={(this.props.user.id === this.props.character.creator || this.props.user.is_staff) ? true : false}
                   />
                 </Col>
               </Row>
@@ -349,6 +350,7 @@ const mapStateToProps = (state, props) => ({
   downtime: state.downtime.data,
   items: state.items.data,
   itemsOwned: state.itemsOwned.data,
+  user: state.auth.user,
   
 
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,

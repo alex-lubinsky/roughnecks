@@ -28,7 +28,7 @@ const TransactionsTable = (props) => {
               {props.transactions
                 .filter((transaction) => {
                   return transaction.earnedSpent === 1;
-                })
+                }).sort((a,b) => (a.episode >= b.episode) ? 1 : -1)
                 .map((transaction) => {
                   return (
                     <tr key={transaction.id} className="transaction-row">
