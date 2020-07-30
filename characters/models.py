@@ -128,6 +128,7 @@ class Item(models.Model):
     ('Armor', 'Armor'),
     ('Gear', 'Gear'),
     ('Magic', 'Magic'),
+    ('Component', 'Component'),
   ]
 
   name = models.CharField(max_length=255)
@@ -139,7 +140,7 @@ class Item(models.Model):
   canBePurchasesBy = models.ManyToManyField(Character, related_name="itemPurchasedBy", blank=True)
   allPcsCanPurchase = models.BooleanField(default=True)
   downtimeCost = models.IntegerField(default=0)
-  typeOfItem = models.CharField(choices = ITEM_TYPE_CHOICES, max_length=6, default='Gear')
+  typeOfItem = models.CharField(choices = ITEM_TYPE_CHOICES, max_length=10, default='Gear')
 
 
   def __str__(self):
