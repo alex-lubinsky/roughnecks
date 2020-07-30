@@ -30,7 +30,7 @@ class SkymallAdmin extends React.Component {
     const qty = e.target.getAttribute("data-qty");
     console.log(qty)
 
-    if (!Number.isInteger(Number(qty))) {
+    if (!Number.isInteger(Number(qty)) || qty < 1) {
       this.setState({showAlert: true})
     } else {
       const foundItem = this.props.items.find(

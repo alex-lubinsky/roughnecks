@@ -51,7 +51,7 @@ class Skymall extends React.Component {
     const foundItem = this.props.items.find(
       (item) => item.id.toString() === itemId
     );
-    if (!Number.isInteger(Number(qty)) || foundItem.numberInSkymall < qty) {
+    if (!Number.isInteger(Number(qty)) || foundItem.numberInSkymall < qty || qty < 1) {
       this.setState({showAlert: true})
     }
 
