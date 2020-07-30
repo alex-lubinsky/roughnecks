@@ -293,7 +293,7 @@ class DisplayCharacterPage extends React.Component {
                   <h3>Items Owned</h3>
                   <ItemsOwnedTable
                     items={this.props.items}
-                    itemsOwned={this.props.itemsOwned}
+                    itemsOwned={this.props.itemsOwned.filter(io => io.character === this.props.characterid)}
                     onClick={this.sellItem}
                     hasSellPermission={(this.props.user.id === this.props.character.creator || this.props.user.is_staff) ? true : false}
                   />
