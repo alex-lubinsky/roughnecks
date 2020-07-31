@@ -58,7 +58,8 @@ export const getDowntimeDays = (missions, character, downtime, pcLevels) => {
       if (
         mission.playedOn >= character.dateCreated &&
         levelAtTimeOfMission >= mission.levelMin &&
-        levelAtTimeOfMission <= mission.levelMax
+        levelAtTimeOfMission <= mission.levelMax &&
+        character.dateOfDeath <= mission.playedOn
       ) {
         downtimeDayTotal += 2;
       }
@@ -99,7 +100,7 @@ export const getCheckmarks = (missions, character, downtime) => {
       }, 0) / 10
   )
 
-  return dmCount + playerCount + downtimeCheckmarks;
+  return dmCount + playerCount + downtimeCheckmarks + character.startingCheckmarks;
 };
 
 export const getLevel = (checkmarks) => {

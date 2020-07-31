@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 
 class CharacterAdmin(admin.ModelAdmin):
-  list_display = ('id', 'firstName', 'lastName', 'dateCreated', 'creator', 'dead')
+  list_display = ('id', 'firstName', 'lastName', 'dateCreated', 'creator', 'dead', 'startingCheckmarks')
 
 admin.site.register(Character, CharacterAdmin)
 

@@ -4,7 +4,7 @@ from .models import *
 class CharacterSerializer(serializers.ModelSerializer):
   class Meta:
       model = Character
-      fields = ('id', 'firstName', 'lastName', 'raceName', 'maxHp', 'armorClass', 'passivePerception', 'dateCreated', 'creator', 'altVision', 'fullName', 'dead')
+      fields = ('id', 'firstName', 'lastName', 'raceName', 'maxHp', 'armorClass', 'passivePerception', 'dateCreated', 'creator', 'altVision', 'fullName', 'dead', 'startingCheckmarks', 'dateOfDeath')
 
 class CharacterRaceSerializer(serializers.ModelSerializer):
   class Meta:

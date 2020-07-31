@@ -76,7 +76,8 @@ const CharacterRow = (props) => {
           if (
             mission.playedOn >= props.character.dateCreated &&
             levelAtTimeOfMission >= mission.levelMin &&
-            levelAtTimeOfMission <= mission.levelMax
+            levelAtTimeOfMission <= mission.levelMax &&
+            props.character.dateOfDeath >= mission.playedOn
           ) {
             iconName = "na";
           }

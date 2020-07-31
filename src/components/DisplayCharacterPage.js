@@ -70,7 +70,12 @@ class DisplayCharacterPage extends React.Component {
   };
 
   killPcConfirm = () => {
-    this.props.startUpdateCharacter(this.props.character.id, { dead: true });
+    const date = new Date();
+    this.props.startUpdateCharacter(this.props.character.id, { 
+      dead: true, 
+      dateOfDeath: `${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}`, });
     this.handleKillPCClose();
   };
 
@@ -158,7 +163,7 @@ class DisplayCharacterPage extends React.Component {
                       Level Up!
                     </Button>
                   ) : null}
-                  {this.props.character.creator === this.props.userid ? (
+                  {this.props.character.creator === this.props.userid && this.props.character.dead === false ? (
                     <Button onClick={this.handleKillPCShow} variant="danger">
                       Character Died
                     </Button>
