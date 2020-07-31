@@ -58,7 +58,7 @@ class Character(models.Model):
   altVision = models.CharField(max_length=4, choices=ALT_VISION_CHOICES, default='NORM')
   creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
   dead = models.BooleanField(default=False)
-  dateOfDeath = models.DateField(null=True)
+  dateOfDeath = models.DateField(null=True, blank=True)
   startingCheckmarks = models.IntegerField(default=0)
 
   @property
