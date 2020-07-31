@@ -4,7 +4,7 @@ from .models import *
 class CharacterSerializer(serializers.ModelSerializer):
   class Meta:
       model = Character
-      fields = ('id', 'firstName', 'lastName', 'raceName', 'maxHp', 'armorClass', 'passivePerception', 'dateCreated', 'creator', 'altVision', 'dead')
+      fields = ('id', 'firstName', 'lastName', 'raceName', 'maxHp', 'armorClass', 'passivePerception', 'dateCreated', 'creator', 'altVision', 'fullName', 'dead', 'startingCheckmarks', 'dateOfDeath')
 
 class CharacterRaceSerializer(serializers.ModelSerializer):
   class Meta:
@@ -12,16 +12,18 @@ class CharacterRaceSerializer(serializers.ModelSerializer):
       fields = ('id', 'raceName')
 
 class PlayerCharacterClassSerializer(serializers.ModelSerializer):
+  dateCreated = serializers.DateField(input_formats=['%d-%m-%Y','iso-8601'])
+
   class Meta:
       model = PlayerCharacterClass
-      fields = ('id', 'playerClass', 'classCharacter')
+      fields = ('id', 'playerClass', 'classCharacter', 'levelNumber', 'dateCreated')
 
 class MissionSerializer(serializers.ModelSerializer):
   playedOn = serializers.DateField(input_formats=['%d-%m-%Y','iso-8601'])
 
   class Meta:
       model = Mission
-      fields = ('id', 'name', 'dm', 'characters', 'playedOn', 'visable')
+      fields = ('id', 'name', 'dm', 'characters', 'playedOn', 'visable', 'episode', 'levelMin', 'levelMax')
 
 class CharacterSubClassSerializer(serializers.ModelSerializer):
   class Meta:
@@ -42,28 +44,21 @@ class TransactionSerializer(serializers.ModelSerializer):
     fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent')
 
 class DowntimeSerializer(serializers.ModelSerializer):
+  downtimeDisplayType = serializers.CharField(source='get_downtimeType_display', read_only=True)
 
   class Meta:
     model = Downtime
-    fields = ('id', 'description', 'downtimeType', 'character', 'numOfDaysSpent')
+    fields = ('id', 'description', 'downtimeType', 'character', 'numOfDaysSpent', 'downtimeDisplayType')
+    read_only_fields = ['downtimeDisplayType']
 
 class ItemSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Item
-    fields = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall')
+    fields = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall', 'canBePurchasesBy', 'allPcsCanPurchase', 'downtimeCost', 'typeOfItem')
 
 class ItemsOwnedSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = ItemsOwned
-    fields = ('id', 'item', 'character')
-
-
-class TransactionQuerySerializer(serializers.ModelSerializer):
-  mission = MissionSerializer()
-  characters = CharacterSerializer(many=True)
-
-  class Meta:
-    model = Transaction
-    fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent')
+    fields = ('id', 'item', 'character', 'qty')

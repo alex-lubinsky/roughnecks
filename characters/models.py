@@ -22,6 +22,15 @@ class CharacterSubClass(models.Model):
     ('Bard', 'Bard'),
     ('Druid', 'Druid'),
     ('Barbarian', 'Barbarian'),
+    ('Druid', 'Druid'),
+    ('Monk', 'Monk'),
+    ('Paladin', 'Paladin'),
+    ('Ranger', 'Ranger'),
+    ('Rogue', 'Rogue'),
+    ('Sorcerer', 'Sorcerer'),
+    ('Warlock', 'Warlock'),
+    ("Artificer", "Artificer"),
+    ("Blood Hunter", "Blood Hunter")    
   ]
 
   className = models.CharField(max_length=255, choices=CLASS_CHOICES)
@@ -40,7 +49,7 @@ class Character(models.Model):
   ]
 
   firstName = models.CharField(max_length=255)
-  lastName = models.CharField(max_length=255, blank=True, null=True)
+  lastName = models.CharField(max_length=255, blank=True)
   raceName = models.ForeignKey(CharacterRace, on_delete=models.SET_NULL, null=True)
   dateCreated = models.DateField(default=datetime.date.today, blank=True, null=True)
   maxHp = models.IntegerField(blank=True, null=True)
@@ -49,6 +58,12 @@ class Character(models.Model):
   altVision = models.CharField(max_length=4, choices=ALT_VISION_CHOICES, default='NORM')
   creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
   dead = models.BooleanField(default=False)
+  dateOfDeath = models.DateField(null=True, blank=True)
+  startingCheckmarks = models.IntegerField(default=0)
+
+  @property
+  def fullName(self):
+    return '%s %s' % (self.firstName, self.lastName)
 
   def __str__(self):
     return self.firstName
@@ -56,6 +71,9 @@ class Character(models.Model):
 class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)
   classCharacter = models.ForeignKey(Character, on_delete=models.CASCADE, related_name='pcClasses')
+  levelNumber = models.IntegerField(default=1)
+  dateCreated = models.DateField(blank=True, null=True, default=datetime.date.today)
+
 
   def __str__(self):
     return self.playerClass.subclassName
@@ -67,6 +85,9 @@ class Mission(models.Model):
   dm = models.ForeignKey(Character, on_delete=models.SET_NULL, null=True, related_name="dmed", blank=True)
   playedOn = models.DateField()
   visable = models.BooleanField(default=True)
+  episode = models.IntegerField(default=1)
+  levelMin = models.IntegerField(default=1)
+  levelMax = models.IntegerField(default=20)
 
   def __str__(self):
     return self.name
@@ -102,15 +123,27 @@ class Downtime(models.Model):
   character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
   numOfDaysSpent = models.IntegerField()
 
-
 class Item(models.Model):
 
+  ITEM_TYPE_CHOICES = [
+    ('Weapon', 'Weapon'),
+    ('Armor', 'Armor'),
+    ('Gear', 'Gear'),
+    ('Magic', 'Magic'),
+    ('Component', 'Component'),
+  ]
+
   name = models.CharField(max_length=255)
-  costGold = models.IntegerField()
-  costSilver = models.IntegerField()
-  costCopper = models.IntegerField()
+  costGold = models.IntegerField(default=0)
+  costSilver = models.IntegerField(default=0)
+  costCopper = models.IntegerField(default=0)
   description = models.TextField()
   numberInSkymall = models.IntegerField()
+  canBePurchasesBy = models.ManyToManyField(Character, related_name="itemPurchasedBy", blank=True)
+  allPcsCanPurchase = models.BooleanField(default=True)
+  downtimeCost = models.IntegerField(default=0)
+  typeOfItem = models.CharField(choices = ITEM_TYPE_CHOICES, max_length=10, default='Gear')
+
 
   def __str__(self):
     return self.name
@@ -119,5 +152,6 @@ class ItemsOwned(models.Model):
 
   item = models.ForeignKey(Item, related_name="item", on_delete=models.CASCADE)
   character = models.ForeignKey(Character, related_name="owningCharacter", on_delete=models.CASCADE)
+  qty = models.IntegerField()
 
 
