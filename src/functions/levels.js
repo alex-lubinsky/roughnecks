@@ -55,11 +55,12 @@ export const getDowntimeDays = (missions, character, downtime, pcLevels) => {
       const levelAtTimeOfMission = pcLevels.filter(
         (level) => level.dateCreated <= mission.playedOn
       ).length;
+      console.log((character.dateOfDeath ? character.dateOfDeath <= mission.playedOn : true))
       if (
         mission.playedOn >= character.dateCreated &&
         levelAtTimeOfMission >= mission.levelMin &&
         levelAtTimeOfMission <= mission.levelMax &&
-        character.dateOfDeath <= mission.playedOn
+        (character.dateOfDeath ? character.dateOfDeath <= mission.playedOn : true)
       ) {
         downtimeDayTotal += 2;
       }
