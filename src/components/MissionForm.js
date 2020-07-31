@@ -131,7 +131,7 @@ class MissionForm extends React.Component {
     let maxLevelValid = true;
     let minLevelValid = true;
     let errorMsg = { ...this.state.errorMsg };
-
+    
     if (!Number.isInteger(Number(maxLevel))) {
       maxLevelValid = false;
       errorMsg.maxLevel = "Maximum level must be a whole number";
@@ -141,7 +141,7 @@ class MissionForm extends React.Component {
     } else if (maxLevel > 20) {
       maxLevelValid = false;
       errorMsg.maxLevel = "Maximum level must be lower than 20";
-    } else if (minLevel > maxLevel) {
+    } else if (parseInt(minLevel) > parseInt(maxLevel)) {
       maxLevelValid = false;
       errorMsg.maxLevel =
         "Maximum level must be higher than to or equal the minimum level";
@@ -156,7 +156,7 @@ class MissionForm extends React.Component {
     } else if (minLevel > 20) {
       minLevelValid = false;
       errorMsg.minLevel = "Minimum level must be lower than 20";
-    } else if (minLevel > maxLevel) {
+    } else if (parseInt(minLevel) > parseInt(maxLevel)) {
       minLevelValid = false;
       errorMsg.minLevel =
         "Minimum level must be lower than to or equal the maximum level";
