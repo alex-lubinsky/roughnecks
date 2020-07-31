@@ -19,7 +19,7 @@ class HeroTable extends React.Component {
   }
 
   onClick = (e) => {
-    const active = parseInt(e.target.name);
+    const active = parseInt(e.target.getAttribute("name"));
     this.setState({active}, this.getItems)
   }
   
