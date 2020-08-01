@@ -154,3 +154,7 @@ th.mission-column {
 .double-column {
   columns: 2
 }
+
+.tab-margin {
+  margin-top: 10px;
+}

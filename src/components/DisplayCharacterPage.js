@@ -30,6 +30,8 @@ import { startSetItems } from '../actions/items'
 import { startSetItemsOwned } from '../actions/itemsowned';
 import { startaddTransaction } from '../actions/transactions';
 import { startRemoveItemOwned } from '../actions/itemsowned';
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -170,142 +172,158 @@ class DisplayCharacterPage extends React.Component {
                   ) : null}
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <p>
-                    Race:{" "}
-                    {
-                      this.props.races.find(
-                        (race) => race.id === this.props.character.raceName
-                      ).raceName
-                    }
-                  </p>
-                  <p>Armor Class: {this.props.character.armorClass}</p>
-                  <p>Passive Perception: {this.props.character.passivePerception}</p>
-                  <p>Max HP: {this.props.character.maxHp}</p>
-                  <p>
-                  Class:{" "}
-                  <ClassBuilder
-                    pcClasses={this.props.pcSubclasses.filter(
-                      (pcSubclass) =>
-                        pcSubclass.classCharacter === this.props.characterid
-                    )}
-                    subclasses={this.props.subclasses}
-                  />
-                  </p>
-                  <p>
-                  Earned:{" "}
-                  <TotalEarnedMoney
-                    transactions={this.props.transactions.filter((transaction) =>
-                      transaction.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )}
-                  />
-                  </p>
-                  <p>
-                  Spent:{" "}
-                  <TotalSpentMoney
-                    transactions={this.props.transactions.filter((transaction) =>
-                      transaction.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )}
-                  />
-                  </p>
-                  <p>
-                  Balance:{" "}
-                  <TotalBalanceMoney
-                    transactions={this.props.transactions.filter((transaction) =>
-                      transaction.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )}
-                  />
-                  </p>
-                  <p>Downtime Availble: {getDowntimeDays(
-                      this.props.missions.filter(mission => mission.visable === true),
-                      this.props.character,
-                      this.props.downtime,
-                      this.props.pcSubclasses.filter(
-                        (pcLevel) => pcLevel.classCharacter === this.props.character.id
-                      )
-                    )}</p>
-                </Col>
-                <Col>
-                  <ClassTable
-                    pcClasses={this.props.pcSubclasses.filter(
-                      (pcSubclass) =>
-                        pcSubclass.classCharacter === this.props.characterid
-                    )}
-                    subclasses={this.props.subclasses}
-                  />
-                </Col>
-              </Row>
-              <Row className="margin-top">
-                <Col>
-                  Missions:
-                  <ul className="double-column">
-                    {this.props.missions
-                      .filter((mission) =>
-                        mission.characters.some(
-                          (character) => character === this.props.characterid
-                        )
-                      )
-                      .map((mission) => {
-                        return <li key={mission.id}>{mission.name}</li>;
-                    })}
-                  </ul>
-                </Col>
-                <Col>
-                  DMed:
-                  <ul className="double-column">
-                    {this.props.missions
-                      .filter((mission) => mission.dm === this.props.characterid)
-                      .map((dm) => {
-                        return <li key={dm.id}>{dm.name}</li>;
-                      })}
-                  </ul>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <TransactionsTable
-                    transactions={this.props.transactions.filter((transaction) =>
-                      transaction.characters.some(
-                        (character) => character === this.props.characterid
-                      )
-                    )}
-                    characters={this.props.characters}
-                    missions={this.props.missions}
-                  />
-                </Col>
-              </Row>
-              <Row className="margin-top margin-bottom">
-                <Col className="mission-table">
-                  {this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid).length === 0 ?
-                    null : 
-                    <div>
-                      <h3>Downtime Spent:</h3>
+            </Container>
+            <Tabs defaultActiveKey="pcLevels">
+              <Tab eventKey="pcLevels" title="Levels">
+                <Container fluid  className="tab-margin">
+                  <Row>
+                    <Col>
+                      <p>
+                        Race:{" "}
+                        {
+                          this.props.races.find(
+                            (race) => race.id === this.props.character.raceName
+                          ).raceName
+                        }
+                      </p>
+                      <p>Armor Class: {this.props.character.armorClass}</p>
+                      <p>Passive Perception: {this.props.character.passivePerception}</p>
+                      <p>Max HP: {this.props.character.maxHp}</p>
+                      <p>
+                      Class:{" "}
+                      <ClassBuilder
+                        pcClasses={this.props.pcSubclasses.filter(
+                          (pcSubclass) =>
+                            pcSubclass.classCharacter === this.props.characterid
+                        )}
+                        subclasses={this.props.subclasses}
+                      />
+                      </p>
+                      <p>
+                      Earned:{" "}
+                      <TotalEarnedMoney
+                        transactions={this.props.transactions.filter((transaction) =>
+                          transaction.characters.some(
+                            (character) => character === this.props.characterid
+                          )
+                        )}
+                      />
+                      </p>
+                      <p>
+                      Spent:{" "}
+                      <TotalSpentMoney
+                        transactions={this.props.transactions.filter((transaction) =>
+                          transaction.characters.some(
+                            (character) => character === this.props.characterid
+                          )
+                        )}
+                      />
+                      </p>
+                      <p>
+                      Balance:{" "}
+                      <TotalBalanceMoney
+                        transactions={this.props.transactions.filter((transaction) =>
+                          transaction.characters.some(
+                            (character) => character === this.props.characterid
+                          )
+                        )}
+                      />
+                      </p>
+                      <p>Downtime Availble: {getDowntimeDays(
+                          this.props.missions.filter(mission => mission.visable === true),
+                          this.props.character,
+                          this.props.downtime,
+                          this.props.pcSubclasses.filter(
+                            (pcLevel) => pcLevel.classCharacter === this.props.character.id
+                          )
+                        )}</p>
+                    </Col>
+                    <Col>
+                      <ClassTable
+                        pcClasses={this.props.pcSubclasses.filter(
+                          (pcSubclass) =>
+                            pcSubclass.classCharacter === this.props.characterid
+                        )}
+                        subclasses={this.props.subclasses}
+                      />
+                    </Col>
+                  </Row>
+                </Container>
+              </Tab>
+              <Tab eventKey="missions" title="Missions">
+                <Container fluid  className="tab-margin">
+                  <Row>
+                    <Col>
+                      Missions:
+                      <ul className="double-column">
+                        {this.props.missions
+                          .filter((mission) =>
+                            mission.characters.some(
+                              (character) => character === this.props.characterid
+                            )
+                          )
+                          .map((mission) => {
+                            return <li key={mission.id}>{mission.name}</li>;
+                        })}
+                      </ul>
+                    </Col>
+                    <Col>
+                      DMed:
+                      <ul className="double-column">
+                        {this.props.missions
+                          .filter((mission) => mission.dm === this.props.characterid)
+                          .map((dm) => {
+                            return <li key={dm.id}>{dm.name}</li>;
+                          })}
+                      </ul>
+                    </Col>
+                  </Row>
+                </Container>
+              </Tab>
+              <Tab eventKey="transactions" title="Transactions">
+                <Container fluid  className="tab-margin">
+                  <Row>
+                    <Col>
+                      <TransactionsTable
+                        transactions={this.props.transactions.filter((transaction) =>
+                          transaction.characters.some(
+                            (character) => character === this.props.characterid
+                          )
+                        )}
+                        characters={this.props.characters}
+                        missions={this.props.missions}
+                      />
+                    </Col>
+                  </Row>
+                </Container>
+              </Tab>
+              <Tab eventKey="downtime" title="Downtime">
+                <Container fluid  className="tab-margin">
+                  <Row>
+                    <Col>
                       <DowntimeTable 
                         characters={this.props.characters} 
                         downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)} 
                       />
-                    </div>
-                  }
-                </Col>
-                <Col>
-                  <h3>Items Owned</h3>
-                  <ItemsOwnedTable
-                    items={this.props.items}
-                    itemsOwned={this.props.itemsOwned.filter(io => io.character === this.props.characterid)}
-                    onClick={this.sellItem}
-                    hasSellPermission={(this.props.user.id === this.props.character.creator || this.props.user.is_staff) ? true : false}
-                  />
-                </Col>
-              </Row>
-            </Container>
-            
+                    </Col>
+                  </Row>
+                </Container>
+              </Tab>
+              <Tab eventKey="itemsOwned" title="Items">
+                <Container fluid  className="tab-margin">
+                  <Row>
+                    <Col>
+                      <ItemsOwnedTable
+                        items={this.props.items}
+                        itemsOwned={this.props.itemsOwned.filter(io => io.character === this.props.characterid)}
+                        onClick={this.sellItem}
+                        hasSellPermission={(this.props.user.id === this.props.character.creator || this.props.user.is_staff) ? true : false}
+                      />
+                    </Col>
+                  </Row>
+                </Container>
+              </Tab>
+            </Tabs>
           </div>
         )}
       </div>
