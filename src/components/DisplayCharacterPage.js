@@ -32,6 +32,7 @@ import { startaddTransaction } from '../actions/transactions';
 import { startRemoveItemOwned } from '../actions/itemsowned';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import { startSetDowntimeTypes } from '../actions/downtimetypes';
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -52,7 +53,8 @@ class DisplayCharacterPage extends React.Component {
     this.props.startSetRaces();
     this.props.startSetDowntime();
     this.props.startSetItems();
-    this.props.startSetItemsOwned()
+    this.props.startSetItemsOwned();
+    this.props.startSetDowntimeTypes();
   }
 
   handleLevelUpClose = () => {
@@ -303,7 +305,8 @@ class DisplayCharacterPage extends React.Component {
                     <Col>
                       <DowntimeTable 
                         characters={this.props.characters} 
-                        downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)} 
+                        downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)}
+                        downtimeTypes={this.props.downtimeTypes}
                       />
                     </Col>
                   </Row>
@@ -346,6 +349,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startaddTransaction: (transaction) =>
     dispatch(startaddTransaction(transaction)),
   startRemoveItemOwned: (id) => dispatch(startRemoveItemOwned(id)),
+  startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
 
 });
 
@@ -365,6 +369,7 @@ const mapStateToProps = (state, props) => ({
   items: state.items.data,
   itemsOwned: state.itemsOwned.data,
   user: state.auth.user,
+  downtimeTypes: state.downtimeTypes.data,
   
 
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
@@ -376,6 +381,7 @@ const mapStateToProps = (state, props) => ({
   downtimeIsLoading: state.downtime.isLoading,
   itemsOwnedIsLoading: state.itemsOwned.isLoading,
   itemsIsLoading: state.items.isLoading,
+  downtimeTypesIsLoading: state.downtimeTypes.isLoading,
 
 });
 

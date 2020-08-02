@@ -12,6 +12,7 @@ const DowntimeTable = (props) => {
         </tr>
       </thead>
       <tbody>
+        
         {props.downtime.map(downtime => {
           return(
             <tr key={downtime.id} className="downtime-row">
@@ -19,7 +20,7 @@ const DowntimeTable = (props) => {
                 return <td key={character.id}>{`${character.fullName}`}</td>
               })}
               <td>{downtime.numOfDaysSpent}</td>
-              <td>{downtime.downtimeDisplayType}</td>
+              <td>{props.downtimeTypes.find(dtt => dtt.id === downtime.downtimeType).name}</td>
               <td className="character-race">{downtime.description}</td>
             </tr>
           )

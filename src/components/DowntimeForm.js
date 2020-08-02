@@ -309,7 +309,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const mapStateToProps = (state, props) => ({
   characters: state.characters.data.filter(
-    (character) => character.creator === state.auth.user.id && !character.dead
+    (character) => (character.creator === state.auth.user.id && !character.dead)
   ),
   characterarray: state.characters.data,
   userid: state.auth.user.id,

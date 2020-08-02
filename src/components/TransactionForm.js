@@ -193,9 +193,13 @@ class TransactionForm extends React.Component {
     if (this.state.earnedSpent.label === "Earned" && this.state.characters.length === 0){
       const pcs = this.props.missions.find(mission => selectedValues.value === mission.id).characters.map(character => {
         const pc = this.props.characters.find(pc => pc.id === character)
+        
         if (pc !== undefined){
           return { value: pc.id, label: pc.fullName };
+        } else {
+          return null
         }
+        
         
       })
       this.setState({ characters: pcs }, this.validateCharacters);
