@@ -4,7 +4,7 @@ from .models import *
 class CharacterSerializer(serializers.ModelSerializer):
   class Meta:
       model = Character
-      fields = ('id', 'firstName', 'lastName', 'raceName', 'maxHp', 'armorClass', 'passivePerception', 'dateCreated', 'creator', 'altVision', 'fullName', 'dead', 'startingCheckmarks', 'dateOfDeath')
+      fields = ('id', 'raceName', 'maxHp', 'armorClass', 'passivePerception', 'dateCreated', 'creator', 'altVision', 'fullName', 'dead', 'startingCheckmarks', 'dateOfDeath')
 
 class CharacterRaceSerializer(serializers.ModelSerializer):
   class Meta:
@@ -30,13 +30,6 @@ class CharacterSubClassSerializer(serializers.ModelSerializer):
       model = CharacterSubClass
       fields = ('id', 'className', 'subclassName', 'subclassLevel', 'isClass')
 
-class PlayerCharacterClassQuerySerializer(serializers.ModelSerializer):
-  playerClass = CharacterSubClassSerializer()
-
-  class Meta:
-      model = PlayerCharacterClass
-      fields = ('id', 'playerClass', 'classCharacter')
-
 class TransactionSerializer(serializers.ModelSerializer):
 
   class Meta:
@@ -44,12 +37,16 @@ class TransactionSerializer(serializers.ModelSerializer):
     fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent')
 
 class DowntimeSerializer(serializers.ModelSerializer):
-  downtimeDisplayType = serializers.CharField(source='get_downtimeType_display', read_only=True)
 
   class Meta:
     model = Downtime
-    fields = ('id', 'description', 'downtimeType', 'character', 'numOfDaysSpent', 'downtimeDisplayType')
-    read_only_fields = ['downtimeDisplayType']
+    fields = ('id', 'description', 'character', 'numOfDaysSpent', 'downtimeType')
+
+class DowntimeTypeSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = DowntimeType
+    fields = ('id', 'name', 'description')
 
 class ItemSerializer(serializers.ModelSerializer):
 

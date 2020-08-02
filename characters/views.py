@@ -27,11 +27,7 @@ class MissionDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Mission.objects.all()
   serializer_class = MissionSerializer
 
-class CharacterRaceList(generics.ListCreateAPIView):
-  queryset = CharacterRace.objects.all()
-  serializer_class = CharacterRaceSerializer
-
-class CharacterRaceDetail(generics.RetrieveUpdateDestroyAPIView):
+class CharacterRaceList(generics.ListAPIView):
   queryset = CharacterRace.objects.all()
   serializer_class = CharacterRaceSerializer
 
@@ -74,6 +70,10 @@ class ItemsOwnedList(generics.ListCreateAPIView):
 class ItemsOwnedDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = ItemsOwned.objects.all()
   serializer_class = ItemsOwnedSerializer
+
+class DowntimeTypeList(generics.ListAPIView):
+  queryset = DowntimeType.objects.all()
+  serializer_class = DowntimeTypeSerializer
 
 
 

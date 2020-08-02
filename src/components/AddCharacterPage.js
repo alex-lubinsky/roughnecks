@@ -15,8 +15,7 @@ const AddCharacterPage = (props) => {
       <CharacterForm
         onSubmit={(formData) => {
           const character = {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
+            fullName: formData.fullName,
             raceName: formData.raceName,
             armorClass: formData.armorClass,
             passivePerception: formData.passivePerception,

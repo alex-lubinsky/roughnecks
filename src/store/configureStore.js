@@ -8,6 +8,7 @@ import transactionsReducer from "../reducers/transactions";
 import downtimeReducer from "../reducers/downtime";
 import itemReducer from "../reducers/items";
 import authReducer from "../reducers/auth";
+import downtimeTypeReducer from "../reducers/downtimetypes";
 import itemsOwnedReducer from "../reducers/itemsowned";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   items: itemReducer,
   itemsOwned: itemsOwnedReducer,
   users: usersReducers,
+  downtimeTypes: downtimeTypeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

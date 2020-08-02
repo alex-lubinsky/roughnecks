@@ -16,6 +16,7 @@ import Container from 'react-bootstrap/Container';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdClose } from 'react-icons/io';
 import { startSetDowntime } from '../actions/downtime';
+import { startSetDowntimeTypes } from '../actions/downtimetypes';
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -26,7 +27,6 @@ class DowntimeForm extends React.Component {
       descriptionValid: false,
       downtimeType: "",
       downtimeTypeValid: false,
-      downtimeTypeExplaination: '',
       character: "",
       characterValid: false,
       numOfDaysSpent: 0,
@@ -34,10 +34,6 @@ class DowntimeForm extends React.Component {
       errorMsg: {},
       formValid: false,
       characterDowntime: 0,
-      selectDowntimeTypeOptions: [
-        { value: "TR", label: "Training Room", explaination: "Spend 10 downtime days to earn 1 checkmark." },
-        { value: "MC", label: "Miscellaneous", explaination: "This is a catch all for activities that we have not yet defined. Please make sure you tell us what this is used for in the description" },
-      ],
     };
   }
 
@@ -47,6 +43,7 @@ class DowntimeForm extends React.Component {
     this.props.startSetTransactions();
     this.props.startSetPCSubclasses();
     this.props.startSetDowntime();
+    this.props.startSetDowntimeTypes();
   }
 
   onDescriptionChange = (e) => {
@@ -97,7 +94,6 @@ class DowntimeForm extends React.Component {
   onDowntimeTypeChange = (selectedValue) => {
     const downtimeType = selectedValue;
     this.setState({ downtimeType }, this.validateDowntimeType)
-    this.setState({ downtimeTypeExplaination: selectedValue.explaination});
   };
 
   validateDowntimeType = () => {
@@ -179,6 +175,10 @@ class DowntimeForm extends React.Component {
     };
   });
 
+  selectDowntimeTypeOptions = this.props.downtimeTypes.map(ddt => {
+    return {value: ddt.id, label: ddt.name, description: ddt.description}
+  })
+
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
@@ -227,12 +227,12 @@ class DowntimeForm extends React.Component {
                     {this.state.downtimeTypeValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
                   <Select
-                    options={this.state.selectDowntimeTypeOptions}
+                    options={this.selectDowntimeTypeOptions}
                     value={this.state.downtimeType}
                     onChange={this.onDowntimeTypeChange}
                     styles={{container: (provided, state) => ({...provided, marginBottom: '15px'})}}
                   />
-                  <div>{this.state.downtimeTypeExplaination}</div>
+                  <div>{this.state.downtimeType.description}</div>
                   <ValidationMessage
                     valid={this.state.downtimeTypeValid}
                     message={this.state.errorMsg.downtimeType}
@@ -304,6 +304,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetTransactions: () => dispatch(startSetTransactions()),
   startSetPCSubclasses: () => dispatch(startSetPCSubclasses()),
   startSetDowntime: () => dispatch(startSetDowntime()),
+  startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
 });
 
 const mapStateToProps = (state, props) => ({
@@ -316,12 +317,14 @@ const mapStateToProps = (state, props) => ({
   transactions: state.transactions.data,
   pcSubclasses: state.pcSubclasses.data,
   downtime: state.downtime.data,
+  downtimeTypes: state.downtimeTypes.data,
 
   missionsIsLoading: state.missions.isLoading,
   charactersIsLoading: state.characters.isLoading,
   transactionsIsLoading: state.transactions.isLoading,
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
   downtimeIsLoading: state.downtime.isLoading,
+  downtimeTypesIsLoading: state.downtimeTypes.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DowntimeForm);

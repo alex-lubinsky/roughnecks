@@ -20,9 +20,8 @@ const addCharacter = (character) => ({
 export const startAddCharacter = (characterData = {}) => {
   return (dispatch, getState) => {
     const {
-      firstName = "",
+      fullName = "",
       raceName = "",
-      lastName = "",
       armorClass = 0,
       passivePerception = 0,
       maxHp = 0,
@@ -31,9 +30,8 @@ export const startAddCharacter = (characterData = {}) => {
     } = characterData;
 
     const character = {
-      firstName,
+      fullName,
       raceName,
-      lastName,
       armorClass,
       passivePerception,
       maxHp,

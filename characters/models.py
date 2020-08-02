@@ -48,8 +48,7 @@ class Character(models.Model):
     ('NORM', 'Normal Vision'),
   ]
 
-  firstName = models.CharField(max_length=255)
-  lastName = models.CharField(max_length=255, blank=True)
+  fullName = models.CharField(max_length=255)
   raceName = models.ForeignKey(CharacterRace, on_delete=models.SET_NULL, null=True)
   dateCreated = models.DateField(default=datetime.date.today, blank=True, null=True)
   maxHp = models.IntegerField(blank=True, null=True)
@@ -61,12 +60,8 @@ class Character(models.Model):
   dateOfDeath = models.DateField(null=True, blank=True)
   startingCheckmarks = models.IntegerField(default=0)
 
-  @property
-  def fullName(self):
-    return '%s %s' % (self.firstName, self.lastName)
-
   def __str__(self):
-    return self.firstName
+    return self.fullName
 
 class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)
@@ -111,17 +106,19 @@ class Transaction(models.Model):
   def __str__(self):
     return self.name
 
-class Downtime(models.Model):
+class DowntimeType(models.Model):
+  name = models.CharField(max_length=100)
+  description = models.CharField(max_length=255)
 
-  DOWNTIME_TYPE_CHOICES = [
-    ('TR', 'Training Room'),
-    ('MC', 'Miscellaneous')
-  ]
+  def __str__(self):
+    return self.name
+
+class Downtime(models.Model):
   
   description = models.CharField(max_length=255)
-  downtimeType = models.CharField(choices = DOWNTIME_TYPE_CHOICES, max_length=2)
   character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
   numOfDaysSpent = models.IntegerField()
+  downtimeType = models.ForeignKey(DowntimeType, null=True, related_name="downtimeTransaction", on_delete=models.SET_NULL)
 
 class Item(models.Model):
 
@@ -153,5 +150,6 @@ class ItemsOwned(models.Model):
   item = models.ForeignKey(Item, related_name="item", on_delete=models.CASCADE)
   character = models.ForeignKey(Character, related_name="owningCharacter", on_delete=models.CASCADE)
   qty = models.IntegerField()
+
 
 

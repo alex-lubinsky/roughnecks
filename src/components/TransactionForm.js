@@ -189,6 +189,17 @@ class TransactionForm extends React.Component {
   onMissionChange = (selectedValues) => {
     const mission = selectedValues.value;
     this.setState({ mission }, this.validateMission);
+
+    if (this.state.earnedSpent.label === "Earned" && this.state.characters.length === 0){
+      const pcs = this.props.missions.find(mission => selectedValues.value === mission.id).characters.map(character => {
+        const pc = this.props.characters.find(pc => pc.id === character)
+        if (pc !== undefined){
+          return { value: pc.id, label: pc.fullName };
+        }
+        
+      })
+      this.setState({ characters: pcs }, this.validateCharacters);
+    }
   };
 
   validateMission = () => {
@@ -273,7 +284,7 @@ class TransactionForm extends React.Component {
   };
 
   render() {
-    const selectMissionOptions = this.props.missions.map((mission) => {
+    const selectMissionOptions = this.props.missions.sort((a,b) => (a.episode > b.episode) ? -1 : 1).map((mission) => {
       return { value: mission.id, label: mission.name };
     });
 

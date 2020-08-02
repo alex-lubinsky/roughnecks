@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 
 class CharacterAdmin(admin.ModelAdmin):
-  list_display = ('id', 'firstName', 'lastName', 'dateCreated', 'creator', 'dead', 'startingCheckmarks')
+  list_display = ('id', 'fullName', 'dateCreated', 'creator', 'dead', 'startingCheckmarks')
 
 admin.site.register(Character, CharacterAdmin)
 
@@ -34,9 +34,14 @@ class TransactionAdmin(admin.ModelAdmin):
 admin.site.register(Transaction, TransactionAdmin)
 
 class DowntimeAdmin(admin.ModelAdmin):
-  list_display = ('id', 'description', 'downtimeType', 'numOfDaysSpent', 'character')
+  list_display = ('id', 'description', 'numOfDaysSpent', 'character', 'downtimeType')
 
 admin.site.register(Downtime, DowntimeAdmin)
+
+class DowntimeTypeAdmin(admin.ModelAdmin):
+  list_display = ('id', 'name', 'description')
+
+admin.site.register(DowntimeType, DowntimeTypeAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
   list_display = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall', 'allPcsCanPurchase', 'downtimeCost')

@@ -20,8 +20,8 @@ class CharacterForm extends React.Component {
     super(props);
 
     this.state = {
-      firstName: "",
-      fistNameValid: false,
+      fullName: "",
+      fullNameValid: false,
       lastName: "",
       raceName: "",
       raceNameValid: false,
@@ -47,22 +47,22 @@ class CharacterForm extends React.Component {
     this.props.startSetSubclasses();
   }
 
-  onFirstNameChange = (e) => {
-    const firstName = e.target.value;
-    this.setState({ firstName }, this.validateFirstName);
+  onFullNameChange = (e) => {
+    const fullName = e.target.value;
+    this.setState({ fullName }, this.validateFullName);
   };
 
-  validateFirstName = () => {
-    const { firstName } = this.state;
-    let firstNameValid = true;
+  validateFullName = () => {
+    const { fullName } = this.state;
+    let fullNameValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
-    if (firstName.length < 3) {
-      firstNameValid = false;
-      errorMsg.firstName = "Must be longer than 3 characters";
+    if (fullName.length < 3) {
+      fullNameValid = false;
+      errorMsg.fullName = "Must be longer than 3 characters";
     }
 
-    this.setState({ firstNameValid, errorMsg }, this.validateForm);
+    this.setState({ fullNameValid, errorMsg }, this.validateForm);
   };
 
   onLastNameChange = (e) => {
@@ -207,7 +207,7 @@ class CharacterForm extends React.Component {
 
   validateForm = () => {
     const {
-      firstNameValid,
+      fullNameValid,
       armorClassValid,
       raceNameValid,
       passivePerceptionValid,
@@ -218,7 +218,7 @@ class CharacterForm extends React.Component {
     } = this.state;
     this.setState({
       formValid:
-        firstNameValid &&
+        fullNameValid &&
         armorClassValid &&
         raceNameValid &&
         passivePerceptionValid &&
@@ -232,8 +232,7 @@ class CharacterForm extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+      fullName: this.state.fullName,
       raceName: this.state.raceName,
       armorClass: this.state.armorClass,
       passivePerception: this.state.passivePerception,
@@ -258,34 +257,20 @@ class CharacterForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.firstNameValid ? "valid-input" : "invalid-input"}>
-                    <Form.Label>First Name </Form.Label>
-                    {this.state.firstNameValid ? <AiOutlineCheck /> : <IoMdClose />}
+                  <span className={this.state.fullNameValid ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Full Name </Form.Label>
+                    {this.state.fullNameValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
                   <Form.Control
                     type="text"
-                    value={this.state.firstName}
-                    onChange={this.onFirstNameChange}
+                    value={this.state.fullName}
+                    onChange={this.onFullNameChange}
                     placeholder="Enter Character's First Name"
                   />
                   
                   <ValidationMessage
-                    valid={this.state.firstNameValid}
-                    message={this.state.errorMsg.firstName}
-                  />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group>
-                  <span className={"valid-input"}>
-                    <Form.Label>Last Name</Form.Label>
-                    <AiOutlineCheck />
-                  </span>
-                  <Form.Control
-                    type="text"
-                    value={this.state.lastName}
-                    onChange={this.onLastNameChange}
-                    placeholder="Enter Character's Last Name"
+                    valid={this.state.fullNameValid}
+                    message={this.state.errorMsg.fullName}
                   />
                 </Form.Group>
               </Col>
