@@ -19,8 +19,15 @@ const ResetForm = (props) => {
       token: props.match.params.token,
       new_password1: values.passwordOne,
       new_password2: values.passwordTwo,
-    });
-    history.push('/')
+    }).then(res => {
+      if(res.response){
+        console.log(res.response)
+      } else if (res.status === 200) {
+        history.push('/')
+      } else {
+        console.log(res)
+      }
+    })
   };
 
   return (

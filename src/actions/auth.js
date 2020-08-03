@@ -128,12 +128,13 @@ export const resetPassword = (email) => {
       return res
     })
     .catch((err) => {
+      console.log(err.response);
       return err
     });
 };
 
 export const resetPasswordConfirm = (resetData) => {
-  axios
+  return axios
     .post(`/api/dj-rest-auth/password/reset/confirm/`, {
       uid: resetData.uid,
       token: resetData.token,
@@ -141,10 +142,10 @@ export const resetPasswordConfirm = (resetData) => {
       new_password2: resetData.new_password2,
     })
     .then((res) => {
-      console.log(res);
+      return res
     })
     .catch((err) => {
-      console.log(err);
+      return err
     });
 };
 

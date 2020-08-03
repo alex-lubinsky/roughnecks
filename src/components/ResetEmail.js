@@ -8,15 +8,21 @@ import ValidationMessage from './ValidationMessage';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import history from '../history';
 
 const ResetEmail = () => {
 
-  const [showLogInLink, setShowLogInLink] = useState(false)
   const { values, handleChange, handleSubmit, errors } = useForm(onSubmit, validate);
 
+
   function onSubmit() {
-    resetPassword(values.email);
-    setShowLogInLink(true);
+    resetPassword(values.email).then(res => {
+      if (res.status === 200) {
+        history.push('/')
+      } else {
+        console.log(res.response)
+      }
+    })
   };
 
   return (
@@ -37,12 +43,6 @@ const ResetEmail = () => {
           Submit
         </Button>
       </Form>
-      {showLogInLink ? <NavLink
-          to={`/login`}
-          activeClassName="is-active"
-        >
-          We are sending you an email now. You can click on this link to return to the log in page.
-        </NavLink> : null}
     </Container>
   );
 };
