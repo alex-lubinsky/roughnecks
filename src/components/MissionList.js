@@ -20,7 +20,7 @@ class MissionList extends React.Component {
         {this.props.charactersIsLoading ||
         this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ? null : (
-          <table className="mission-table mission-list">
+          <table className="width-100 table-highlights">
             <thead>
               <tr>
                 <th>Episode #</th>
@@ -33,7 +33,7 @@ class MissionList extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.missions.map((mission) => {
+              {this.props.missions.sort((a,b) => (a.episode > b.episode) ? -1 : 1).map((mission) => {
                 const dm = this.props.characters.find(
                   (character) => character.id === mission.dm
                 );

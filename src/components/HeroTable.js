@@ -38,16 +38,16 @@ class HeroTable extends React.Component {
   render() {
     return (
       <>
-      <table className=".hero-table">
+      <table className="width-100">
         <thead>
           <tr>
-            <th className="player-name">Player Name</th>
-            <th className="name">Name</th>
-            <th className="character-race">Race</th>
-            <th className="character-class">Class</th>
-            <th className="lvl">Level</th>
-            <th className="checks">Checks</th>
-            <th className="dta">Downtime Available</th>
+            <th className="width-5">Player Name</th>
+            <th className="width-15">Name</th>
+            <th className="width-10">Race</th>
+            <th className="width-20">Class</th>
+            <th className="width-3">Level</th>
+            <th className="width-2">Checks</th>
+            <th className="width-5">Downtime Available</th>
             {this.props.missions.filter(
               mission => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1))))
               .sort((a,b) => (a.episode > b.episode) ? 1 : -2).map(mission => {
@@ -55,7 +55,7 @@ class HeroTable extends React.Component {
             })}
             {[0,1,2,3,4,5,6,7,8,9].slice(0+this.props.missions.filter(
               mission => (mission.episode >= 1+(10*(this.state.active-1)) && mission.episode <= 10+(10*(this.state.active-1)))).length).map(num => {
-                return <th key={num} className="mission-column"></th>
+                return <th key={num} className="width-4"></th>
               })}
           </tr>
         </thead>

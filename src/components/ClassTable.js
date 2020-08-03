@@ -82,14 +82,14 @@ const ClassTable = (props) => {
           <Button>Edit Level</Button>
         </Modal.Footer>
       </Modal> */}
-      <table className="class-table">
+      <table className="width-100 table-highlights">
         <thead>
           <tr>
-            <th>Level #</th>
-            <th>Class Name</th>
+            <th className="width-5">Level #</th>
+            <th className="width-20">Class Name</th>
             {/* <th>Edit</th> */}
-            <th>Level #</th>
-            <th>Class Name</th>
+            <th className="width-5">Level #</th>
+            <th className="width-20">Class Name</th>
             {/* <th>Edit</th> */}
           </tr>
         </thead>

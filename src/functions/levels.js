@@ -88,7 +88,7 @@ export const getCheckmarks = (missions, character, downtime) => {
     downtime
       .filter((dtTransaction) => {
         return (
-          dtTransaction.downtimeType === "TR" &&
+          dtTransaction.downtimeType === 1 &&
           dtTransaction.character === character.id
         );
       })

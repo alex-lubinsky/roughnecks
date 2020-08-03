@@ -19,23 +19,7 @@
   background: rgb(240, 240, 240);
 }
 
-.mission-list tr:nth-child(2n+2) {
-  background: rgb(240, 240, 240);
-}
-
-.transaction-list tr:nth-child(2n+2) {
-  background: rgb(240, 240, 240);
-}
-
-.downtime-list tr:nth-child(2n+2) {
-  background: rgb(240, 240, 240);
-}
-
-.skymall-list tr:nth-child(2n+2) {
-  background: rgb(240, 240, 240);
-}
-
-.class-table tr:nth-child(2n+2) {
+.table-highlights tr:nth-child(2n+2) {
   background: rgb(240, 240, 240);
 }
 
@@ -77,40 +61,40 @@ table th, table td {
   padding-bottom: 10px;
 }
 
-.hero-table, .mission-table, .transaction-table, .skymall-table, .class-table {
+.width-100 {
   width: 100%;
 }
 
-.downtime-table {
+.width-50 {
   width: 50%;
 }
 
-th.player-name, th.dta{
+th.width-5 {
   width: 5%;
 }
 
-th.name {
+th.width-15 {
   width: 15%;
 }
 
-th.character-race {
+th.width-10 {
   width: 10%;
 }
 
-th.character-class {
+th.width-20 {
   width: 20%;
 }
 
-th.lvl {
+th.width-3 {
   width: 3%;
 }
 
-th.checks, th.episode-number  {
+th.width-2 {
   width: 2%;
 }
 
-th.mission-column {
-  width: 4%;  
+th.width-4 {
+  width: 4%;
 }
 
 .hero-pagination {

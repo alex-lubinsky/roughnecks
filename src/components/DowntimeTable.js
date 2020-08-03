@@ -2,7 +2,7 @@ import React from 'react';
 
 const DowntimeTable = (props) => {
   return(
-    <table className="downtime-list mission-table">
+    <table className="table-highlights width-100">
       <thead>
         <tr>
           <th>Character</th>
@@ -21,7 +21,7 @@ const DowntimeTable = (props) => {
               })}
               <td>{downtime.numOfDaysSpent}</td>
               <td>{props.downtimeTypes.find(dtt => dtt.id === downtime.downtimeType).name}</td>
-              <td className="character-race">{downtime.description}</td>
+              <td className="width-10">{downtime.description}</td>
             </tr>
           )
         })}

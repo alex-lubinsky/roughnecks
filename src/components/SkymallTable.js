@@ -11,17 +11,17 @@ const SkymallTable = (props) => {
   }
 
   return (
-    <table className="skymall-table skymall-list">
+    <table className="width-100 table-highlights">
       <thead>
         <tr>
-          <th className="character-class">Name</th>
-          <th className="character-race">Cost (in gold)</th>
+          <th className="width-20">Name</th>
+          <th className="width-10">Cost (in gold)</th>
           <th>Desctiption</th>
-          <th className="character-race">Number in Skymall</th>
-          <th className="character-race">Qty to {props.skymallAdmin === true ? "Add" : "Buy"}</th>
+          <th className="width-10">Number in Skymall</th>
+          <th className="width-10">Qty to {props.skymallAdmin === true ? "Add" : "Buy"}</th>
           {props.skymallAdmin === true ?
-            <th className="character-race">Add to Skymall</th> :
-            <th className="character-race">Buy</th>
+            <th className="width-10">Add to Skymall</th> :
+            <th className="width-10">Buy</th>
           }
         </tr>
       </thead>

@@ -10,7 +10,7 @@ const ItemsOwnedTable = (props) => {
   }
 
   return (
-    <table className="mission-table mission-list">
+    <table className="width-100 table-highlights">
       <thead>
         <tr>
           <th>Item Name</th>
