@@ -87,7 +87,7 @@ export const startLogin = (loginData = {}) => {
         dispatch(login(payload));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         dispatch(loginFail());
         return err
       });
