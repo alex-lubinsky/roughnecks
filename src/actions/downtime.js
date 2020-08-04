@@ -39,7 +39,7 @@ export const startAddDowntime = (downtimeData = {}) => {
   return (dispatch, getState) => {
     const {
       description = "",
-      downtimeType = "MC",
+      downtimeType = 2,
       character = 0,
       numOfDaysSpent = 0,
     } = downtimeData;

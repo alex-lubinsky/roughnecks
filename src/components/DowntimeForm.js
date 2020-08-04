@@ -17,6 +17,8 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdClose } from 'react-icons/io';
 import { startSetDowntime } from '../actions/downtime';
 import { startSetDowntimeTypes } from '../actions/downtimetypes';
+import { startSetDowntimeJobs } from '../actions/downtimejobs';
+import { startSetSubclasses } from '../actions/subclasses';
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -34,6 +36,9 @@ class DowntimeForm extends React.Component {
       errorMsg: {},
       formValid: false,
       characterDowntime: 0,
+      showDowntimeJobs: false,
+      downtimeJobsValid: true,
+      downtimeJob: "",
     };
   }
 
@@ -44,6 +49,8 @@ class DowntimeForm extends React.Component {
     this.props.startSetPCSubclasses();
     this.props.startSetDowntime();
     this.props.startSetDowntimeTypes();
+    this.props.startSetDowntimeJobs();
+    this.props.startSetSubclasses();
   }
 
   onDescriptionChange = (e) => {
@@ -93,6 +100,12 @@ class DowntimeForm extends React.Component {
 
   onDowntimeTypeChange = (selectedValue) => {
     const downtimeType = selectedValue;
+    if (selectedValue.value === 3){
+      console.log("hit")
+      this.setState({showDowntimeJobs: true})
+    } else {
+      this.setState({showDowntimeJobs: false})
+    }
     this.setState({ downtimeType }, this.validateDowntimeType)
   };
 
@@ -108,6 +121,12 @@ class DowntimeForm extends React.Component {
 
     this.setState({ downtimeTypeValid, errorMsg }, this.validateForm);
   };
+
+  onDowntimeJobChange = (selectedValue) => {
+    const downtimeJob = selectedValue;
+    this.setState({ downtimeJob })
+  }
+
 
   onCharacterChange = (selectedValue) => {
     const pcs = selectedValue;
@@ -148,24 +167,44 @@ class DowntimeForm extends React.Component {
       downtimeTypeValid,
       characterValid,
       numOfDaysSpentValid,
+      downtimeJobsValid,
     } = this.state;
     this.setState({
       formValid:
         descriptionValid &&
         downtimeTypeValid &&
         characterValid &&
+        downtimeJobsValid &&
         numOfDaysSpentValid,
     });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit({
-      description: this.state.description,
-      downtimeType: this.state.downtimeType.value,
-      character: this.state.character.value,
-      numOfDaysSpent: this.state.numOfDaysSpent,
-    });
+
+    let transactionAmount = 0;
+    
+    if (this.state.downtimeType.value === 3){
+      const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
+
+      levels.forEach(level => {
+     
+        if(this.props.subclasses.find(subclass => level.playerClass === subclass.id).className === this.state.downtimeJob.class) {
+          transactionAmount += (Math.floor(Math.random() * 10) + 1) * this.state.numOfDaysSpent
+        } else {
+          transactionAmount += (Math.floor(Math.random() * 4) + 1) * this.state.numOfDaysSpent
+        }
+      })
+    }
+
+    // this.props.onSubmit({
+    //   description: this.state.description,
+    //   downtimeType: this.state.downtimeType.value,
+    //   character: this.state.character.value,
+    //   numOfDaysSpent: this.state.numOfDaysSpent,
+    //   downtimeJob: this.state.downtimeJobs,
+    //   transactionAmount: transactionAmount,
+    // });
   };
 
   selectCharacterOptions = this.props.characters.map((character) => {
@@ -177,6 +216,10 @@ class DowntimeForm extends React.Component {
 
   selectDowntimeTypeOptions = this.props.downtimeTypes.map(ddt => {
     return {value: ddt.id, label: ddt.name, description: ddt.description}
+  })
+
+  selectDowntimeJobOptions = this.props.downtimeJobs.map(ddj => {
+    return {value: ddj.id, label: `Specialized Job: ${ddj.name} - ${ddj.chosenClass}`, class: ddj.chosenClass}
   })
 
   render() {
@@ -240,6 +283,29 @@ class DowntimeForm extends React.Component {
                 </Form.Group>
               </Col>
             </Row>
+            {this.state.showDowntimeJobs ? 
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <span className={this.state.downtimeJobsValid ? "valid-input" : "invalid-input"}>
+                      <Form.Label>Job</Form.Label>
+                      {this.state.downtimeJobsValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    </span>
+                    <Select
+                      options={this.selectDowntimeJobOptions}
+                      value={this.state.downtimeJob}
+                      onChange={this.onDowntimeJobChange}
+                      styles={{container: (provided, state) => ({...provided, marginBottom: '15px'})}}
+                    />
+                    {/* <div>{this.state.downtimeType.description}</div> */}
+                    <ValidationMessage
+                      valid={this.state.downtimeJobsValid}
+                      message={this.state.errorMsg.downtimeJob}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            : null}
             <Row>
               <Col>
                 <Form.Group>
@@ -305,6 +371,8 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetPCSubclasses: () => dispatch(startSetPCSubclasses()),
   startSetDowntime: () => dispatch(startSetDowntime()),
   startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
+  startSetDowntimeJobs: () => dispatch(startSetDowntimeJobs()),
+  startSetSubclasses: () => dispatch(startSetSubclasses()),
 });
 
 const mapStateToProps = (state, props) => ({
@@ -318,6 +386,8 @@ const mapStateToProps = (state, props) => ({
   pcSubclasses: state.pcSubclasses.data,
   downtime: state.downtime.data,
   downtimeTypes: state.downtimeTypes.data,
+  downtimeJobs: state.downtimeJobs.data,
+  subclasses: state.subclasses.data,
 
   missionsIsLoading: state.missions.isLoading,
   charactersIsLoading: state.characters.isLoading,
@@ -325,6 +395,8 @@ const mapStateToProps = (state, props) => ({
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
   downtimeIsLoading: state.downtime.isLoading,
   downtimeTypesIsLoading: state.downtimeTypes.isLoading,
+  downtimeJobsIsLoading: state.downtimeJobs.isLoading,
+  subclassesIsLoading: state.subclasses.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DowntimeForm);

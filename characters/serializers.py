@@ -59,3 +59,9 @@ class ItemsOwnedSerializer(serializers.ModelSerializer):
   class Meta:
     model = ItemsOwned
     fields = ('id', 'item', 'character', 'qty')
+
+class DowntimeJobsSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = DowntimeJobs
+    fields = ('id', 'name', 'chosenClass', 'validUntil')

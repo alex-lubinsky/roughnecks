@@ -33,7 +33,9 @@ const AddCharacterPage = (props) => {
                 date.getMonth() + 1
               }-${date.getDate()}`,
             };
+
             props.startAddPcSubclass(subclassData);
+
             const startingGoldTransaction = {
               name: "Starting Gold",
               goldPcs: formData.goldPcs,
@@ -44,6 +46,7 @@ const AddCharacterPage = (props) => {
               airshipPot: false,
               earnedSpent: 1,
             };
+            
             props.startaddTransaction(startingGoldTransaction);
           });
           props.handleClose();

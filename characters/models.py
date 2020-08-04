@@ -152,4 +152,28 @@ class ItemsOwned(models.Model):
   qty = models.IntegerField()
 
 
+class DowntimeJobs(models.Model):
+
+  CLASS_CHOICES = [
+    ('Fighter', 'Fighter'),
+    ('Cleric', 'Cleric'),
+    ('Wizard', 'Wizard'),
+    ('Bard', 'Bard'),
+    ('Druid', 'Druid'),
+    ('Barbarian', 'Barbarian'),
+    ('Druid', 'Druid'),
+    ('Monk', 'Monk'),
+    ('Paladin', 'Paladin'),
+    ('Ranger', 'Ranger'),
+    ('Rogue', 'Rogue'),
+    ('Sorcerer', 'Sorcerer'),
+    ('Warlock', 'Warlock'),
+    ("Artificer", "Artificer"),
+    ("Blood Hunter", "Blood Hunter")    
+  ]
+
+  name = models.CharField(max_length=255)
+  chosenClass = models.CharField(max_length=255, choices=CLASS_CHOICES)
+  validUntil = models.DateField(null=True, blank=True)
+
 

@@ -65,6 +65,7 @@ export function startSetCharacters() {
         dispatch(setCharacters(res.data));
       }).catch(err => {
         console.log(err.response);
+        return err.response
       });
   };
 }

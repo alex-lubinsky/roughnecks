@@ -75,6 +75,10 @@ class DowntimeTypeList(generics.ListAPIView):
   queryset = DowntimeType.objects.all()
   serializer_class = DowntimeTypeSerializer
 
+class DowntimeJobList(generics.ListAPIView):
+  queryset = DowntimeJobs.objects.all()
+  serializer_class = DowntimeJobsSerializer
+
 
 
 import logging

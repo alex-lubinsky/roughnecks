@@ -52,3 +52,8 @@ class ItemsOwnedAdmin(admin.ModelAdmin):
   list_display = ('id', 'item', 'character', 'qty')
 
 admin.site.register(ItemsOwned, ItemsOwnedAdmin)
+
+class DowntimeJobsAdmin(admin.ModelAdmin):
+  list_display = ('id', 'name', 'chosenClass', 'validUntil')
+
+admin.site.register(DowntimeJobs, DowntimeJobsAdmin)

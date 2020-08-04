@@ -16,4 +16,5 @@ urlpatterns = [
   path('itemsowned/<int:pk>/', ItemsOwnedDetail.as_view()),
   path('itemsowned/', ItemsOwnedList.as_view()),
   path('downtimetypes/', DowntimeTypeList.as_view()),
+  path('downtimejobs/', DowntimeJobList.as_view()),
 ]

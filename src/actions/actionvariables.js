@@ -21,6 +21,10 @@ export const SET_DOWNTIME = "SET_DOWNTIME";
 export const ADD_DOWNTIME = "ADD_DOWNTIME";
 export const DOWNTIME_LOADING = "DOWNTIME_LOADING";
 
+// Downtime Jobs Action Types
+export const SET_DOWNTIME_JOBS = "SET_DOWNTIME_JOBS";
+export const DOWNTIME_JOBS_LOADING = "DOWNTIME_JOBS_LOADING";
+
 // Downtime Types Action Types
 export const SET_DOWNTIME_TYPES = "SET_DOWNTIME_TYPES";
 export const DOWNTIME_TYPES_LOADING = "DOWNTIME_TYPES_LOADING";
