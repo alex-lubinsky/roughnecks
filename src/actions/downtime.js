@@ -4,7 +4,7 @@ import {
   SET_DOWNTIME,
   ADD_DOWNTIME,
   DOWNTIME_LOADING,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 const setDowntime = (downtime) => ({
   type: SET_DOWNTIME,

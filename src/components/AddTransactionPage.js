@@ -1,7 +1,7 @@
 import React from "react";
 import TransactionForm from "./TransactionForm";
 import { connect } from "react-redux";
-import { startaddTransaction } from "../actions/transactions";
+import { startAddTransaction } from "../actions/transactions";
 import Modal from 'react-bootstrap/Modal';
 
 const AddTransactionPage = (props) => {
@@ -12,7 +12,7 @@ const AddTransactionPage = (props) => {
       </Modal.Header>
       <TransactionForm
         onSubmit={(transaction) => {
-          props.startaddTransaction(transaction);
+          props.startAddTransaction(transaction);
           props.handleClose();
         }}
       />
@@ -21,8 +21,8 @@ const AddTransactionPage = (props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  startaddTransaction: (transaction) =>
-    dispatch(startaddTransaction(transaction)),
+  startAddTransaction: (transaction) =>
+    dispatch(startAddTransaction(transaction)),
 });
 
 export default connect(undefined, mapDispatchToProps)(AddTransactionPage);

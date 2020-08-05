@@ -5,7 +5,7 @@ import Select from "react-select";
 import { totalBalance } from "../functions/money";
 import { startAddItemsOwned } from "../actions/itemsowned";
 import {
-  startaddTransaction,
+  startAddTransaction,
   startSetTransactions,
 } from "../actions/transactions";
 import { startSetMissions } from "../actions/missions";
@@ -94,7 +94,7 @@ class Skymall extends React.Component {
       const silverCost = foundItem.costSilver * qty
       const copperCost = foundItem.costCopper * qty
 
-      this.props.startaddTransaction({
+      this.props.startAddTransaction({
         name: `Bought ${foundItem.name} (x${qty})`,
         goldPcs: goldCost,
         silverPcs: silverCost,
@@ -230,8 +230,8 @@ const mapDispatchToProps = (dispatch, props) => ({
   startUpdateItem: (id, updates) => dispatch(startUpdateItem(id, updates)),
   startAddItemsOwned: (itemOwned) => dispatch(startAddItemsOwned(itemOwned)),
   startSetCharacters: () => dispatch(startSetCharacters()),
-  startaddTransaction: (transaction) =>
-    dispatch(startaddTransaction(transaction)),
+  startAddTransaction: (transaction) =>
+    dispatch(startAddTransaction(transaction)),
   startSetMissions: () => dispatch(startSetMissions()),
   startSetTransactions: () => dispatch(startSetTransactions()),
 });

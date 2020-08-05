@@ -6,7 +6,7 @@ import {
   REMOVE_MISSION,
   EDIT_MISSION,
   MISSIONS_LOADING,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 export const addMission = (mission) => ({
   type: ADD_MISSION,

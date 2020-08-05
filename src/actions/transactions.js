@@ -4,7 +4,7 @@ import {
   SET_TRANSACTIONS,
   ADD_TRANSACTION,
   TRANSACTIONS_LOADING,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 const setTransactions = (transactions) => ({
   type: SET_TRANSACTIONS,
@@ -35,7 +35,7 @@ export const addTransaction = (transaction) => ({
   transaction,
 });
 
-export const startaddTransaction = (transactionData = {}) => {
+export const startAddTransaction = (transactionData = {}) => {
   return (dispatch, getState) => {
     const {
       name = "",
@@ -70,7 +70,7 @@ export const startaddTransaction = (transactionData = {}) => {
         return res.data;
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
 };

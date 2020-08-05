@@ -19,6 +19,8 @@ import { startSetDowntime } from '../actions/downtime';
 import { startSetDowntimeTypes } from '../actions/downtimetypes';
 import { startSetDowntimeJobs } from '../actions/downtimejobs';
 import { startSetSubclasses } from '../actions/subclasses';
+import moment from 'moment';
+import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM} from '../variables/downtimejobvariables'
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -37,8 +39,9 @@ class DowntimeForm extends React.Component {
       formValid: false,
       characterDowntime: 0,
       showDowntimeJobs: false,
-      downtimeJobsValid: true,
+      downtimeJobValid: true,
       downtimeJob: "",
+      showDescription: false,
     };
   }
 
@@ -100,13 +103,20 @@ class DowntimeForm extends React.Component {
 
   onDowntimeTypeChange = (selectedValue) => {
     const downtimeType = selectedValue;
-    if (selectedValue.value === 3){
-      console.log("hit")
-      this.setState({showDowntimeJobs: true})
-    } else {
-      this.setState({showDowntimeJobs: false})
+    let showDowntimeJobs = false
+    let downtimeJobValid = true
+    let descriptionValid = true
+    let showDescription = false
+
+    if (selectedValue.value === THE_JOB_BOARD){
+      showDowntimeJobs = true
+      downtimeJobValid = false
+    } else if (selectedValue.value === MISCELLANEOUS) {
+      showDescription = true
+      descriptionValid = false
     }
-    this.setState({ downtimeType }, this.validateDowntimeType)
+
+    this.setState({ downtimeType, showDowntimeJobs, downtimeJobValid, descriptionValid, showDescription }, this.validateDowntimeType)
   };
 
   validateDowntimeType = () => {
@@ -124,8 +134,21 @@ class DowntimeForm extends React.Component {
 
   onDowntimeJobChange = (selectedValue) => {
     const downtimeJob = selectedValue;
-    this.setState({ downtimeJob })
+    this.setState({ downtimeJob }, this.validateDowntimeJob)
   }
+
+  validateDowntimeJob = () => {
+    const { downtimeJob } = this.state;
+    let downtimeJobValid = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (downtimeJob.label === "") {
+      downtimeJobValid = false;
+      errorMsg.downtimeJob = "Downtime job must selected";
+    }
+
+    this.setState({ downtimeJobValid, errorMsg }, this.validateForm);
+  };
 
 
   onCharacterChange = (selectedValue) => {
@@ -167,14 +190,14 @@ class DowntimeForm extends React.Component {
       downtimeTypeValid,
       characterValid,
       numOfDaysSpentValid,
-      downtimeJobsValid,
+      downtimeJobValid,
     } = this.state;
     this.setState({
       formValid:
         descriptionValid &&
         downtimeTypeValid &&
         characterValid &&
-        downtimeJobsValid &&
+        downtimeJobValid &&
         numOfDaysSpentValid,
     });
   };
@@ -184,11 +207,10 @@ class DowntimeForm extends React.Component {
 
     let transactionAmount = 0;
     
-    if (this.state.downtimeType.value === 3){
+    if (this.state.downtimeType.value === THE_JOB_BOARD){
       const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
 
       levels.forEach(level => {
-     
         if(this.props.subclasses.find(subclass => level.playerClass === subclass.id).className === this.state.downtimeJob.class) {
           transactionAmount += (Math.floor(Math.random() * 10) + 1) * this.state.numOfDaysSpent
         } else {
@@ -197,14 +219,25 @@ class DowntimeForm extends React.Component {
       })
     }
 
-    // this.props.onSubmit({
-    //   description: this.state.description,
-    //   downtimeType: this.state.downtimeType.value,
-    //   character: this.state.character.value,
-    //   numOfDaysSpent: this.state.numOfDaysSpent,
-    //   downtimeJob: this.state.downtimeJobs,
-    //   transactionAmount: transactionAmount,
-    // });
+    let description = this.state.description;
+
+    if (this.state.downtimeType.value === THE_JOB_BOARD) {
+      description = `${this.state.character.label} earns gold ${transactionAmount} working the ${this.state.downtimeJob.label} job`
+    } else if (this.state.downtimeType.value === THE_TRAINING_ROOM) {
+      description = `${this.state.character.label} gains ${Math.floor(this.state.numOfDaysSpent / 10)} checkmark${Math.floor(this.state.numOfDaysSpent/10) >= 2 ? 's' : ''}`
+    }
+
+    this.props.onSubmit({
+      description: description,
+      downtimeType: this.state.downtimeType,
+      character: this.state.character.value,
+      numOfDaysSpent: this.state.numOfDaysSpent,
+      downtimeJob: this.state.downtimeJob,
+      transactionAmount: transactionAmount,
+      mission: this.props.missions.find(
+        (mission) => mission.name === "Downtime"
+      ).id,
+    });
   };
 
   selectCharacterOptions = this.props.characters.map((character) => {
@@ -216,9 +249,11 @@ class DowntimeForm extends React.Component {
 
   selectDowntimeTypeOptions = this.props.downtimeTypes.map(ddt => {
     return {value: ddt.id, label: ddt.name, description: ddt.description}
-  })
+  })      
 
-  selectDowntimeJobOptions = this.props.downtimeJobs.map(ddj => {
+  selectDowntimeJobOptions = this.props.downtimeJobs.filter(ddj => {
+    return moment(ddj.validUntil).isSameOrAfter(moment(), 'day')
+  }).map(ddj => {
     return {value: ddj.id, label: `Specialized Job: ${ddj.name} - ${ddj.chosenClass}`, class: ddj.chosenClass}
   })
 
@@ -287,9 +322,9 @@ class DowntimeForm extends React.Component {
               <Row>
                 <Col>
                   <Form.Group>
-                    <span className={this.state.downtimeJobsValid ? "valid-input" : "invalid-input"}>
+                    <span className={this.state.downtimeJobValid ? "valid-input" : "invalid-input"}>
                       <Form.Label>Job</Form.Label>
-                      {this.state.downtimeJobsValid ? <AiOutlineCheck /> : <IoMdClose />}
+                      {this.state.downtimeJobValid ? <AiOutlineCheck /> : <IoMdClose />}
                     </span>
                     <Select
                       options={this.selectDowntimeJobOptions}
@@ -299,7 +334,7 @@ class DowntimeForm extends React.Component {
                     />
                     {/* <div>{this.state.downtimeType.description}</div> */}
                     <ValidationMessage
-                      valid={this.state.downtimeJobsValid}
+                      valid={this.state.downtimeJobValid}
                       message={this.state.errorMsg.downtimeJob}
                     />
                   </Form.Group>
@@ -328,26 +363,28 @@ class DowntimeForm extends React.Component {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
-              <Col>
-                <Form.Group>
-                  <span className={this.state.descriptionValid ? "valid-input" : "invalid-input"}>
-                    <Form.Label>Short Description</Form.Label>
-                    {this.state.descriptionValid ? <AiOutlineCheck /> : <IoMdClose />}
-                  </span>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Description"
-                    value={this.state.description}
-                    onChange={this.onDescriptionChange}
-                  />
-                  <ValidationMessage
-                    valid={this.state.descriptionValid}
-                    message={this.state.errorMsg.description}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
+            {this.state.showDescription ?
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <span className={this.state.descriptionValid ? "valid-input" : "invalid-input"}>
+                      <Form.Label>Short Description</Form.Label>
+                      {this.state.descriptionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Description"
+                      value={this.state.description}
+                      onChange={this.onDescriptionChange}
+                    />
+                    <ValidationMessage
+                      valid={this.state.descriptionValid}
+                      message={this.state.errorMsg.description}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            : null}
           </Container>
         </Modal.Body>
         <Modal.Footer>

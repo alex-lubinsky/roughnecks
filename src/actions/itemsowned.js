@@ -5,7 +5,7 @@ import {
   ADD_ITEMS_OWNED,
   ITEMS_OWNED_LOADING,
   REMOVE_ITEM_OWNED,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 const setItemsOwned = (itemsOwned) => ({
   type: SET_ITEMS_OWNED,

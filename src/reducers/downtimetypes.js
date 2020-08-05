@@ -1,4 +1,4 @@
-import { SET_DOWNTIME_TYPES, DOWNTIME_TYPES_LOADING } from "../actions/actionvariables";
+import { SET_DOWNTIME_TYPES, DOWNTIME_TYPES_LOADING } from "../variables/actionvariables";
 
 const downtimeTypesReducerDefaultState = { data: [], isLoading: false };
 

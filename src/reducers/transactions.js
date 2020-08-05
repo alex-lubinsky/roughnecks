@@ -2,7 +2,7 @@ import {
   SET_TRANSACTIONS,
   ADD_TRANSACTION,
   TRANSACTIONS_LOADING,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const transactionsReducerDefaultState = { data: [], isLoading: false };
 

@@ -3,7 +3,7 @@ import {
   ADD_ITEMS_OWNED,
   ITEMS_OWNED_LOADING,
   REMOVE_ITEM_OWNED,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const itemsOwnedReducerDefaultState = { data: [], isLoading: false };
 

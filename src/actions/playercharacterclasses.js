@@ -4,7 +4,7 @@ import {
   SET_PCSUBCLASSES,
   ADD_PCSUBCLASS,
   PCSUBCLASSES_LOADING,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 const setPCSubclasses = (pcSubclass) => ({
   type: SET_PCSUBCLASSES,

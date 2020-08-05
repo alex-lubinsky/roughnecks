@@ -1,6 +1,6 @@
 import axios from "axios";
 import { tokenConfig } from "./auth";
-import { SET_SUBCLASSES, SUBCLASSES_LOADING } from "./actionvariables";
+import { SET_SUBCLASSES, SUBCLASSES_LOADING } from "../variables/actionvariables";
 
 const setSubclasses = (subclasses) => ({
   type: SET_SUBCLASSES,

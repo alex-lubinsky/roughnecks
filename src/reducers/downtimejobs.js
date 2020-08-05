@@ -1,4 +1,4 @@
-import { SET_DOWNTIME_JOBS, DOWNTIME_JOBS_LOADING } from "../actions/actionvariables";
+import { SET_DOWNTIME_JOBS, DOWNTIME_JOBS_LOADING } from "../variables/actionvariables";
 
 const downtimeJobsReducerDefaultState = { data: [], isLoading: false };
 

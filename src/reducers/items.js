@@ -2,7 +2,7 @@ import {
   SET_ITEMS,
   EDIT_ITEM,
   ITEMS_LOADING,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const itemReducerDefaultState = { data: [], isLoading: false };
 

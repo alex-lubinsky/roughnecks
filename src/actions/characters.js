@@ -6,7 +6,7 @@ import {
   EDIT_CHARACTER,
   REMOVE_CHARACTER,
   CHARACTERS_LOADING,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 const loadingCharacters = () => ({
   type: CHARACTERS_LOADING,

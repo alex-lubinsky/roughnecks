@@ -2,7 +2,7 @@ import {
   SET_DOWNTIME,
   ADD_DOWNTIME,
   DOWNTIME_LOADING,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const downtimeReducerDefaultState = { data: [], isLoading: false };
 

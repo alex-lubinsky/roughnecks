@@ -4,7 +4,7 @@ import {
   EDIT_CHARACTER,
   REMOVE_CHARACTER,
   CHARACTERS_LOADING,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const characterReducerDefaultState = { data: [], isLoading: false };
 

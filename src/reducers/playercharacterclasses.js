@@ -2,7 +2,7 @@ import {
   SET_PCSUBCLASSES,
   ADD_PCSUBCLASS,
   PCSUBCLASSES_LOADING,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const pcSubclassesReducerDefaultState = { data: [], isLoading: false };
 

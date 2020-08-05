@@ -3,7 +3,7 @@ import CharacterForm from "./CharacterForm";
 import { startAddCharacter } from "../actions/characters";
 import { connect } from "react-redux";
 import { startAddPcSubclass } from "../actions/playercharacterclasses";
-import { startaddTransaction } from "../actions/transactions";
+import { startAddTransaction } from "../actions/transactions";
 import Modal from "react-bootstrap/Modal";
 
 const AddCharacterPage = (props) => {
@@ -47,7 +47,7 @@ const AddCharacterPage = (props) => {
               earnedSpent: 1,
             };
             
-            props.startaddTransaction(startingGoldTransaction);
+            props.startAddTransaction(startingGoldTransaction);
           });
           props.handleClose();
         }}
@@ -59,8 +59,8 @@ const AddCharacterPage = (props) => {
 const mapDispatchToProps = (dispatch, props) => ({
   startAddCharacter: (character) => dispatch(startAddCharacter(character)),
   startAddPcSubclass: (subclass) => dispatch(startAddPcSubclass(subclass)),
-  startaddTransaction: (transaction) =>
-    dispatch(startaddTransaction(transaction)),
+  startAddTransaction: (transaction) =>
+    dispatch(startAddTransaction(transaction)),
 });
 
 const mapStateToProps = (state, props) => ({

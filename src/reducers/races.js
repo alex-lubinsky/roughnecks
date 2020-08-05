@@ -1,4 +1,4 @@
-import { SET_RACES, RACES_LOADING } from "../actions/actionvariables";
+import { SET_RACES, RACES_LOADING } from "../variables/actionvariables";
 
 const racesReducerDefaultState = { data: [], isLoading: false };
 

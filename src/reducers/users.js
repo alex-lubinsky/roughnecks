@@ -1,4 +1,4 @@
-import { USERS_LOADED, USERS_LOADING } from "../actions/actionvariables";
+import { USERS_LOADED, USERS_LOADING } from "../variables/actionvariables";
 
 const usersReducerDefaultState = { isLoading: false, data: [] };
 

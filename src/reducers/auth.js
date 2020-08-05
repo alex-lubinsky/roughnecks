@@ -6,7 +6,7 @@ import {
   LOGOUT_SUCCESSFUL,
   AUTHENTICATION_ERROR,
   USER_LOADING,
-} from "../actions/actionvariables";
+} from "../variables/actionvariables";
 
 const initialState = {
   isAuthenticated: null,

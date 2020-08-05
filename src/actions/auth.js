@@ -10,7 +10,7 @@ import {
   AUTHENTICATION_ERROR,
   USER_LOADING,
   USERS_LOADING,
-} from "./actionvariables";
+} from "../variables/actionvariables";
 
 const loadUser = (user) => ({
   type: USER_LOADED,

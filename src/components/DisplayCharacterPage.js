@@ -28,7 +28,7 @@ import { getDowntimeDays } from '../functions/levels'
 import ItemsOwnedTable from './ItemsOwnedTable';
 import { startSetItems } from '../actions/items'
 import { startSetItemsOwned } from '../actions/itemsowned';
-import { startaddTransaction } from '../actions/transactions';
+import { startAddTransaction } from '../actions/transactions';
 import { startRemoveItemOwned } from '../actions/itemsowned';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
@@ -92,7 +92,7 @@ class DisplayCharacterPage extends React.Component {
     const silver = Math.floor(((itemsOwned.qty*total)/2 - gold) * 10)
     const copper = Math.floor(((((itemsOwned.qty*total)/2 - gold) * 10) - silver) * 10)
 
-    this.props.startaddTransaction({
+    this.props.startAddTransaction({
       name: `Sold ${item.name} (x${itemsOwned.qty})`,
         goldPcs: gold,
         silverPcs: silver,
@@ -346,8 +346,8 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(startUpdateCharacter(id, updates)),
   startSetItems: () => dispatch(startSetItems()),
   startSetItemsOwned: () => dispatch(startSetItemsOwned()),
-  startaddTransaction: (transaction) =>
-    dispatch(startaddTransaction(transaction)),
+  startAddTransaction: (transaction) =>
+    dispatch(startAddTransaction(transaction)),
   startRemoveItemOwned: (id) => dispatch(startRemoveItemOwned(id)),
   startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
 
