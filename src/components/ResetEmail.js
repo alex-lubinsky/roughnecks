@@ -12,10 +12,12 @@ import history from '../history';
 
 const ResetEmail = () => {
 
+  
   const { values, handleChange, handleSubmit, errors } = useForm(onSubmit, validate);
-
+  const [showLink, setShowLink ] = useState(false)
 
   function onSubmit() {
+  
     resetPassword(values.email).then(res => {
       if (res.status === 200) {
         history.push('/')

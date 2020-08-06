@@ -108,14 +108,14 @@ class Transaction(models.Model):
 
 class DowntimeType(models.Model):
   name = models.CharField(max_length=100)
-  description = models.CharField(max_length=255)
+  description = models.TextField()
 
   def __str__(self):
     return self.name
 
 class Downtime(models.Model):
   
-  description = models.CharField(max_length=255)
+  description = models.TextField()
   character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
   numOfDaysSpent = models.IntegerField()
   downtimeType = models.ForeignKey(DowntimeType, null=True, related_name="downtimeTransaction", on_delete=models.SET_NULL)
@@ -176,4 +176,19 @@ class DowntimeJobs(models.Model):
   chosenClass = models.CharField(max_length=255, choices=CLASS_CHOICES)
   validUntil = models.DateField(null=True, blank=True)
 
+class AirshipUpgrades(models.Model):
+  
+  UPGRADE_CHOICES = [
+    ('Madam Lysalka\'s Tavern', 'Madam Lysalka\'s Tavern'),
+    ('Carlyle\'s Trading Network', 'Carlyle\'s Trading Network'),
+    ('The Blacksmith', 'The Blacksmith'),
+    ('The Alchemist', 'The Alchemist'),
+    ('The Master of Arms', 'The Master of Arms'),
+    ('The Researcher', 'The Researcher')
+  ]
+
+  upgradeType = models.CharField(max_length=255, choices=UPGRADE_CHOICES)
+  fromAirshipPot = models.BooleanField(default=False)
+  amount = models.IntegerField()
+  
 

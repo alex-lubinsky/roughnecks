@@ -20,7 +20,7 @@ import { startSetDowntimeTypes } from '../actions/downtimetypes';
 import { startSetDowntimeJobs } from '../actions/downtimejobs';
 import { startSetSubclasses } from '../actions/subclasses';
 import moment from 'moment';
-import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM} from '../variables/downtimejobvariables'
+import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM,MATERIALS_SCAVENGING} from '../variables/downtimejobvariables'
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -206,25 +206,32 @@ class DowntimeForm extends React.Component {
     e.preventDefault();
 
     let transactionAmount = 0;
+    let description = this.state.description;
     
     if (this.state.downtimeType.value === THE_JOB_BOARD){
       const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
 
-      levels.forEach(level => {
-        if(this.props.subclasses.find(subclass => level.playerClass === subclass.id).className === this.state.downtimeJob.class) {
-          transactionAmount += (Math.floor(Math.random() * 10) + 1) * this.state.numOfDaysSpent
-        } else {
-          transactionAmount += (Math.floor(Math.random() * 4) + 1) * this.state.numOfDaysSpent
-        }
-      })
-    }
-
-    let description = this.state.description;
-
-    if (this.state.downtimeType.value === THE_JOB_BOARD) {
-      description = `${this.state.character.label} earns gold ${transactionAmount} working the ${this.state.downtimeJob.label} job`
+      if (this.state.downtimeJob.value === 0 ){
+        levels.forEach(level => {
+          transactionAmount += (Math.floor(Math.random() * 6) + 1)
+        })
+      } else {  
+        levels.forEach(level => {
+          if(this.props.subclasses.find(subclass => level.playerClass === subclass.id).className === this.state.downtimeJob.class) {
+            transactionAmount += (Math.floor(Math.random() * 10) + 1)
+          } else {
+            transactionAmount += (Math.floor(Math.random() * 4) + 1) 
+          }
+        })
+      }
+      description = `${this.state.character.label} earns gold ${transactionAmount * this.state.numOfDaysSpent} working the ${this.state.downtimeJob.label} job`
     } else if (this.state.downtimeType.value === THE_TRAINING_ROOM) {
       description = `${this.state.character.label} gains ${Math.floor(this.state.numOfDaysSpent / 10)} checkmark${Math.floor(this.state.numOfDaysSpent/10) >= 2 ? 's' : ''}`
+    } else if (this.state.downtimeType.value === MATERIALS_SCAVENGING) {
+      for(let i = 0; i < (this.state.numOfDaysSpent / 2); i++) {
+        transactionAmount += ((Math.floor(Math.random() * 100) + 1) % 25 === 0 ? 100 : 15)
+      }
+      description = `${this.state.character.label} finds ${transactionAmount} worth of spellcasting components`
     }
 
     this.props.onSubmit({
@@ -251,17 +258,22 @@ class DowntimeForm extends React.Component {
     return {value: ddt.id, label: ddt.name, description: ddt.description}
   })      
 
-  selectDowntimeJobOptions = this.props.downtimeJobs.filter(ddj => {
-    return moment(ddj.validUntil).isSameOrAfter(moment(), 'day')
-  }).map(ddj => {
-    return {value: ddj.id, label: `Specialized Job: ${ddj.name} - ${ddj.chosenClass}`, class: ddj.chosenClass}
-  })
+  getSelectDowntimeJobOptions = () => {
+    let selectDowntimeJobOptions = [{value: 0, label: 'The Dunshire Trading Company', class: ''}]
+    this.props.downtimeJobs.filter(ddj => {
+      return moment(ddj.validUntil).isSameOrAfter(moment(), 'day')
+    }).forEach(ddj => {
+      selectDowntimeJobOptions.push({value: ddj.id, label: `Specialized Job: ${ddj.name} - ${ddj.chosenClass}`, class: ddj.chosenClass})
+    })
+    return selectDowntimeJobOptions
+  }
 
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
         <Modal.Body>
           <Container>
+            {console.log(this.selectDowntimeJobOptions)}
             <Row>
               <Col>
                 <Form.Group>
@@ -327,7 +339,7 @@ class DowntimeForm extends React.Component {
                       {this.state.downtimeJobValid ? <AiOutlineCheck /> : <IoMdClose />}
                     </span>
                     <Select
-                      options={this.selectDowntimeJobOptions}
+                      options={this.getSelectDowntimeJobOptions()}
                       value={this.state.downtimeJob}
                       onChange={this.onDowntimeJobChange}
                       styles={{container: (provided, state) => ({...provided, marginBottom: '15px'})}}

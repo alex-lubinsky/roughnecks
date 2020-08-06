@@ -8,9 +8,10 @@ const useForm = (callback, validate) => {
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
+      console.log("callback")
       callback();
     }
-  }, [errors, callback, isSubmitting]);
+  }, [errors, isSubmitting, callback]);
 
   function handleSubmit(event) {
     if (event) event.preventDefault();
