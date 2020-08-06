@@ -65,3 +65,9 @@ class DowntimeJobsSerializer(serializers.ModelSerializer):
   class Meta:
     model = DowntimeJobs
     fields = ('id', 'name', 'chosenClass', 'validUntil')
+
+class AirshipUpgradeSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = AirshipUpgrades
+    fields = ('id', 'upgradeType', 'amount', 'fromAirshipPot')

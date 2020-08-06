@@ -14,7 +14,8 @@ import itemsOwnedReducer from "../reducers/itemsowned";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import usersReducers from "../reducers/users";
+import usersReducer from "../reducers/users";
+import airshipUpgradeReducer from '../reducers/airshipupgrades' 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -34,9 +35,10 @@ const rootReducer = combineReducers({
   downtime: downtimeReducer,
   items: itemReducer,
   itemsOwned: itemsOwnedReducer,
-  users: usersReducers,
+  users: usersReducer,
   downtimeTypes: downtimeTypeReducer,
   downtimeJobs: downtimeJobsReducer,
+  airshipUpgrades: airshipUpgradeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

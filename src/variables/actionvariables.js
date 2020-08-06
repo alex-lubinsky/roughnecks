@@ -1,3 +1,8 @@
+//Airship Upgrade Action Types
+export const ADD_AIRSHIP_UPGRADE = "ADD_AIRSHIP_UPGRADE";
+export const SET_AIRSHIP_UPGRADE = "SET_AIRSHIP_UPGRADE";
+export const AIRSHIP_UPGRADES_LOADING = "AIRSHIP_UPGRADES_LOADING";
+
 // Auth Action Types
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";

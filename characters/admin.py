@@ -57,3 +57,10 @@ class DowntimeJobsAdmin(admin.ModelAdmin):
   list_display = ('id', 'name', 'chosenClass', 'validUntil')
 
 admin.site.register(DowntimeJobs, DowntimeJobsAdmin)
+
+class AirshipUpgradesAdmin(admin.ModelAdmin):
+  list_display = ('id', 'upgradeType', 'amount', 'fromAirshipPot')
+
+admin.site.register(AirshipUpgrades, AirshipUpgradesAdmin)
+
+

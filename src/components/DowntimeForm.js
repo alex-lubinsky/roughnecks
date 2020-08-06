@@ -20,7 +20,7 @@ import { startSetDowntimeTypes } from '../actions/downtimetypes';
 import { startSetDowntimeJobs } from '../actions/downtimejobs';
 import { startSetSubclasses } from '../actions/subclasses';
 import moment from 'moment';
-import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM,MATERIALS_SCAVENGING} from '../variables/downtimejobvariables'
+import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM, MATERIALS_SCAVENGING, CARLYLES_TRADING_NETWORK} from '../variables/downtimejobvariables'
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -207,9 +207,9 @@ class DowntimeForm extends React.Component {
 
     let transactionAmount = 0;
     let description = this.state.description;
+    const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
     
     if (this.state.downtimeType.value === THE_JOB_BOARD){
-      const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
 
       if (this.state.downtimeJob.value === 0 ){
         levels.forEach(level => {
@@ -224,7 +224,8 @@ class DowntimeForm extends React.Component {
           }
         })
       }
-      description = `${this.state.character.label} earns gold ${transactionAmount * this.state.numOfDaysSpent} working the ${this.state.downtimeJob.label} job`
+      transactionAmount *= this.state.numOfDaysSpent
+      description = `${this.state.character.label} earns gold ${transactionAmount} working the ${this.state.downtimeJob.label} job`
     } else if (this.state.downtimeType.value === THE_TRAINING_ROOM) {
       description = `${this.state.character.label} gains ${Math.floor(this.state.numOfDaysSpent / 10)} checkmark${Math.floor(this.state.numOfDaysSpent/10) >= 2 ? 's' : ''}`
     } else if (this.state.downtimeType.value === MATERIALS_SCAVENGING) {
@@ -232,6 +233,11 @@ class DowntimeForm extends React.Component {
         transactionAmount += ((Math.floor(Math.random() * 100) + 1) % 25 === 0 ? 100 : 15)
       }
       description = `${this.state.character.label} finds ${transactionAmount} worth of spellcasting components`
+    } else if (this.state.downtimeType.value ===  CARLYLES_TRADING_NETWORK) {
+      levels.forEach(level => {
+        transactionAmount += (Math.floor(Math.random() * 6) + 1) * this.state.numOfDaysSpent
+      })
+      description = `${this.state.character.label} aided Carylye in adding ${transactionAmount} gold to his network`
     }
 
     this.props.onSubmit({
@@ -273,7 +279,6 @@ class DowntimeForm extends React.Component {
       <Form onSubmit={this.onSubmit}>
         <Modal.Body>
           <Container>
-            {console.log(this.selectDowntimeJobOptions)}
             <Row>
               <Col>
                 <Form.Group>
