@@ -20,7 +20,7 @@ import { startSetDowntimeTypes } from '../actions/downtimetypes';
 import { startSetDowntimeJobs } from '../actions/downtimejobs';
 import { startSetSubclasses } from '../actions/subclasses';
 import moment from 'moment';
-import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM, MATERIALS_SCAVENGING, CARLYLES_TRADING_NETWORK} from '../variables/downtimejobvariables'
+import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM, MATERIALS_SCAVENGING, CARLYLES_TRADING_NETWORK, UPGRADING_THE_AIRSHIP} from '../variables/downtimejobvariables'
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -42,6 +42,9 @@ class DowntimeForm extends React.Component {
       downtimeJobValid: true,
       downtimeJob: "",
       showDescription: false,
+      showAirshipUpgradeOptions: false,
+      airshipUpgrade: '',
+      airshipUpgradeVaild: true
     };
   }
 
@@ -104,9 +107,12 @@ class DowntimeForm extends React.Component {
   onDowntimeTypeChange = (selectedValue) => {
     const downtimeType = selectedValue;
     let showDowntimeJobs = false
+    let showAirshipUpgradeOptions = false
+    let showDescription = false
+
     let downtimeJobValid = true
     let descriptionValid = true
-    let showDescription = false
+    let airshipUpgradeVaild = true
 
     if (selectedValue.value === THE_JOB_BOARD){
       showDowntimeJobs = true
@@ -114,9 +120,12 @@ class DowntimeForm extends React.Component {
     } else if (selectedValue.value === MISCELLANEOUS) {
       showDescription = true
       descriptionValid = false
+    } else if (selectedValue.value === UPGRADING_THE_AIRSHIP) {
+      showAirshipUpgradeOptions = true
+      airshipUpgradeVaild = false
     }
 
-    this.setState({ downtimeType, showDowntimeJobs, downtimeJobValid, descriptionValid, showDescription }, this.validateDowntimeType)
+    this.setState({ downtimeType, showDowntimeJobs, downtimeJobValid, descriptionValid, showDescription, showAirshipUpgradeOptions, airshipUpgradeVaild}, this.validateDowntimeType)
   };
 
   validateDowntimeType = () => {
@@ -144,10 +153,28 @@ class DowntimeForm extends React.Component {
 
     if (downtimeJob.label === "") {
       downtimeJobValid = false;
-      errorMsg.downtimeJob = "Downtime job must selected";
+      errorMsg.downtimeJob = "Downtime job must be selected";
     }
 
     this.setState({ downtimeJobValid, errorMsg }, this.validateForm);
+  };
+
+  onAirshipUpgradeChange = (selectedValue) => {
+    const airshipUpgrade = selectedValue;
+    this.setState({ airshipUpgrade }, this.validateAirshipUpgrade)
+  }
+
+  validateAirshipUpgrade = () => {
+    const { airshipUpgrade } = this.state;
+    let airshipUpgradeVaild = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (airshipUpgrade.label === "") {
+      airshipUpgradeVaild = false;
+      errorMsg.airshipUpgrade = "Airship Upgrade must be selected";
+    }
+
+    this.setState({ airshipUpgradeVaild, errorMsg }, this.validateForm);
   };
 
 
@@ -191,6 +218,7 @@ class DowntimeForm extends React.Component {
       characterValid,
       numOfDaysSpentValid,
       downtimeJobValid,
+      airshipUpgradeVaild,
     } = this.state;
     this.setState({
       formValid:
@@ -198,7 +226,8 @@ class DowntimeForm extends React.Component {
         downtimeTypeValid &&
         characterValid &&
         downtimeJobValid &&
-        numOfDaysSpentValid,
+        numOfDaysSpentValid &&
+        airshipUpgradeVaild
     });
   };
 
@@ -208,6 +237,7 @@ class DowntimeForm extends React.Component {
     let transactionAmount = 0;
     let description = this.state.description;
     const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
+    let upgradeRoom = ''
     
     if (this.state.downtimeType.value === THE_JOB_BOARD){
 
@@ -238,7 +268,12 @@ class DowntimeForm extends React.Component {
         transactionAmount += (Math.floor(Math.random() * 6) + 1) * this.state.numOfDaysSpent
       })
       description = `${this.state.character.label} aided Carylye in adding ${transactionAmount} gold to his network`
-    }
+      upgradeRoom = 'Carlyle\'s Trading Network'
+    } else if (this.state.downtimeType.value ===  UPGRADING_THE_AIRSHIP) {
+      transactionAmount = 10 * this.state.numOfDaysSpent
+      description = `${this.state.character.label} spends ${this.state.numOfDaysSpent} days to upgrade ${this.state.airshipUpgrade.label} by ${transactionAmount} gold`
+      upgradeRoom = this.state.airshipUpgrade.value
+    } 
 
     this.props.onSubmit({
       description: description,
@@ -250,6 +285,7 @@ class DowntimeForm extends React.Component {
       mission: this.props.missions.find(
         (mission) => mission.name === "Downtime"
       ).id,
+      upgradeRoom: upgradeRoom
     });
   };
 
@@ -273,6 +309,13 @@ class DowntimeForm extends React.Component {
     })
     return selectDowntimeJobOptions
   }
+
+  selectUpgradingAirhipOptions = [
+    {value: 'The Blacksmith', label: 'The Blacksmith'},
+    {value: 'The Alchemist', label: 'The Alchemist'},
+    {value: 'The Master of Arms', label: 'The Master of Arms'},
+    {value: 'The Researcher', label: 'The Researcher'}
+  ]
 
   render() {
     return (
@@ -347,12 +390,31 @@ class DowntimeForm extends React.Component {
                       options={this.getSelectDowntimeJobOptions()}
                       value={this.state.downtimeJob}
                       onChange={this.onDowntimeJobChange}
-                      styles={{container: (provided, state) => ({...provided, marginBottom: '15px'})}}
                     />
-                    {/* <div>{this.state.downtimeType.description}</div> */}
                     <ValidationMessage
                       valid={this.state.downtimeJobValid}
                       message={this.state.errorMsg.downtimeJob}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            : null}
+            {this.state.showAirshipUpgradeOptions ? 
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <span className={this.state.airshipUpgradeVaild ? "valid-input" : "invalid-input"}>
+                      <Form.Label>Room to Upgrade</Form.Label>
+                      {this.state.airshipUpgradeVaild ? <AiOutlineCheck /> : <IoMdClose />}
+                    </span>
+                    <Select
+                      options={this.selectUpgradingAirhipOptions}
+                      value={this.state.airshipUpgrade}
+                      onChange={this.onAirshipUpgradeChange}
+                    />
+                    <ValidationMessage
+                      valid={this.state.airshipUpgradeVaild}
+                      message={this.state.errorMsg.airshipUpgrade}
                     />
                   </Form.Group>
                 </Col>

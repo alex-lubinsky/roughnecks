@@ -84,7 +84,6 @@ class AirshipUpgradesList(generics.ListCreateAPIView):
   serializer_class = AirshipUpgradeSerializer
 
 
-
 import logging
 
 from django.views.generic import View

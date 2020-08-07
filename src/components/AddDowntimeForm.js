@@ -4,7 +4,7 @@ import { startAddDowntime } from "../actions/downtime";
 import DowntimeForm from "./DowntimeForm";
 import Modal from "react-bootstrap/Modal";
 import { startAddTransaction } from '../actions/transactions';
-import { THE_JOB_BOARD, CARLYLES_TRADING_NETWORK } from '../variables/downtimejobvariables'
+import { THE_JOB_BOARD, CARLYLES_TRADING_NETWORK, UPGRADING_THE_AIRSHIP} from '../variables/downtimejobvariables'
 import { startAddAirshipUpgrade } from '../actions/airshipupgrades';
 
 const AddDowntimeForm = (props) => {
@@ -39,9 +39,9 @@ const AddDowntimeForm = (props) => {
 
             props.startAddTransaction(transaction);
 
-          } else if (formData.downtimeType.value === CARLYLES_TRADING_NETWORK) {
+          } else if (formData.downtimeType.value === CARLYLES_TRADING_NETWORK || formData.downtimeType.value === UPGRADING_THE_AIRSHIP) {
             const airshipUpgrade = {
-              upgradeType: 'Carlyle\'s Trading Network',
+              upgradeType: formData.upgradeRoom,
               fromAirshipPot: false,
               amount: formData.transactionAmount
             }
