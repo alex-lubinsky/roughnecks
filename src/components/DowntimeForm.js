@@ -20,7 +20,15 @@ import { startSetDowntimeTypes } from '../actions/downtimetypes';
 import { startSetDowntimeJobs } from '../actions/downtimejobs';
 import { startSetSubclasses } from '../actions/subclasses';
 import moment from 'moment';
-import { MISCELLANEOUS, THE_JOB_BOARD, THE_TRAINING_ROOM, MATERIALS_SCAVENGING, CARLYLES_TRADING_NETWORK, UPGRADING_THE_AIRSHIP} from '../variables/downtimejobvariables'
+import { 
+  MISCELLANEOUS, 
+  THE_JOB_BOARD, 
+  THE_TRAINING_ROOM, 
+  MATERIALS_SCAVENGING, 
+  CARLYLES_TRADING_NETWORK, 
+  UPGRADING_THE_AIRSHIP,
+  MADAME_LYSALKAS_TAVERN
+} from '../variables/downtimejobvariables'
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -44,7 +52,10 @@ class DowntimeForm extends React.Component {
       showDescription: false,
       showAirshipUpgradeOptions: false,
       airshipUpgrade: '',
-      airshipUpgradeVaild: true
+      airshipUpgradeVaild: true,
+      showTavernDice: false,
+      numberOfTavernDice: 1,
+      TavernDiceVaild: true,
     };
   }
 
@@ -109,10 +120,14 @@ class DowntimeForm extends React.Component {
     let showDowntimeJobs = false
     let showAirshipUpgradeOptions = false
     let showDescription = false
+    let showTavernDice = false
 
     let downtimeJobValid = true
     let descriptionValid = true
     let airshipUpgradeVaild = true
+    let TavernDiceVaild = true
+
+    let numOfDaysSpent = this.state.numOfDaysSpent
 
     if (selectedValue.value === THE_JOB_BOARD){
       showDowntimeJobs = true
@@ -123,9 +138,27 @@ class DowntimeForm extends React.Component {
     } else if (selectedValue.value === UPGRADING_THE_AIRSHIP) {
       showAirshipUpgradeOptions = true
       airshipUpgradeVaild = false
+    } else if (selectedValue.value === MADAME_LYSALKAS_TAVERN) {
+      showTavernDice = true
+      TavernDiceVaild = true
+      numOfDaysSpent = 1
     }
 
-    this.setState({ downtimeType, showDowntimeJobs, downtimeJobValid, descriptionValid, showDescription, showAirshipUpgradeOptions, airshipUpgradeVaild}, this.validateDowntimeType)
+    this.setState(
+      {
+        downtimeType, 
+        showDowntimeJobs, 
+        downtimeJobValid, 
+        descriptionValid, 
+        showDescription, 
+        showAirshipUpgradeOptions, 
+        airshipUpgradeVaild,
+        showTavernDice,
+        TavernDiceVaild,
+        
+      }, this.validateDowntimeType)
+
+    this.setState({numOfDaysSpent}, this.validateNumOfDaysSpent)
   };
 
   validateDowntimeType = () => {
@@ -157,6 +190,34 @@ class DowntimeForm extends React.Component {
     }
 
     this.setState({ downtimeJobValid, errorMsg }, this.validateForm);
+  };
+
+  onNumberofTavernDiceChange = (e) => {
+    const numberOfTavernDice = e.target.value;
+    this.setState({ numberOfTavernDice }, this.validatenumberOfTavernDice);
+  };
+
+  validatenumberOfTavernDice = () => {
+    const { numberOfTavernDice } = this.state;
+    let TavernDiceVaild = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (!Number.isInteger(Number(numberOfTavernDice))) {
+      TavernDiceVaild = false;
+      errorMsg.numberOfTavernDice = "Must be a whole number";
+    } else if (numberOfTavernDice < 1 || numberOfTavernDice > 2) {
+      TavernDiceVaild = false;
+      errorMsg.numberOfTavernDice = "Must be a number larger than 0 and less than or equal to 3";
+    } 
+    // else if (
+    //   this.state.character !== "" &&
+    //   numOfDaysSpent > this.state.characterDowntime
+    // ) {
+    //   TavernDiceVaild = false;
+    //   errorMsg.numOfDaysSpent = "Cannot spend more days than a character has";
+    // }
+
+    this.setState({ TavernDiceVaild, errorMsg }, this.validateForm);
   };
 
   onAirshipUpgradeChange = (selectedValue) => {
@@ -219,6 +280,7 @@ class DowntimeForm extends React.Component {
       numOfDaysSpentValid,
       downtimeJobValid,
       airshipUpgradeVaild,
+      TavernDiceVaild,
     } = this.state;
     this.setState({
       formValid:
@@ -227,7 +289,8 @@ class DowntimeForm extends React.Component {
         characterValid &&
         downtimeJobValid &&
         numOfDaysSpentValid &&
-        airshipUpgradeVaild
+        airshipUpgradeVaild &&
+        TavernDiceVaild
     });
   };
 
@@ -273,6 +336,14 @@ class DowntimeForm extends React.Component {
       transactionAmount = 10 * this.state.numOfDaysSpent
       description = `${this.state.character.label} spends ${this.state.numOfDaysSpent} days to upgrade ${this.state.airshipUpgrade.label} by ${transactionAmount} gold`
       upgradeRoom = this.state.airshipUpgrade.value
+    } else if (this.state.downtimeType.value ===  MADAME_LYSALKAS_TAVERN) {
+      let tavernRoll = 0
+      for(let i = 0; i < this.state.numberOfTavernDice; i++) {
+        tavernRoll += (Math.floor(Math.random() * 6) + 1)
+      }
+      transactionAmount = this.state.numberOfTavernDice
+      description = `${this.state.character.label} spends ${transactionAmount * 10} gold at Madame Lysalka's Tavern and rolls a ${tavernRoll}`
+      upgradeRoom = 'Madam Lysalka\'s Tavern'
     } 
 
     this.props.onSubmit({
@@ -399,6 +470,30 @@ class DowntimeForm extends React.Component {
                 </Col>
               </Row>
             : null}
+            {this.state.showTavernDice ? 
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <span className={this.state.TavernDiceVaild ? "valid-input" : "invalid-input"}>
+                      <Form.Label>Number of Carousing Dice</Form.Label>
+                      {this.state.TavernDiceVaild ? <AiOutlineCheck /> : <IoMdClose />}
+                    </span>
+                    <Form.Control
+                      type="number"
+                      min="0"
+                      step="1"
+                      placeholder="Enter Number of Carousing Dice to Buy"
+                      value={this.state.numberOfTavernDice}
+                      onChange={this.onNumberofTavernDiceChange}
+                    />
+                    <ValidationMessage
+                      valid={this.state.TavernDiceVaild}
+                      message={this.state.errorMsg.numberOfTavernDice}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            : null}
             {this.state.showAirshipUpgradeOptions ? 
               <Row>
                 <Col>
@@ -420,28 +515,6 @@ class DowntimeForm extends React.Component {
                 </Col>
               </Row>
             : null}
-            <Row>
-              <Col>
-                <Form.Group>
-                  <span className={this.state.numOfDaysSpent ? "valid-input" : "invalid-input"}>
-                    <Form.Label>Number of Days Spent</Form.Label>
-                    {this.state.numOfDaysSpent ? <AiOutlineCheck /> : <IoMdClose />}
-                  </span>
-                  <Form.Control
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="Enter Number of Days Spent"
-                    value={this.state.numOfDaysSpent}
-                    onChange={this.onNumOfDaysSpentChange}
-                  />
-                  <ValidationMessage
-                    valid={this.state.numOfDaysSpentValid}
-                    message={this.state.errorMsg.numOfDaysSpent}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
             {this.state.showDescription ?
               <Row>
                 <Col>
@@ -464,6 +537,29 @@ class DowntimeForm extends React.Component {
                 </Col>
               </Row>
             : null}
+            <Row>
+              <Col>
+                <Form.Group>
+                  <span className={this.state.numOfDaysSpent ? "valid-input" : "invalid-input"}>
+                    <Form.Label>Number of Days Spent</Form.Label>
+                    {this.state.numOfDaysSpent ? <AiOutlineCheck /> : <IoMdClose />}
+                  </span>
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="Enter Number of Days Spent"
+                    value={this.state.numOfDaysSpent}
+                    onChange={this.onNumOfDaysSpentChange}
+                  />
+                  {this.state.showTavernDice ? <p>You only need to spend 1 day regardless of the number of dice purcahsed</p> : null}
+                  <ValidationMessage
+                    valid={this.state.numOfDaysSpentValid}
+                    message={this.state.errorMsg.numOfDaysSpent}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
           </Container>
         </Modal.Body>
         <Modal.Footer>
