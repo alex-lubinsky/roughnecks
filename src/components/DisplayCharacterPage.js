@@ -108,6 +108,18 @@ class DisplayCharacterPage extends React.Component {
     this.props.startRemoveItemOwned(itemsOwned.id)
   }
 
+  getGroupedItems = () => {
+    let itemsSoFar = []
+    this.props.itemsOwned.filter(item => item.character === this.props.characterid).forEach(item => {
+      if(!itemsSoFar[item.item]){
+        itemsSoFar[item.item] = JSON.parse(JSON.stringify(item))
+      } else {
+        itemsSoFar[item.item].qty = itemsSoFar[item.item].qty + item.qty
+      }
+    })
+    return itemsSoFar
+  }
+
   render() {
     return (
       <div className="div-margin-sm">
@@ -318,7 +330,7 @@ class DisplayCharacterPage extends React.Component {
                     <Col>
                       <ItemsOwnedTable
                         items={this.props.items}
-                        itemsOwned={this.props.itemsOwned.filter(io => io.character === this.props.characterid)}
+                        groupedItemsOwned={this.getGroupedItems()}
                         onClick={this.sellItem}
                         hasSellPermission={(this.props.user.id === this.props.character.creator || this.props.user.is_staff) ? true : false}
                       />

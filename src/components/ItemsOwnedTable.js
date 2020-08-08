@@ -23,7 +23,7 @@ const ItemsOwnedTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.itemsOwned.map(ownedItem => {
+        {props.groupedItemsOwned.map(ownedItem => {
           const item = props.items.find(item => item.id === ownedItem.item)
           return (
             <tr className="mission-row" key={ownedItem.id}>
