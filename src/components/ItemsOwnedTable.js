@@ -1,13 +1,11 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
-
+import React from "react";
+import Button from "react-bootstrap/Button";
 
 const ItemsOwnedTable = (props) => {
-
   const onClick = (e) => {
     const itemId = e.target.getAttribute("data-key");
-    props.onClick(itemId)
-  }
+    props.onClick(itemId);
+  };
 
   return (
     <table className="width-100 table-highlights">
@@ -23,8 +21,8 @@ const ItemsOwnedTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.groupedItemsOwned.map(ownedItem => {
-          const item = props.items.find(item => item.id === ownedItem.item)
+        {props.groupedItemsOwned.map((ownedItem) => {
+          const item = props.items.find((item) => item.id === ownedItem.item);
           return (
             <tr className="mission-row" key={ownedItem.id}>
               <td>{item.name}</td>
@@ -33,15 +31,19 @@ const ItemsOwnedTable = (props) => {
               <td>{item.costCopper}</td>
               <td>{item.description}</td>
               <td>{ownedItem.qty}</td>
-              {props.hasSellPermission ?
-                <td><Button onClick={onClick} data-key={ownedItem.id}>Sell Item</Button></td>
-              : null}
+              {props.hasSellPermission ? (
+                <td>
+                  <Button onClick={onClick} data-key={ownedItem.id}>
+                    Sell Item
+                  </Button>
+                </td>
+              ) : null}
             </tr>
-          )
+          );
         })}
       </tbody>
     </table>
-  )
-}
+  );
+};
 
 export default ItemsOwnedTable;

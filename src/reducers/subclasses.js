@@ -1,4 +1,7 @@
-import { SET_SUBCLASSES, SUBCLASSES_LOADING } from "../variables/actionvariables";
+import {
+  SET_SUBCLASSES,
+  SUBCLASSES_LOADING,
+} from "../variables/actionvariables";
 
 const subclassesReducerDefaultState = { data: [], isLoading: false };
 

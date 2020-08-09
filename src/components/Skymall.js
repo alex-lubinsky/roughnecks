@@ -13,7 +13,7 @@ import { startSetCharacters } from "../actions/characters";
 import ValidationMessage from "./ValidationMessage";
 import SkymallTable from "./SkymallTable";
 import Form from "react-bootstrap/Form";
-import Alert from 'react-bootstrap/Alert';
+import Alert from "react-bootstrap/Alert";
 
 class Skymall extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class Skymall extends React.Component {
       purchaseValid: true,
       errorMsg: {},
       filter: "",
-      showAlert:false,
+      showAlert: false,
     };
   }
 
@@ -51,8 +51,12 @@ class Skymall extends React.Component {
     const foundItem = this.props.items.find(
       (item) => item.id.toString() === itemId
     );
-    if (!Number.isInteger(Number(qty)) || foundItem.numberInSkymall < qty || qty < 1) {
-      this.setState({showAlert: true})
+    if (
+      !Number.isInteger(Number(qty)) ||
+      foundItem.numberInSkymall < qty ||
+      qty < 1
+    ) {
+      this.setState({ showAlert: true });
     }
 
     const { gold, silver, copper } = totalBalance(
@@ -71,9 +75,11 @@ class Skymall extends React.Component {
         },
       });
     } else if (
-      (parseFloat(
+      parseFloat(
         `${foundItem.costGold}.${foundItem.costSilver}${foundItem.costCopper}`
-      ) * qty) > parseFloat(`${gold}.${silver}${copper}`)
+      ) *
+        qty >
+      parseFloat(`${gold}.${silver}${copper}`)
     ) {
       this.setState({
         purchaseValid: false,
@@ -90,9 +96,9 @@ class Skymall extends React.Component {
         qty: qty,
       });
 
-      const goldCost = foundItem.costGold * qty
-      const silverCost = foundItem.costSilver * qty
-      const copperCost = foundItem.costCopper * qty
+      const goldCost = foundItem.costGold * qty;
+      const silverCost = foundItem.costSilver * qty;
+      const copperCost = foundItem.costCopper * qty;
 
       this.props.startAddTransaction({
         name: `Bought ${foundItem.name} (x${qty})`,
@@ -137,20 +143,28 @@ class Skymall extends React.Component {
 
     return (
       <div className="div-margin-sm">
-        <Alert show={this.state.showAlert} variant="danger" onClose={() => this.setState({showAlert: false})} dismissible>
+        <Alert
+          show={this.state.showAlert}
+          variant="danger"
+          onClose={() => this.setState({ showAlert: false })}
+          dismissible
+        >
           <Alert.Heading>There was an Issue!</Alert.Heading>
-          <p>You must make the quantity to buy a whole number and must be less than or equal to number currently in the skymall.</p>
+          <p>
+            You must make the quantity to buy a whole number and must be less
+            than or equal to number currently in the skymall.
+          </p>
         </Alert>
         <h1>Skymall</h1>
         {this.props.charactersIsLoading ||
         this.props.transactionsIsLoading ? null : (
-            <Form.Group>
-              <Form.Label>Purchasing Character</Form.Label>
-              <Select
-                options={selectCharacterOptions}
-                value={this.state.character}
-                onChange={this.onCharacterChange}
-              />
+          <Form.Group>
+            <Form.Label>Purchasing Character</Form.Label>
+            <Select
+              options={selectCharacterOptions}
+              value={this.state.character}
+              onChange={this.onCharacterChange}
+            />
             {this.state.character === "" ? (
               <div>Select a character to purchase items</div>
             ) : (
@@ -173,7 +187,7 @@ class Skymall extends React.Component {
             placeholder="Use this to filter items in the store"
           />
         </Form.Group>
-        
+
         {this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ||
         this.props.itemsIsLoading ? null : (
@@ -182,7 +196,10 @@ class Skymall extends React.Component {
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Weapon" && item.numberInSkymall > 0 && item.allPcsCanPurchase
+                (item) =>
+                  item.typeOfItem === "Weapon" &&
+                  item.numberInSkymall > 0 &&
+                  item.allPcsCanPurchase
               )}
               onClick={this.onBuyItemClick}
             />
@@ -190,7 +207,10 @@ class Skymall extends React.Component {
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Armor" && item.numberInSkymall > 0 && item.allPcsCanPurchase
+                (item) =>
+                  item.typeOfItem === "Armor" &&
+                  item.numberInSkymall > 0 &&
+                  item.allPcsCanPurchase
               )}
               onClick={this.onBuyItemClick}
             />
@@ -198,7 +218,10 @@ class Skymall extends React.Component {
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Gear" && item.numberInSkymall > 0 && item.allPcsCanPurchase
+                (item) =>
+                  item.typeOfItem === "Gear" &&
+                  item.numberInSkymall > 0 &&
+                  item.allPcsCanPurchase
               )}
               onClick={this.onBuyItemClick}
             />
@@ -206,7 +229,10 @@ class Skymall extends React.Component {
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Magic" && item.numberInSkymall > 0 && item.allPcsCanPurchase
+                (item) =>
+                  item.typeOfItem === "Magic" &&
+                  item.numberInSkymall > 0 &&
+                  item.allPcsCanPurchase
               )}
               onClick={this.onBuyItemClick}
             />
@@ -214,7 +240,10 @@ class Skymall extends React.Component {
             <SkymallTable
               items={this.props.items}
               filteredItems={filteredItems.filter(
-                (item) => item.typeOfItem === "Component" && item.numberInSkymall > 0 && item.allPcsCanPurchase
+                (item) =>
+                  item.typeOfItem === "Component" &&
+                  item.numberInSkymall > 0 &&
+                  item.allPcsCanPurchase
               )}
               onClick={this.onBuyItemClick}
             />

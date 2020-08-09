@@ -1,31 +1,31 @@
 import React, { useState } from "react";
 import { resetPassword } from "../actions/auth";
 import { NavLink } from "react-router-dom";
-import useForm from '../hooks/useForm';
-import validate from '../validation/resetemail';
-import ValidationMessage from './ValidationMessage';
+import useForm from "../hooks/useForm";
+import validate from "../validation/resetemail";
+import ValidationMessage from "./ValidationMessage";
 
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import history from '../history';
+import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import history from "../history";
 
 const ResetEmail = () => {
-
-  
-  const { values, handleChange, handleSubmit, errors } = useForm(onSubmit, validate);
-  const [showLink, setShowLink ] = useState(false)
+  const { values, handleChange, handleSubmit, errors } = useForm(
+    onSubmit,
+    validate
+  );
+  const [showLink, setShowLink] = useState(false);
 
   function onSubmit() {
-  
-    resetPassword(values.email).then(res => {
+    resetPassword(values.email).then((res) => {
       if (res.status === 200) {
-        history.push('/')
+        history.push("/");
       } else {
-        console.log(res.response)
+        console.log(res.response);
       }
-    })
-  };
+    });
+  }
 
   return (
     <Container className="form-container form-bump-down">
@@ -35,7 +35,7 @@ const ResetEmail = () => {
           <Form.Control
             type="text"
             name="email"
-            value={values.email || ''}
+            value={values.email || ""}
             onChange={handleChange}
             placeholder="Enter your Email Address"
           />

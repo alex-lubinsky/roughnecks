@@ -1,11 +1,10 @@
 import React from "react";
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { FaCheck } from 'react-icons/fa';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { FaCheck } from "react-icons/fa";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 
 const TransactionsTable = (props) => {
   return (
@@ -33,7 +32,8 @@ const TransactionsTable = (props) => {
                     {props.transactions
                       .filter((transaction) => {
                         return transaction.earnedSpent === 1;
-                      }).sort((a,b) => (a.episode >= b.episode) ? 1 : -1)
+                      })
+                      .sort((a, b) => (a.episode >= b.episode ? 1 : -1))
                       .map((transaction) => {
                         return (
                           <tr key={transaction.id} className="transaction-row">
@@ -42,7 +42,8 @@ const TransactionsTable = (props) => {
                                 (mission) => mission.id === transaction.mission
                               ).episode
                                 ? props.missions.find(
-                                    (mission) => mission.id === transaction.mission
+                                    (mission) =>
+                                      mission.id === transaction.mission
                                   ).episode
                                 : ""}
                             </td>
@@ -51,7 +52,8 @@ const TransactionsTable = (props) => {
                                 (mission) => mission.id === transaction.mission
                               ).name !== "Starting Gold"
                                 ? props.missions.find(
-                                    (mission) => mission.id === transaction.mission
+                                    (mission) =>
+                                      mission.id === transaction.mission
                                   ).name
                                 : ""}
                             </td>
@@ -59,19 +61,21 @@ const TransactionsTable = (props) => {
                             <td>{transaction.goldPcs}</td>
                             <td>{transaction.silverPcs}</td>
                             <td>{transaction.copperPcs}</td>
-                            <td>{transaction.airshipPot ? <FaCheck /> : null}</td>
+                            <td>
+                              {transaction.airshipPot ? <FaCheck /> : null}
+                            </td>
                             <td>
                               <ul className="character-list">
-                              {transaction.characters.map((pc) => {
-                                const character = props.characters.find(
-                                  (character) => character.id === pc
-                                );
-                                return (
-                                  <li key={character.id}>
-                                    {character.fullName}
-                                  </li>
-                                );
-                              })}
+                                {transaction.characters.map((pc) => {
+                                  const character = props.characters.find(
+                                    (character) => character.id === pc
+                                  );
+                                  return (
+                                    <li key={character.id}>
+                                      {character.fullName}
+                                    </li>
+                                  );
+                                })}
                               </ul>
                             </td>
                             <td></td>
@@ -86,7 +90,7 @@ const TransactionsTable = (props) => {
           </Container>
         </Tab>
         <Tab eventKey="spent" title="Spent">
-        <Container fluid>
+          <Container fluid>
             <Row>
               <Col>
                 <table className="table-highlights width-100">
@@ -122,7 +126,7 @@ const TransactionsTable = (props) => {
                                       {character.fullName}
                                     </li>
                                   );
-                                })}                 
+                                })}
                               </ul>
                             </td>
                             <td></td>

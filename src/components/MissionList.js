@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import { startSetCharacters } from "../actions/characters";
 import { startSetTransactions } from "../actions/transactions";
 
-
 class MissionList extends React.Component {
   componentDidMount() {
     this.props.startSetMissions();
@@ -33,50 +32,52 @@ class MissionList extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.missions.sort((a,b) => (a.episode > b.episode) ? -1 : 1).map((mission) => {
-                const dm = this.props.characters.find(
-                  (character) => character.id === mission.dm
-                );
-                return (
-                  <tr key={mission.id} className="mission-row">
-                    <td>{mission.episode}</td>
-                    <td>
-                      <NavLink
-                        to={`/missions/${mission.id}`}
-                        activeClassName="is-active"
-                      >
-                        {mission.name}
-                      </NavLink>
-                    </td>
-                    <td>{mission.playedOn}</td>
-                    <td>
-                      {`Min: ${mission.levelMin} Max: ${mission.levelMax}`}
-                    </td>
-                    <td>{`${dm.fullName}`}</td>
-                    <td>
-                      <ul className="character-list">
-                        {mission.characters.map((pc) => {
-                          const character = this.props.characters.find(
-                            (character) => character.id === pc
-                          );
-                          return (
-                            <li
-                              key={character.id}
-                            >{`${character.fullName}`}</li>
-                          );
-                        })}
-                      </ul>
-                    </td>
-                    <td>
-                      {
-                        this.props.transactions.filter(
-                          (transaction) => transaction.mission === mission.id
-                        ).length
-                      }
-                    </td>
-                  </tr>
-                );
-              })}
+              {this.props.missions
+                .sort((a, b) => (a.episode > b.episode ? -1 : 1))
+                .map((mission) => {
+                  const dm = this.props.characters.find(
+                    (character) => character.id === mission.dm
+                  );
+                  return (
+                    <tr key={mission.id} className="mission-row">
+                      <td>{mission.episode}</td>
+                      <td>
+                        <NavLink
+                          to={`/missions/${mission.id}`}
+                          activeClassName="is-active"
+                        >
+                          {mission.name}
+                        </NavLink>
+                      </td>
+                      <td>{mission.playedOn}</td>
+                      <td>
+                        {`Min: ${mission.levelMin} Max: ${mission.levelMax}`}
+                      </td>
+                      <td>{`${dm.fullName}`}</td>
+                      <td>
+                        <ul className="character-list">
+                          {mission.characters.map((pc) => {
+                            const character = this.props.characters.find(
+                              (character) => character.id === pc
+                            );
+                            return (
+                              <li
+                                key={character.id}
+                              >{`${character.fullName}`}</li>
+                            );
+                          })}
+                        </ul>
+                      </td>
+                      <td>
+                        {
+                          this.props.transactions.filter(
+                            (transaction) => transaction.mission === mission.id
+                          ).length
+                        }
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         )}

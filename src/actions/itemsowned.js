@@ -35,9 +35,9 @@ const addItemsOwned = (itemsOwned) => ({
 
 export const startAddItemsOwned = (itemsOwnedData = {}) => {
   return (dispatch, getState) => {
-    const { item = 0, character = 0, qty = 0} = itemsOwnedData;
+    const { item = 0, character = 0, qty = 0 } = itemsOwnedData;
 
-    const itemOwned = { item, character, qty};
+    const itemOwned = { item, character, qty };
 
     return axios
       .post(`/api/itemsowned/`, itemOwned, tokenConfig(getState().auth.token))
@@ -51,11 +51,10 @@ export const startAddItemsOwned = (itemsOwnedData = {}) => {
   };
 };
 
-
 const removeItemOwned = (id) => ({
   type: REMOVE_ITEM_OWNED,
-  id
-})
+  id,
+});
 
 export const startRemoveItemOwned = (id) => {
   return (dispatch, getState) => {
@@ -63,8 +62,9 @@ export const startRemoveItemOwned = (id) => {
       .delete(`/api/itemsowned/${id}/`, tokenConfig(getState().auth.token))
       .then((res) => {
         dispatch(removeItemOwned(id));
-      }).catch(err => {
-        console.log(err.response)
       })
-  }
-} 
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+};

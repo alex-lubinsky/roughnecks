@@ -12,23 +12,23 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from 'react-bootstrap/Container';
-import { AiOutlineCheck } from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
-import { startSetDowntime } from '../actions/downtime';
-import { startSetDowntimeTypes } from '../actions/downtimetypes';
-import { startSetDowntimeJobs } from '../actions/downtimejobs';
-import { startSetSubclasses } from '../actions/subclasses';
-import moment from 'moment';
-import { 
-  MISCELLANEOUS, 
-  THE_JOB_BOARD, 
-  THE_TRAINING_ROOM, 
-  MATERIALS_SCAVENGING, 
-  CARLYLES_TRADING_NETWORK, 
+import Container from "react-bootstrap/Container";
+import { AiOutlineCheck } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
+import { startSetDowntime } from "../actions/downtime";
+import { startSetDowntimeTypes } from "../actions/downtimetypes";
+import { startSetDowntimeJobs } from "../actions/downtimejobs";
+import { startSetSubclasses } from "../actions/subclasses";
+import moment from "moment";
+import {
+  MISCELLANEOUS,
+  THE_JOB_BOARD,
+  THE_TRAINING_ROOM,
+  MATERIALS_SCAVENGING,
+  CARLYLES_TRADING_NETWORK,
   UPGRADING_THE_AIRSHIP,
-  MADAME_LYSALKAS_TAVERN
-} from '../variables/downtimejobvariables'
+  MADAME_LYSALKAS_TAVERN,
+} from "../variables/downtimejobvariables";
 
 class DowntimeForm extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class DowntimeForm extends React.Component {
       downtimeJob: "",
       showDescription: false,
       showAirshipUpgradeOptions: false,
-      airshipUpgrade: '',
+      airshipUpgrade: "",
       airshipUpgradeVaild: true,
       showTavernDice: false,
       numberOfTavernDice: 1,
@@ -117,48 +117,49 @@ class DowntimeForm extends React.Component {
 
   onDowntimeTypeChange = (selectedValue) => {
     const downtimeType = selectedValue;
-    let showDowntimeJobs = false
-    let showAirshipUpgradeOptions = false
-    let showDescription = false
-    let showTavernDice = false
+    let showDowntimeJobs = false;
+    let showAirshipUpgradeOptions = false;
+    let showDescription = false;
+    let showTavernDice = false;
 
-    let downtimeJobValid = true
-    let descriptionValid = true
-    let airshipUpgradeVaild = true
-    let TavernDiceVaild = true
+    let downtimeJobValid = true;
+    let descriptionValid = true;
+    let airshipUpgradeVaild = true;
+    let TavernDiceVaild = true;
 
-    let numOfDaysSpent = this.state.numOfDaysSpent
+    let numOfDaysSpent = this.state.numOfDaysSpent;
 
-    if (selectedValue.value === THE_JOB_BOARD){
-      showDowntimeJobs = true
-      downtimeJobValid = false
+    if (selectedValue.value === THE_JOB_BOARD) {
+      showDowntimeJobs = true;
+      downtimeJobValid = false;
     } else if (selectedValue.value === MISCELLANEOUS) {
-      showDescription = true
-      descriptionValid = false
+      showDescription = true;
+      descriptionValid = false;
     } else if (selectedValue.value === UPGRADING_THE_AIRSHIP) {
-      showAirshipUpgradeOptions = true
-      airshipUpgradeVaild = false
+      showAirshipUpgradeOptions = true;
+      airshipUpgradeVaild = false;
     } else if (selectedValue.value === MADAME_LYSALKAS_TAVERN) {
-      showTavernDice = true
-      TavernDiceVaild = true
-      numOfDaysSpent = 1
+      showTavernDice = true;
+      TavernDiceVaild = true;
+      numOfDaysSpent = 1;
     }
 
     this.setState(
       {
-        downtimeType, 
-        showDowntimeJobs, 
-        downtimeJobValid, 
-        descriptionValid, 
-        showDescription, 
-        showAirshipUpgradeOptions, 
+        downtimeType,
+        showDowntimeJobs,
+        downtimeJobValid,
+        descriptionValid,
+        showDescription,
+        showAirshipUpgradeOptions,
         airshipUpgradeVaild,
         showTavernDice,
         TavernDiceVaild,
-        
-      }, this.validateDowntimeType)
+      },
+      this.validateDowntimeType
+    );
 
-    this.setState({numOfDaysSpent}, this.validateNumOfDaysSpent)
+    this.setState({ numOfDaysSpent }, this.validateNumOfDaysSpent);
   };
 
   validateDowntimeType = () => {
@@ -176,8 +177,8 @@ class DowntimeForm extends React.Component {
 
   onDowntimeJobChange = (selectedValue) => {
     const downtimeJob = selectedValue;
-    this.setState({ downtimeJob }, this.validateDowntimeJob)
-  }
+    this.setState({ downtimeJob }, this.validateDowntimeJob);
+  };
 
   validateDowntimeJob = () => {
     const { downtimeJob } = this.state;
@@ -207,8 +208,9 @@ class DowntimeForm extends React.Component {
       errorMsg.numberOfTavernDice = "Must be a whole number";
     } else if (numberOfTavernDice < 1 || numberOfTavernDice > 2) {
       TavernDiceVaild = false;
-      errorMsg.numberOfTavernDice = "Must be a number larger than 0 and less than or equal to 3";
-    } 
+      errorMsg.numberOfTavernDice =
+        "Must be a number larger than 0 and less than or equal to 3";
+    }
     // else if (
     //   this.state.character !== "" &&
     //   numOfDaysSpent > this.state.characterDowntime
@@ -222,8 +224,8 @@ class DowntimeForm extends React.Component {
 
   onAirshipUpgradeChange = (selectedValue) => {
     const airshipUpgrade = selectedValue;
-    this.setState({ airshipUpgrade }, this.validateAirshipUpgrade)
-  }
+    this.setState({ airshipUpgrade }, this.validateAirshipUpgrade);
+  };
 
   validateAirshipUpgrade = () => {
     const { airshipUpgrade } = this.state;
@@ -238,7 +240,6 @@ class DowntimeForm extends React.Component {
     this.setState({ airshipUpgradeVaild, errorMsg }, this.validateForm);
   };
 
-
   onCharacterChange = (selectedValue) => {
     const pcs = selectedValue;
     const character = this.props.characters.find(
@@ -248,9 +249,7 @@ class DowntimeForm extends React.Component {
       characterDowntime: getDowntimeDays(
         this.props.missions.filter((mission) => mission.visable === true),
         character,
-        this.props.downtime.filter(dtt =>
-          dtt.character === character.id
-        ),
+        this.props.downtime.filter((dtt) => dtt.character === character.id),
         this.props.pcSubclasses.filter(
           (pcLevel) => pcLevel.classCharacter === character.id
         )
@@ -290,7 +289,7 @@ class DowntimeForm extends React.Component {
         downtimeJobValid &&
         numOfDaysSpentValid &&
         airshipUpgradeVaild &&
-        TavernDiceVaild
+        TavernDiceVaild,
     });
   };
 
@@ -299,52 +298,65 @@ class DowntimeForm extends React.Component {
 
     let transactionAmount = 0;
     let description = this.state.description;
-    const levels = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === this.state.character.value)
-    let upgradeRoom = ''
-    
-    if (this.state.downtimeType.value === THE_JOB_BOARD){
+    const levels = this.props.pcSubclasses.filter(
+      (pcSubclass) => pcSubclass.classCharacter === this.state.character.value
+    );
+    let upgradeRoom = "";
 
-      if (this.state.downtimeJob.value === 0 ){
-        levels.forEach(level => {
-          transactionAmount += (Math.floor(Math.random() * 6) + 1)
-        })
-      } else {  
-        levels.forEach(level => {
-          if(this.props.subclasses.find(subclass => level.playerClass === subclass.id).className === this.state.downtimeJob.class) {
-            transactionAmount += (Math.floor(Math.random() * 10) + 1)
+    if (this.state.downtimeType.value === THE_JOB_BOARD) {
+      if (this.state.downtimeJob.value === 0) {
+        levels.forEach((level) => {
+          transactionAmount += Math.floor(Math.random() * 6) + 1;
+        });
+      } else {
+        levels.forEach((level) => {
+          if (
+            this.props.subclasses.find(
+              (subclass) => level.playerClass === subclass.id
+            ).className === this.state.downtimeJob.class
+          ) {
+            transactionAmount += Math.floor(Math.random() * 10) + 1;
           } else {
-            transactionAmount += (Math.floor(Math.random() * 4) + 1) 
+            transactionAmount += Math.floor(Math.random() * 4) + 1;
           }
-        })
+        });
       }
-      transactionAmount *= this.state.numOfDaysSpent
-      description = `${this.state.character.label} earns gold ${transactionAmount} working the ${this.state.downtimeJob.label} job`
+      transactionAmount *= this.state.numOfDaysSpent;
+      description = `${this.state.character.label} earns gold ${transactionAmount} working the ${this.state.downtimeJob.label} job`;
     } else if (this.state.downtimeType.value === THE_TRAINING_ROOM) {
-      description = `${this.state.character.label} gains ${Math.floor(this.state.numOfDaysSpent / 10)} checkmark${Math.floor(this.state.numOfDaysSpent/10) >= 2 ? 's' : ''}`
+      description = `${this.state.character.label} gains ${Math.floor(
+        this.state.numOfDaysSpent / 10
+      )} checkmark${
+        Math.floor(this.state.numOfDaysSpent / 10) >= 2 ? "s" : ""
+      }`;
     } else if (this.state.downtimeType.value === MATERIALS_SCAVENGING) {
-      for(let i = 0; i < (this.state.numOfDaysSpent / 2); i++) {
-        transactionAmount += ((Math.floor(Math.random() * 100) + 1) % 25 === 0 ? 100 : 15)
+      for (let i = 0; i < this.state.numOfDaysSpent / 2; i++) {
+        transactionAmount +=
+          (Math.floor(Math.random() * 100) + 1) % 25 === 0 ? 100 : 15;
       }
-      description = `${this.state.character.label} finds ${transactionAmount} worth of spellcasting components`
-    } else if (this.state.downtimeType.value ===  CARLYLES_TRADING_NETWORK) {
-      levels.forEach(level => {
-        transactionAmount += (Math.floor(Math.random() * 6) + 1) * this.state.numOfDaysSpent
-      })
-      description = `${this.state.character.label} aided Carylye in adding ${transactionAmount} gold to his network`
-      upgradeRoom = 'Carlyle\'s Trading Network'
-    } else if (this.state.downtimeType.value ===  UPGRADING_THE_AIRSHIP) {
-      transactionAmount = 10 * this.state.numOfDaysSpent
-      description = `${this.state.character.label} spends ${this.state.numOfDaysSpent} days to upgrade ${this.state.airshipUpgrade.label} by ${transactionAmount} gold`
-      upgradeRoom = this.state.airshipUpgrade.value
-    } else if (this.state.downtimeType.value ===  MADAME_LYSALKAS_TAVERN) {
-      let tavernRoll = 0
-      for(let i = 0; i < this.state.numberOfTavernDice; i++) {
-        tavernRoll += (Math.floor(Math.random() * 6) + 1)
+      description = `${this.state.character.label} finds ${transactionAmount} worth of spellcasting components`;
+    } else if (this.state.downtimeType.value === CARLYLES_TRADING_NETWORK) {
+      levels.forEach((level) => {
+        transactionAmount +=
+          (Math.floor(Math.random() * 6) + 1) * this.state.numOfDaysSpent;
+      });
+      description = `${this.state.character.label} aided Carylye in adding ${transactionAmount} gold to his network`;
+      upgradeRoom = "Carlyle's Trading Network";
+    } else if (this.state.downtimeType.value === UPGRADING_THE_AIRSHIP) {
+      transactionAmount = 10 * this.state.numOfDaysSpent;
+      description = `${this.state.character.label} spends ${this.state.numOfDaysSpent} days to upgrade ${this.state.airshipUpgrade.label} by ${transactionAmount} gold`;
+      upgradeRoom = this.state.airshipUpgrade.value;
+    } else if (this.state.downtimeType.value === MADAME_LYSALKAS_TAVERN) {
+      let tavernRoll = 0;
+      for (let i = 0; i < this.state.numberOfTavernDice; i++) {
+        tavernRoll += Math.floor(Math.random() * 6) + 1;
       }
-      transactionAmount = this.state.numberOfTavernDice
-      description = `${this.state.character.label} spends ${transactionAmount * 10} gold at Madame Lysalka's Tavern and rolls a ${tavernRoll}`
-      upgradeRoom = 'Madam Lysalka\'s Tavern'
-    } 
+      transactionAmount = this.state.numberOfTavernDice;
+      description = `${this.state.character.label} spends ${
+        transactionAmount * 10
+      } gold at Madame Lysalka's Tavern and rolls a ${tavernRoll}`;
+      upgradeRoom = "Madam Lysalka's Tavern";
+    }
 
     this.props.onSubmit({
       description: description,
@@ -356,7 +368,7 @@ class DowntimeForm extends React.Component {
       mission: this.props.missions.find(
         (mission) => mission.name === "Downtime"
       ).id,
-      upgradeRoom: upgradeRoom
+      upgradeRoom: upgradeRoom,
     });
   };
 
@@ -367,26 +379,34 @@ class DowntimeForm extends React.Component {
     };
   });
 
-  selectDowntimeTypeOptions = this.props.downtimeTypes.map(ddt => {
-    return {value: ddt.id, label: ddt.name, description: ddt.description}
-  })      
+  selectDowntimeTypeOptions = this.props.downtimeTypes.map((ddt) => {
+    return { value: ddt.id, label: ddt.name, description: ddt.description };
+  });
 
   getSelectDowntimeJobOptions = () => {
-    let selectDowntimeJobOptions = [{value: 0, label: 'The Dunshire Trading Company', class: ''}]
-    this.props.downtimeJobs.filter(ddj => {
-      return moment(ddj.validUntil).isSameOrAfter(moment(), 'day')
-    }).forEach(ddj => {
-      selectDowntimeJobOptions.push({value: ddj.id, label: `Specialized Job: ${ddj.name} - ${ddj.chosenClass}`, class: ddj.chosenClass})
-    })
-    return selectDowntimeJobOptions
-  }
+    let selectDowntimeJobOptions = [
+      { value: 0, label: "The Dunshire Trading Company", class: "" },
+    ];
+    this.props.downtimeJobs
+      .filter((ddj) => {
+        return moment(ddj.validUntil).isSameOrAfter(moment(), "day");
+      })
+      .forEach((ddj) => {
+        selectDowntimeJobOptions.push({
+          value: ddj.id,
+          label: `Specialized Job: ${ddj.name} - ${ddj.chosenClass}`,
+          class: ddj.chosenClass,
+        });
+      });
+    return selectDowntimeJobOptions;
+  };
 
   selectUpgradingAirhipOptions = [
-    {value: 'The Blacksmith', label: 'The Blacksmith'},
-    {value: 'The Alchemist', label: 'The Alchemist'},
-    {value: 'The Master of Arms', label: 'The Master of Arms'},
-    {value: 'The Researcher', label: 'The Researcher'}
-  ]
+    { value: "The Blacksmith", label: "The Blacksmith" },
+    { value: "The Alchemist", label: "The Alchemist" },
+    { value: "The Master of Arms", label: "The Master of Arms" },
+    { value: "The Researcher", label: "The Researcher" },
+  ];
 
   render() {
     return (
@@ -396,10 +416,11 @@ class DowntimeForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  {(this.state.character !== "" && !this.props.downtimeIsLoading) ? (
+                  {this.state.character !== "" &&
+                  !this.props.downtimeIsLoading ? (
                     <>
-                      {this.state.character.label} has {this.state.characterDowntime}{" "}
-                      downtime days available
+                      {this.state.character.label} has{" "}
+                      {this.state.characterDowntime} downtime days available
                     </>
                   ) : null}
                 </Form.Group>
@@ -408,11 +429,22 @@ class DowntimeForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.characterValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.characterValid
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Character</Form.Label>
-                    {this.state.characterValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.characterValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
-                  {this.props.missionsIsLoading || this.props.charactersIsLoading ? (
+                  {this.props.missionsIsLoading ||
+                  this.props.charactersIsLoading ? (
                     <p>loading...</p>
                   ) : (
                     <Select
@@ -431,15 +463,30 @@ class DowntimeForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.downtimeTypeValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.downtimeTypeValid
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Downtime Type</Form.Label>
-                    {this.state.downtimeTypeValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.downtimeTypeValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Select
                     options={this.selectDowntimeTypeOptions}
                     value={this.state.downtimeType}
                     onChange={this.onDowntimeTypeChange}
-                    styles={{container: (provided, state) => ({...provided, marginBottom: '15px'})}}
+                    styles={{
+                      container: (provided, state) => ({
+                        ...provided,
+                        marginBottom: "15px",
+                      }),
+                    }}
                   />
                   <div>{this.state.downtimeType.description}</div>
                   <ValidationMessage
@@ -449,13 +496,23 @@ class DowntimeForm extends React.Component {
                 </Form.Group>
               </Col>
             </Row>
-            {this.state.showDowntimeJobs ? 
+            {this.state.showDowntimeJobs ? (
               <Row>
                 <Col>
                   <Form.Group>
-                    <span className={this.state.downtimeJobValid ? "valid-input" : "invalid-input"}>
+                    <span
+                      className={
+                        this.state.downtimeJobValid
+                          ? "valid-input"
+                          : "invalid-input"
+                      }
+                    >
                       <Form.Label>Job</Form.Label>
-                      {this.state.downtimeJobValid ? <AiOutlineCheck /> : <IoMdClose />}
+                      {this.state.downtimeJobValid ? (
+                        <AiOutlineCheck />
+                      ) : (
+                        <IoMdClose />
+                      )}
                     </span>
                     <Select
                       options={this.getSelectDowntimeJobOptions()}
@@ -469,14 +526,24 @@ class DowntimeForm extends React.Component {
                   </Form.Group>
                 </Col>
               </Row>
-            : null}
-            {this.state.showTavernDice ? 
+            ) : null}
+            {this.state.showTavernDice ? (
               <Row>
                 <Col>
                   <Form.Group>
-                    <span className={this.state.TavernDiceVaild ? "valid-input" : "invalid-input"}>
+                    <span
+                      className={
+                        this.state.TavernDiceVaild
+                          ? "valid-input"
+                          : "invalid-input"
+                      }
+                    >
                       <Form.Label>Number of Carousing Dice</Form.Label>
-                      {this.state.TavernDiceVaild ? <AiOutlineCheck /> : <IoMdClose />}
+                      {this.state.TavernDiceVaild ? (
+                        <AiOutlineCheck />
+                      ) : (
+                        <IoMdClose />
+                      )}
                     </span>
                     <Form.Control
                       type="number"
@@ -493,14 +560,24 @@ class DowntimeForm extends React.Component {
                   </Form.Group>
                 </Col>
               </Row>
-            : null}
-            {this.state.showAirshipUpgradeOptions ? 
+            ) : null}
+            {this.state.showAirshipUpgradeOptions ? (
               <Row>
                 <Col>
                   <Form.Group>
-                    <span className={this.state.airshipUpgradeVaild ? "valid-input" : "invalid-input"}>
+                    <span
+                      className={
+                        this.state.airshipUpgradeVaild
+                          ? "valid-input"
+                          : "invalid-input"
+                      }
+                    >
                       <Form.Label>Room to Upgrade</Form.Label>
-                      {this.state.airshipUpgradeVaild ? <AiOutlineCheck /> : <IoMdClose />}
+                      {this.state.airshipUpgradeVaild ? (
+                        <AiOutlineCheck />
+                      ) : (
+                        <IoMdClose />
+                      )}
                     </span>
                     <Select
                       options={this.selectUpgradingAirhipOptions}
@@ -514,14 +591,24 @@ class DowntimeForm extends React.Component {
                   </Form.Group>
                 </Col>
               </Row>
-            : null}
-            {this.state.showDescription ?
+            ) : null}
+            {this.state.showDescription ? (
               <Row>
                 <Col>
                   <Form.Group>
-                    <span className={this.state.descriptionValid ? "valid-input" : "invalid-input"}>
+                    <span
+                      className={
+                        this.state.descriptionValid
+                          ? "valid-input"
+                          : "invalid-input"
+                      }
+                    >
                       <Form.Label>Short Description</Form.Label>
-                      {this.state.descriptionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                      {this.state.descriptionValid ? (
+                        <AiOutlineCheck />
+                      ) : (
+                        <IoMdClose />
+                      )}
                     </span>
                     <Form.Control
                       type="text"
@@ -536,13 +623,23 @@ class DowntimeForm extends React.Component {
                   </Form.Group>
                 </Col>
               </Row>
-            : null}
+            ) : null}
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.numOfDaysSpent ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.numOfDaysSpent
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Number of Days Spent</Form.Label>
-                    {this.state.numOfDaysSpent ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.numOfDaysSpent ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -552,7 +649,12 @@ class DowntimeForm extends React.Component {
                     value={this.state.numOfDaysSpent}
                     onChange={this.onNumOfDaysSpentChange}
                   />
-                  {this.state.showTavernDice ? <p>You only need to spend 1 day regardless of the number of dice purcahsed</p> : null}
+                  {this.state.showTavernDice ? (
+                    <p>
+                      You only need to spend 1 day regardless of the number of
+                      dice purcahsed
+                    </p>
+                  ) : null}
                   <ValidationMessage
                     valid={this.state.numOfDaysSpentValid}
                     message={this.state.errorMsg.numOfDaysSpent}
@@ -589,7 +691,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const mapStateToProps = (state, props) => ({
   characters: state.characters.data.filter(
-    (character) => (character.creator === state.auth.user.id && !character.dead)
+    (character) => character.creator === state.auth.user.id && !character.dead
   ),
   characterarray: state.characters.data,
   userid: state.auth.user.id,

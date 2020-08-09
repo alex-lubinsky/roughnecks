@@ -1,6 +1,9 @@
 import axios from "axios";
 import { tokenConfig } from "./auth";
-import { SET_DOWNTIME_TYPES, DOWNTIME_TYPES_LOADING } from "../variables/actionvariables";
+import {
+  SET_DOWNTIME_TYPES,
+  DOWNTIME_TYPES_LOADING,
+} from "../variables/actionvariables";
 
 const setDowntimeTypes = (downtimeTypes) => ({
   type: SET_DOWNTIME_TYPES,

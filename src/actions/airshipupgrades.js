@@ -38,15 +38,19 @@ export const addAirshipUpgrade = (airshipUpgrade) => ({
 export const startAddAirshipUpgrade = (airshipUpgradeData = {}) => {
   return (dispatch, getState) => {
     const {
-      upgradeType = 'Carlyle\'s Trading Network',
+      upgradeType = "Carlyle's Trading Network",
       fromAirshipPot = false,
-      amount = 0
+      amount = 0,
     } = airshipUpgradeData;
 
-    const airshipUpgrade = {upgradeType, fromAirshipPot, amount};
+    const airshipUpgrade = { upgradeType, fromAirshipPot, amount };
 
     return axios
-      .post(`/api/airshipupgrades/`, airshipUpgrade, tokenConfig(getState().auth.token))
+      .post(
+        `/api/airshipupgrades/`,
+        airshipUpgrade,
+        tokenConfig(getState().auth.token)
+      )
       .then((res) => {
         dispatch(addAirshipUpgrade(res.data));
         return res.data;

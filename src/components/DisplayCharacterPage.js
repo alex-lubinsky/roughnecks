@@ -18,21 +18,21 @@ import { startSetRaces } from "../actions/races";
 import { startSetSubclasses } from "../actions/subclasses";
 import { startSetTransactions } from "../actions/transactions";
 import ClassTable from "./ClassTable";
-import { startSetDowntime } from '../actions/downtime';
-import DowntimeTable from './DowntimeTable';
+import { startSetDowntime } from "../actions/downtime";
+import DowntimeTable from "./DowntimeTable";
 import Button from "react-bootstrap/Button";
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import { getDowntimeDays } from '../functions/levels'
-import ItemsOwnedTable from './ItemsOwnedTable';
-import { startSetItems } from '../actions/items'
-import { startSetItemsOwned } from '../actions/itemsowned';
-import { startAddTransaction } from '../actions/transactions';
-import { startRemoveItemOwned } from '../actions/itemsowned';
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
-import { startSetDowntimeTypes } from '../actions/downtimetypes';
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import { getDowntimeDays } from "../functions/levels";
+import ItemsOwnedTable from "./ItemsOwnedTable";
+import { startSetItems } from "../actions/items";
+import { startSetItemsOwned } from "../actions/itemsowned";
+import { startAddTransaction } from "../actions/transactions";
+import { startRemoveItemOwned } from "../actions/itemsowned";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import { startSetDowntimeTypes } from "../actions/downtimetypes";
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -75,50 +75,58 @@ class DisplayCharacterPage extends React.Component {
 
   killPcConfirm = () => {
     const date = new Date();
-    this.props.startUpdateCharacter(this.props.character.id, { 
-      dead: true, 
+    this.props.startUpdateCharacter(this.props.character.id, {
+      dead: true,
       dateOfDeath: `${date.getFullYear()}-${
         date.getMonth() + 1
-      }-${date.getDate()}`, });
+      }-${date.getDate()}`,
+    });
     this.handleKillPCClose();
   };
 
   sellItem = (itemId) => {
-    const itemsOwned = this.props.itemsOwned.find(item => item.id.toString() === itemId)
-    const item = this.props.items.find(item => item.id === itemsOwned.item)
-    const total = parseFloat(`${item.costGold}.${item.costSilver}${item.costCopper}`)
+    const itemsOwned = this.props.itemsOwned.find(
+      (item) => item.id.toString() === itemId
+    );
+    const item = this.props.items.find((item) => item.id === itemsOwned.item);
+    const total = parseFloat(
+      `${item.costGold}.${item.costSilver}${item.costCopper}`
+    );
 
-    const gold = Math.floor((itemsOwned.qty*total)/2)
-    const silver = Math.floor(((itemsOwned.qty*total)/2 - gold) * 10)
-    const copper = Math.floor(((((itemsOwned.qty*total)/2 - gold) * 10) - silver) * 10)
+    const gold = Math.floor((itemsOwned.qty * total) / 2);
+    const silver = Math.floor(((itemsOwned.qty * total) / 2 - gold) * 10);
+    const copper = Math.floor(
+      (((itemsOwned.qty * total) / 2 - gold) * 10 - silver) * 10
+    );
 
     this.props.startAddTransaction({
       name: `Sold ${item.name} (x${itemsOwned.qty})`,
-        goldPcs: gold,
-        silverPcs: silver,
-        copperPcs: copper,
-        mission: this.props.missions.find(
-          (mission) => mission.name === "Skymall"
-        ).id,
-        characters: [this.props.characterid],
-        airshipPot: false,
-        earnedSpent: 1,
-    })
-    
-    this.props.startRemoveItemOwned(itemsOwned.id)
-  }
+      goldPcs: gold,
+      silverPcs: silver,
+      copperPcs: copper,
+      mission: this.props.missions.find((mission) => mission.name === "Skymall")
+        .id,
+      characters: [this.props.characterid],
+      airshipPot: false,
+      earnedSpent: 1,
+    });
+
+    this.props.startRemoveItemOwned(itemsOwned.id);
+  };
 
   getGroupedItems = () => {
-    let itemsSoFar = []
-    this.props.itemsOwned.filter(item => item.character === this.props.characterid).forEach(item => {
-      if(!itemsSoFar[item.item]){
-        itemsSoFar[item.item] = JSON.parse(JSON.stringify(item))
-      } else {
-        itemsSoFar[item.item].qty = itemsSoFar[item.item].qty + item.qty
-      }
-    })
-    return itemsSoFar
-  }
+    let itemsSoFar = [];
+    this.props.itemsOwned
+      .filter((item) => item.character === this.props.characterid)
+      .forEach((item) => {
+        if (!itemsSoFar[item.item]) {
+          itemsSoFar[item.item] = JSON.parse(JSON.stringify(item));
+        } else {
+          itemsSoFar[item.item].qty = itemsSoFar[item.item].qty + item.qty;
+        }
+      });
+    return itemsSoFar;
+  };
 
   render() {
     return (
@@ -129,11 +137,14 @@ class DisplayCharacterPage extends React.Component {
         this.props.racesIsLoading ||
         this.props.subclassesIsLoading ||
         this.props.transactionsIsLoading ||
-        this.props.downtimeIsLoading || 
-        this.props.itemsIsLoading || 
+        this.props.downtimeIsLoading ||
+        this.props.itemsIsLoading ||
         this.props.itemsOwnedIsLoading ? null : (
           <div>
-            <Modal show={this.state.showKillPCModal} onHide={this.handleKillPCClose}>
+            <Modal
+              show={this.state.showKillPCModal}
+              onHide={this.handleKillPCClose}
+            >
               <Modal.Header closeButton>
                 <h3>Are you sure?</h3>
               </Modal.Header>
@@ -141,7 +152,8 @@ class DisplayCharacterPage extends React.Component {
                 <Container>
                   <Row>
                     <Button onClick={this.killPcConfirm} variant="danger">
-                      Yes, {this.props.character.fullName} died a glorious death in battle.
+                      Yes, {this.props.character.fullName} died a glorious death
+                      in battle.
                     </Button>
                   </Row>
                   <Row>
@@ -153,7 +165,10 @@ class DisplayCharacterPage extends React.Component {
               </Modal.Body>
             </Modal>
 
-            <Modal show={this.state.showLevelUpModal} onHide={this.handleLevelUpClose}>
+            <Modal
+              show={this.state.showLevelUpModal}
+              onHide={this.handleLevelUpClose}
+            >
               <AddLevelForm
                 handleClose={this.handleLevelUpClose}
                 character={this.props.character}
@@ -165,21 +180,33 @@ class DisplayCharacterPage extends React.Component {
               <Row>
                 <Col>
                   <h1>
-                    {`${this.props.character.fullName} ${this.props.character.dead ? ": Dead" : ""}`}
-                  </h1>    
+                    {`${this.props.character.fullName} ${
+                      this.props.character.dead ? ": Dead" : ""
+                    }`}
+                  </h1>
                 </Col>
-                <Col>  
+                <Col>
                   {this.props.pcSubclasses.filter(
                     (pcSubclass) =>
                       pcSubclass.classCharacter === this.props.characterid
                   ).length <
-                    getLevel(getCheckmarks(this.props.missions, this.props.character, this.props.downtime)) 
-                      && this.props.character.creator === this.props.userid ? (
-                    <Button variant="success" className="margin-right" onClick={this.handleLevelUpShow}>
+                    getLevel(
+                      getCheckmarks(
+                        this.props.missions,
+                        this.props.character,
+                        this.props.downtime
+                      )
+                    ) && this.props.character.creator === this.props.userid ? (
+                    <Button
+                      variant="success"
+                      className="margin-right"
+                      onClick={this.handleLevelUpShow}
+                    >
                       Level Up!
                     </Button>
                   ) : null}
-                  {this.props.character.creator === this.props.userid && this.props.character.dead === false ? (
+                  {this.props.character.creator === this.props.userid &&
+                  this.props.character.dead === false ? (
                     <Button onClick={this.handleKillPCShow} variant="danger">
                       Character Died
                     </Button>
@@ -189,7 +216,7 @@ class DisplayCharacterPage extends React.Component {
             </Container>
             <Tabs defaultActiveKey="pcLevels">
               <Tab eventKey="pcLevels" title="Levels">
-                <Container fluid  className="tab-margin">
+                <Container fluid className="tab-margin">
                   <Row>
                     <Col>
                       <p>
@@ -201,56 +228,72 @@ class DisplayCharacterPage extends React.Component {
                         }
                       </p>
                       <p>Armor Class: {this.props.character.armorClass}</p>
-                      <p>Passive Perception: {this.props.character.passivePerception}</p>
+                      <p>
+                        Passive Perception:{" "}
+                        {this.props.character.passivePerception}
+                      </p>
                       <p>Max HP: {this.props.character.maxHp}</p>
                       <p>
-                      Class:{" "}
-                      <ClassBuilder
-                        pcClasses={this.props.pcSubclasses.filter(
-                          (pcSubclass) =>
-                            pcSubclass.classCharacter === this.props.characterid
-                        )}
-                        subclasses={this.props.subclasses}
-                      />
+                        Class:{" "}
+                        <ClassBuilder
+                          pcClasses={this.props.pcSubclasses.filter(
+                            (pcSubclass) =>
+                              pcSubclass.classCharacter ===
+                              this.props.characterid
+                          )}
+                          subclasses={this.props.subclasses}
+                        />
                       </p>
                       <p>
-                      Earned:{" "}
-                      <TotalEarnedMoney
-                        transactions={this.props.transactions.filter((transaction) =>
-                          transaction.characters.some(
-                            (character) => character === this.props.characterid
-                          )
-                        )}
-                      />
+                        Earned:{" "}
+                        <TotalEarnedMoney
+                          transactions={this.props.transactions.filter(
+                            (transaction) =>
+                              transaction.characters.some(
+                                (character) =>
+                                  character === this.props.characterid
+                              )
+                          )}
+                        />
                       </p>
                       <p>
-                      Spent:{" "}
-                      <TotalSpentMoney
-                        transactions={this.props.transactions.filter((transaction) =>
-                          transaction.characters.some(
-                            (character) => character === this.props.characterid
-                          )
-                        )}
-                      />
+                        Spent:{" "}
+                        <TotalSpentMoney
+                          transactions={this.props.transactions.filter(
+                            (transaction) =>
+                              transaction.characters.some(
+                                (character) =>
+                                  character === this.props.characterid
+                              )
+                          )}
+                        />
                       </p>
                       <p>
-                      Balance:{" "}
-                      <TotalBalanceMoney
-                        transactions={this.props.transactions.filter((transaction) =>
-                          transaction.characters.some(
-                            (character) => character === this.props.characterid
-                          )
-                        )}
-                      />
+                        Balance:{" "}
+                        <TotalBalanceMoney
+                          transactions={this.props.transactions.filter(
+                            (transaction) =>
+                              transaction.characters.some(
+                                (character) =>
+                                  character === this.props.characterid
+                              )
+                          )}
+                        />
                       </p>
-                      <p>Downtime Availble: {getDowntimeDays(
-                          this.props.missions.filter(mission => mission.visable === true),
+                      <p>
+                        Downtime Availble:{" "}
+                        {getDowntimeDays(
+                          this.props.missions.filter(
+                            (mission) => mission.visable === true
+                          ),
                           this.props.character,
                           this.props.downtime,
                           this.props.pcSubclasses.filter(
-                            (pcLevel) => pcLevel.classCharacter === this.props.character.id
+                            (pcLevel) =>
+                              pcLevel.classCharacter === this.props.character.id
                           )
-                        )}</p>
+                        )}
+                      </p>
                     </Col>
                     <Col>
                       <ClassTable
@@ -265,7 +308,7 @@ class DisplayCharacterPage extends React.Component {
                 </Container>
               </Tab>
               <Tab eventKey="missions" title="Missions">
-                <Container fluid  className="tab-margin">
+                <Container fluid className="tab-margin">
                   <Row>
                     <Col>
                       Missions:
@@ -273,19 +316,22 @@ class DisplayCharacterPage extends React.Component {
                         {this.props.missions
                           .filter((mission) =>
                             mission.characters.some(
-                              (character) => character === this.props.characterid
+                              (character) =>
+                                character === this.props.characterid
                             )
                           )
                           .map((mission) => {
                             return <li key={mission.id}>{mission.name}</li>;
-                        })}
+                          })}
                       </ul>
                     </Col>
                     <Col>
                       DMed:
                       <ul className="double-column">
                         {this.props.missions
-                          .filter((mission) => mission.dm === this.props.characterid)
+                          .filter(
+                            (mission) => mission.dm === this.props.characterid
+                          )
                           .map((dm) => {
                             return <li key={dm.id}>{dm.name}</li>;
                           })}
@@ -295,14 +341,16 @@ class DisplayCharacterPage extends React.Component {
                 </Container>
               </Tab>
               <Tab eventKey="transactions" title="Transactions">
-                <Container fluid  className="tab-margin">
+                <Container fluid className="tab-margin">
                   <Row>
                     <Col>
                       <TransactionsTable
-                        transactions={this.props.transactions.filter((transaction) =>
-                          transaction.characters.some(
-                            (character) => character === this.props.characterid
-                          )
+                        transactions={this.props.transactions.filter(
+                          (transaction) =>
+                            transaction.characters.some(
+                              (character) =>
+                                character === this.props.characterid
+                            )
                         )}
                         characters={this.props.characters}
                         missions={this.props.missions}
@@ -312,12 +360,15 @@ class DisplayCharacterPage extends React.Component {
                 </Container>
               </Tab>
               <Tab eventKey="downtime" title="Downtime">
-                <Container fluid  className="tab-margin">
+                <Container fluid className="tab-margin">
                   <Row>
                     <Col>
-                      <DowntimeTable 
-                        characters={this.props.characters} 
-                        downtime={this.props.downtime.filter(dTransaction => dTransaction.character === this.props.characterid)}
+                      <DowntimeTable
+                        characters={this.props.characters}
+                        downtime={this.props.downtime.filter(
+                          (dTransaction) =>
+                            dTransaction.character === this.props.characterid
+                        )}
                         downtimeTypes={this.props.downtimeTypes}
                       />
                     </Col>
@@ -325,14 +376,19 @@ class DisplayCharacterPage extends React.Component {
                 </Container>
               </Tab>
               <Tab eventKey="itemsOwned" title="Items">
-                <Container fluid  className="tab-margin">
+                <Container fluid className="tab-margin">
                   <Row>
                     <Col>
                       <ItemsOwnedTable
                         items={this.props.items}
                         groupedItemsOwned={this.getGroupedItems()}
                         onClick={this.sellItem}
-                        hasSellPermission={(this.props.user.id === this.props.character.creator || this.props.user.is_staff) ? true : false}
+                        hasSellPermission={
+                          this.props.user.id === this.props.character.creator ||
+                          this.props.user.is_staff
+                            ? true
+                            : false
+                        }
                       />
                     </Col>
                   </Row>
@@ -362,7 +418,6 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(startAddTransaction(transaction)),
   startRemoveItemOwned: (id) => dispatch(startRemoveItemOwned(id)),
   startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
-
 });
 
 const mapStateToProps = (state, props) => ({
@@ -382,7 +437,6 @@ const mapStateToProps = (state, props) => ({
   itemsOwned: state.itemsOwned.data,
   user: state.auth.user,
   downtimeTypes: state.downtimeTypes.data,
-  
 
   pcSubclassesIsLoading: state.pcSubclasses.isLoading,
   missionsIsLoading: state.missions.isLoading,
@@ -394,7 +448,6 @@ const mapStateToProps = (state, props) => ({
   itemsOwnedIsLoading: state.itemsOwned.isLoading,
   itemsIsLoading: state.items.isLoading,
   downtimeTypesIsLoading: state.downtimeTypes.isLoading,
-
 });
 
 export default connect(

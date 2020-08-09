@@ -8,7 +8,6 @@ import { startSetTransactions } from "../actions/transactions";
 // import Modal from "react-bootstrap/Modal";
 
 class DisplayMissionPage extends React.Component {
-  
   // constructor(props) {
   //   super(props);
 
@@ -16,7 +15,7 @@ class DisplayMissionPage extends React.Component {
   //     showItemModal:false
   //   };
   // }
-  
+
   componentDidMount() {
     this.props.startSetMissions();
     this.props.startSetCharacters();
@@ -65,17 +64,15 @@ class DisplayMissionPage extends React.Component {
                   <Button onClick={this.handleItemModalOpen}>Give PC an Item</Button> : null}
               </span> */}
               <p>Played on: {this.props.mission.playedOn}</p>
-              <p>
-                DM: {dm.fullName}
-              </p>
+              <p>DM: {dm.fullName}</p>
               Players:{" "}
               <ul>
-              {this.props.mission.characters.map((pc) => {
-                const character = this.props.characters.find(
-                  (character) => character.id === pc
-                );
-                return <li key={character.id}>{`${character.fullName}`}</li>;
-              })}
+                {this.props.mission.characters.map((pc) => {
+                  const character = this.props.characters.find(
+                    (character) => character.id === pc
+                  );
+                  return <li key={character.id}>{`${character.fullName}`}</li>;
+                })}
               </ul>
               <TransactionsTable
                 transactions={this.props.transactions.filter(
@@ -106,7 +103,7 @@ const mapStateToProps = (state, props) => ({
   characters: state.characters.data,
   transactions: state.transactions.data,
   user: state.auth.user,
-  
+
   missionsIsLoading: state.missions.isLoading,
   charactersIsLoading: state.characters.isLoading,
   transactionsIsLoading: state.transactions.isLoading,

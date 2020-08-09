@@ -1,6 +1,10 @@
 import axios from "axios";
 import { tokenConfig } from "./auth";
-import { SET_ITEMS, EDIT_ITEM, ITEMS_LOADING } from "../variables/actionvariables";
+import {
+  SET_ITEMS,
+  EDIT_ITEM,
+  ITEMS_LOADING,
+} from "../variables/actionvariables";
 
 const setItmes = (items) => ({
   type: SET_ITEMS,

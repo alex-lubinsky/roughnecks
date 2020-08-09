@@ -2,7 +2,7 @@ import React from "react";
 import MissionForm from "./MissionForm";
 import { startAddMission } from "../actions/missions";
 import { connect } from "react-redux";
-import Modal from 'react-bootstrap/Modal'
+import Modal from "react-bootstrap/Modal";
 
 export const AddMissionPage = (props) => {
   return (

@@ -4,14 +4,14 @@ import { startSetCharacters } from "../actions/characters";
 import { startSetMissions } from "../actions/missions";
 import { connect } from "react-redux";
 import ValidationMessage from "./ValidationMessage";
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import {AiOutlineCheck} from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import { AiOutlineCheck } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 
 class TransactionForm extends React.Component {
   constructor(props) {
@@ -34,7 +34,9 @@ class TransactionForm extends React.Component {
       airshipPot: true,
       airshipPotDisabled: false,
       earnedSpent: { label: "Earned", value: "Earned" },
-      errorMsg: {moneyValid: "Total Gold, Silver and Copper must be greater than 0."},
+      errorMsg: {
+        moneyValid: "Total Gold, Silver and Copper must be greater than 0.",
+      },
       formValid: false,
     };
   }
@@ -105,7 +107,8 @@ class TransactionForm extends React.Component {
         this.validateForm
       );
     } else {
-      errorMsg.moneyValid = "Total Gold, Silver and Copper must be greater than 0."
+      errorMsg.moneyValid =
+        "Total Gold, Silver and Copper must be greater than 0.";
       this.setState(
         { goldValid, errorMsg, moneyValid: false },
         this.validateForm
@@ -141,7 +144,8 @@ class TransactionForm extends React.Component {
         this.validateForm
       );
     } else {
-      errorMsg.moneyValid = "Total Gold, Silver and Copper must be greater than 0."
+      errorMsg.moneyValid =
+        "Total Gold, Silver and Copper must be greater than 0.";
       this.setState(
         { silverValid, errorMsg, moneyValid: false },
         this.validateForm
@@ -178,7 +182,8 @@ class TransactionForm extends React.Component {
         this.validateForm
       );
     } else {
-      errorMsg.moneyValid = "Total Gold, Silver and Copper must be greater than 0."
+      errorMsg.moneyValid =
+        "Total Gold, Silver and Copper must be greater than 0.";
       this.setState(
         { copperValid, errorMsg, moneyValid: false },
         this.validateForm
@@ -190,18 +195,21 @@ class TransactionForm extends React.Component {
     const mission = selectedValues.value;
     this.setState({ mission }, this.validateMission);
 
-    if (this.state.earnedSpent.label === "Earned" && this.state.characters.length === 0){
-      const pcs = this.props.missions.find(mission => selectedValues.value === mission.id).characters.map(character => {
-        const pc = this.props.characters.find(pc => pc.id === character)
-        
-        if (pc !== undefined){
-          return { value: pc.id, label: pc.fullName };
-        } else {
-          return null
-        }
-        
-        
-      })
+    if (
+      this.state.earnedSpent.label === "Earned" &&
+      this.state.characters.length === 0
+    ) {
+      const pcs = this.props.missions
+        .find((mission) => selectedValues.value === mission.id)
+        .characters.map((character) => {
+          const pc = this.props.characters.find((pc) => pc.id === character);
+
+          if (pc !== undefined) {
+            return { value: pc.id, label: pc.fullName };
+          } else {
+            return null;
+          }
+        });
       this.setState({ characters: pcs }, this.validateCharacters);
     }
   };
@@ -288,9 +296,11 @@ class TransactionForm extends React.Component {
   };
 
   render() {
-    const selectMissionOptions = this.props.missions.sort((a,b) => (a.episode > b.episode) ? -1 : 1).map((mission) => {
-      return { value: mission.id, label: mission.name };
-    });
+    const selectMissionOptions = this.props.missions
+      .sort((a, b) => (a.episode > b.episode ? -1 : 1))
+      .map((mission) => {
+        return { value: mission.id, label: mission.name };
+      });
 
     const selectCharacterOptions = this.props.characters.map((character) => {
       return {
@@ -306,7 +316,11 @@ class TransactionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.nameValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.nameValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Name</Form.Label>
                     {this.state.nameValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -326,7 +340,11 @@ class TransactionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.goldValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.goldValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Gold</Form.Label>
                     {this.state.goldValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -342,9 +360,17 @@ class TransactionForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.silverValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.silverValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Silver</Form.Label>
-                    {this.state.silverValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.silverValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -358,9 +384,17 @@ class TransactionForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.copperValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.copperValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Copper</Form.Label>
-                    {this.state.copperValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.copperValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -373,24 +407,24 @@ class TransactionForm extends React.Component {
                 </Form.Group>
               </Col>
             </Row>
-              <Form.Group>
-                <ValidationMessage
-                  valid={this.state.goldValid}
-                  message={this.state.errorMsg.gold}
-                />
-                <ValidationMessage
-                  valid={this.state.silverValid}
-                  message={this.state.errorMsg.silver}
-                />
-                <ValidationMessage
-                  valid={this.state.copperValid}
-                  message={this.state.errorMsg.copper}
-                />
-                <ValidationMessage
-                  valid={this.state.moneyValid}
-                  message={this.state.errorMsg.moneyValid}
-                />
-              </Form.Group>
+            <Form.Group>
+              <ValidationMessage
+                valid={this.state.goldValid}
+                message={this.state.errorMsg.gold}
+              />
+              <ValidationMessage
+                valid={this.state.silverValid}
+                message={this.state.errorMsg.silver}
+              />
+              <ValidationMessage
+                valid={this.state.copperValid}
+                message={this.state.errorMsg.copper}
+              />
+              <ValidationMessage
+                valid={this.state.moneyValid}
+                message={this.state.errorMsg.moneyValid}
+              />
+            </Form.Group>
             <Row>
               <Col>
                 <Form.Group>
@@ -409,7 +443,7 @@ class TransactionForm extends React.Component {
                 </Form.Group>
               </Col>
               <Col>
-              <Form.Group>
+                <Form.Group>
                   <span className="valid-input">
                     <Form.Label>Airship Pot</Form.Label>
                     <AiOutlineCheck />
@@ -418,7 +452,7 @@ class TransactionForm extends React.Component {
                     type="checkbox"
                     checked={this.state.airshipPot}
                     onChange={this.onAirshipPotChange}
-                    disabled = {this.state.airshipPotDisabled ? "disabled" : ""}
+                    disabled={this.state.airshipPotDisabled ? "disabled" : ""}
                   />
                 </Form.Group>
               </Col>
@@ -426,9 +460,17 @@ class TransactionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.missionValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.missionValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Mission</Form.Label>
-                    {this.state.missionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.missionValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   {this.props.missionsIsLoading ? null : (
                     <Select
@@ -446,9 +488,17 @@ class TransactionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.missionValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.missionValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Characters</Form.Label>
-                    {this.state.charactersValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.charactersValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   {this.props.charactersIsLoading ? null : (
                     <Select

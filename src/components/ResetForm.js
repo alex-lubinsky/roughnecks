@@ -1,17 +1,19 @@
 import React from "react";
 import { resetPasswordConfirm } from "../actions/auth";
 import ValidationMessage from "./ValidationMessage";
-import useForm from '../hooks/useForm';
-import validate from '../validation/passwordreset';
-import history from '../history';
+import useForm from "../hooks/useForm";
+import validate from "../validation/passwordreset";
+import history from "../history";
 
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
+import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 const ResetForm = (props) => {
-
-  const { values, handleChange, handleSubmit, errors } = useForm(onSubmit, validate);
+  const { values, handleChange, handleSubmit, errors } = useForm(
+    onSubmit,
+    validate
+  );
 
   function onSubmit() {
     resetPasswordConfirm({
@@ -19,16 +21,16 @@ const ResetForm = (props) => {
       token: props.match.params.token,
       new_password1: values.passwordOne,
       new_password2: values.passwordTwo,
-    }).then(res => {
-      if(res.response){
-        console.log(res.response)
+    }).then((res) => {
+      if (res.response) {
+        console.log(res.response);
       } else if (res.status === 200) {
-        history.push('/')
+        history.push("/");
       } else {
-        console.log(res)
+        console.log(res);
       }
-    })
-  };
+    });
+  }
 
   return (
     <Container className="form-container form-bump-down">
@@ -38,24 +40,30 @@ const ResetForm = (props) => {
           <Form.Control
             type="password"
             name="passwordOne"
-            value={values.passwordOne || ''}
+            value={values.passwordOne || ""}
             onChange={handleChange}
             placeholder="Enter new password"
             required
           />
-          <ValidationMessage valid={!errors.passwordOne} message={errors.passwordOne} />
+          <ValidationMessage
+            valid={!errors.passwordOne}
+            message={errors.passwordOne}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
-            className={`${errors.passwordTwo && 'is-danger'}`}
+            className={`${errors.passwordTwo && "is-danger"}`}
             type="password"
             name="passwordTwo"
-            value={values.passwordTwo || ''}
+            value={values.passwordTwo || ""}
             onChange={handleChange}
             placeholder="Confirm Password"
           />
-          <ValidationMessage valid={!errors.passwordTwo} message={errors.passwordTwo} />
+          <ValidationMessage
+            valid={!errors.passwordTwo}
+            message={errors.passwordTwo}
+          />
         </Form.Group>
         <Button variant="primary" type="submit">
           Change Password

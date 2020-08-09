@@ -2,7 +2,7 @@ import React from "react";
 import TransactionForm from "./TransactionForm";
 import { connect } from "react-redux";
 import { startAddTransaction } from "../actions/transactions";
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 
 const AddTransactionPage = (props) => {
   return (

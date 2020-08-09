@@ -15,7 +15,7 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import usersReducer from "../reducers/users";
-import airshipUpgradeReducer from '../reducers/airshipupgrades' 
+import airshipUpgradeReducer from "../reducers/airshipupgrades";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

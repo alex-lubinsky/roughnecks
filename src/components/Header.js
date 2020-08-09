@@ -8,7 +8,7 @@ import AddTransactionPage from "./AddTransactionPage";
 import AddDowntimeForm from "./AddDowntimeForm";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 
 const Header = (props) => {
   const [showCharacterModal, setShowCharacterModal] = useState(false);
@@ -35,7 +35,11 @@ const Header = (props) => {
 
   return (
     <>
-      <Modal size= "lg" show={showCharacterModal} onHide={handleCharacterFormClose}>
+      <Modal
+        size="lg"
+        show={showCharacterModal}
+        onHide={handleCharacterFormClose}
+      >
         <AddCharacterPage handleClose={handleCharacterFormClose} />
       </Modal>
 
@@ -43,7 +47,10 @@ const Header = (props) => {
         <AddMissionPage handleClose={handleMissionFormClose} />
       </Modal>
 
-      <Modal show={showTransactionFormModal} onHide={handleTransactionFormClose}>
+      <Modal
+        show={showTransactionFormModal}
+        onHide={handleTransactionFormClose}
+      >
         <AddTransactionPage handleClose={handleTransactionFormClose} />
       </Modal>
 
@@ -75,9 +82,7 @@ const Header = (props) => {
                 <NavDropdown.Item href="/transactions">
                   Transactions
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/downtime">
-                  Downtime
-                </NavDropdown.Item>
+                <NavDropdown.Item href="/downtime">Downtime</NavDropdown.Item>
                 <NavDropdown.Item href="/fallen">
                   Hall of Fallen Heroes
                 </NavDropdown.Item>

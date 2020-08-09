@@ -5,13 +5,12 @@ import ValidationMessage from "./ValidationMessage";
 import { buildClassArray } from "../functions/levels";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import {AiOutlineCheck} from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
-
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { AiOutlineCheck } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 
 class LevelUpForm extends React.Component {
   constructor(props) {
@@ -46,7 +45,8 @@ class LevelUpForm extends React.Component {
       errorMsg.passivePerception = "Passive Perception must be a whole number";
     } else if (passivePerception < 1) {
       passivePerceptionValid = false;
-      errorMsg.passivePerception = "Passive Perception must be a number larger than 0";
+      errorMsg.passivePerception =
+        "Passive Perception must be a number larger than 0";
     }
 
     this.setState({ passivePerceptionValid, errorMsg }, this.validateForm);
@@ -112,9 +112,19 @@ class LevelUpForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.passivePerceptionValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.passivePerceptionValid
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Passive Perception</Form.Label>
-                    {this.state.passivePerceptionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.passivePerceptionValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -128,7 +138,11 @@ class LevelUpForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.maxHpValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.maxHpValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Max HP</Form.Label>
                     {this.state.maxHpValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -176,7 +190,7 @@ class LevelUpForm extends React.Component {
           <Button disabled={!this.state.formValid} type="submit">
             Level Up
           </Button>
-        </Modal.Footer>        
+        </Modal.Footer>
       </Form>
     );
   }

@@ -5,7 +5,7 @@
 // import Form from 'react-bootstrap/Form'
 // import ClassForm from './ClassForm';
 // import { buildClassArray } from '../functions/levels';
-import React from 'react';
+import React from "react";
 
 const getClassName = (pcClass, subclasses) => {
   let subclass = "";
@@ -27,7 +27,6 @@ const getClassName = (pcClass, subclasses) => {
 };
 
 const ClassTable = (props) => {
-
   // const [showEditLevelModal, setShowEditLevelModal] = useState(false)
   // const handleEditLevelModalClose = () => {
   //   setShowEditLevelModal(false);

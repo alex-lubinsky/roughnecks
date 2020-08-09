@@ -63,9 +63,10 @@ export function startSetCharacters() {
       .get(`/api/characters/`, tokenConfig(getState().auth.token))
       .then((res) => {
         dispatch(setCharacters(res.data));
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.log(err.response);
-        return err.response
+        return err.response;
       });
   };
 }

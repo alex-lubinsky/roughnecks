@@ -27,10 +27,10 @@ export const totalEarnedSpent = (transactions) => {
   silver = (silver / 10 - Math.floor(silver / 10)) * 10;
   copper = Math.floor((copper / 10 - Math.floor(copper / 10)) * 10);
 
-  gold = Math.floor(gold)
-  silver = Math.floor(silver)
-  copper = Math.floor(copper)
-  
+  gold = Math.floor(gold);
+  silver = Math.floor(silver);
+  copper = Math.floor(copper);
+
   return { gold, silver, copper };
 };
 

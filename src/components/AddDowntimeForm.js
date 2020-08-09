@@ -3,12 +3,16 @@ import { connect } from "react-redux";
 import { startAddDowntime } from "../actions/downtime";
 import DowntimeForm from "./DowntimeForm";
 import Modal from "react-bootstrap/Modal";
-import { startAddTransaction } from '../actions/transactions';
-import { THE_JOB_BOARD, CARLYLES_TRADING_NETWORK, UPGRADING_THE_AIRSHIP, MADAME_LYSALKAS_TAVERN} from '../variables/downtimejobvariables'
-import { startAddAirshipUpgrade } from '../actions/airshipupgrades';
+import { startAddTransaction } from "../actions/transactions";
+import {
+  THE_JOB_BOARD,
+  CARLYLES_TRADING_NETWORK,
+  UPGRADING_THE_AIRSHIP,
+  MADAME_LYSALKAS_TAVERN,
+} from "../variables/downtimejobvariables";
+import { startAddAirshipUpgrade } from "../actions/airshipupgrades";
 
 const AddDowntimeForm = (props) => {
-
   return (
     <div>
       <Modal.Header closeButton>
@@ -25,7 +29,6 @@ const AddDowntimeForm = (props) => {
           props.startAddDowntime(downtime);
 
           if (formData.downtimeType.value === THE_JOB_BOARD) {
-
             const transaction = {
               name: formData.downtimeJob.label,
               mission: formData.mission,
@@ -35,24 +38,25 @@ const AddDowntimeForm = (props) => {
               copperPcs: 0,
               airshipPot: false,
               earnedSpent: 1,
-            }
+            };
 
             props.startAddTransaction(transaction);
-
-          } else if (formData.downtimeType.value === CARLYLES_TRADING_NETWORK || 
-              formData.downtimeType.value === UPGRADING_THE_AIRSHIP ||
-              formData.downtimeType.value === MADAME_LYSALKAS_TAVERN) {
+          } else if (
+            formData.downtimeType.value === CARLYLES_TRADING_NETWORK ||
+            formData.downtimeType.value === UPGRADING_THE_AIRSHIP ||
+            formData.downtimeType.value === MADAME_LYSALKAS_TAVERN
+          ) {
             const airshipUpgrade = {
               upgradeType: formData.upgradeRoom,
               fromAirshipPot: false,
-              amount: formData.transactionAmount
-            }
+              amount: formData.transactionAmount,
+            };
             props.startAddAirshipUpgrade(airshipUpgrade);
           }
           if (formData.downtimeType.value === MADAME_LYSALKAS_TAVERN) {
-            const transactionAmount = formData.transactionAmount * 10
+            const transactionAmount = formData.transactionAmount * 10;
             const transaction = {
-              name: 'A Night at Madame Lysalka\'s Tavern',
+              name: "A Night at Madame Lysalka's Tavern",
               mission: formData.mission,
               characters: [formData.character],
               goldPcs: transactionAmount,
@@ -60,7 +64,7 @@ const AddDowntimeForm = (props) => {
               copperPcs: 0,
               airshipPot: false,
               earnedSpent: -1,
-            }
+            };
 
             props.startAddTransaction(transaction);
           }
@@ -73,8 +77,10 @@ const AddDowntimeForm = (props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   startAddDowntime: (downtime) => dispatch(startAddDowntime(downtime)),
-  startAddTransaction: (transaction) => dispatch(startAddTransaction(transaction)),
-  startAddAirshipUpgrade: (airshipUpgrade) => dispatch(startAddAirshipUpgrade(airshipUpgrade)),
+  startAddTransaction: (transaction) =>
+    dispatch(startAddTransaction(transaction)),
+  startAddAirshipUpgrade: (airshipUpgrade) =>
+    dispatch(startAddAirshipUpgrade(airshipUpgrade)),
 });
 
 export default connect(undefined, mapDispatchToProps)(AddDowntimeForm);

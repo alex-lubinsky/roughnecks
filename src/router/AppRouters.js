@@ -14,7 +14,7 @@ import LoginForm from "../components/Login";
 import PrivateRoute from "../components/PrivateRoute";
 import FallenHeroes from "../components/FallenHeroes";
 import SkymallAdminRoute from "../components/SkymallAdminRoute";
-import DowntimeList from '../components/DowntimeList';
+import DowntimeList from "../components/DowntimeList";
 
 import { startLoadUser } from "../actions/auth";
 import { connect } from "react-redux";

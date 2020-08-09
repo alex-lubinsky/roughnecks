@@ -7,15 +7,14 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { startSetMissions } from "../actions/missions";
-import Modal from 'react-bootstrap/Modal'
+import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import Col from 'react-bootstrap/Col';
-import {AiOutlineCheck} from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
+import Col from "react-bootstrap/Col";
+import { AiOutlineCheck } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 import Button from "react-bootstrap/Button";
-
 
 class MissionForm extends React.Component {
   constructor(props) {
@@ -131,7 +130,7 @@ class MissionForm extends React.Component {
     let maxLevelValid = true;
     let minLevelValid = true;
     let errorMsg = { ...this.state.errorMsg };
-    
+
     if (!Number.isInteger(Number(maxLevel))) {
       maxLevelValid = false;
       errorMsg.maxLevel = "Maximum level must be a whole number";
@@ -247,7 +246,11 @@ class MissionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.nameValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.nameValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Mission Name</Form.Label>
                     {this.state.nameValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -267,7 +270,11 @@ class MissionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.dmValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.dmValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>DM</Form.Label>
                     {this.state.dmValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -289,9 +296,19 @@ class MissionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.charactersValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.charactersValid
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Characters</Form.Label>
-                    {this.state.charactersValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.charactersValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   {this.props.charactersIsLoading ? null : (
                     <Select
@@ -313,9 +330,17 @@ class MissionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.minLevelValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.minLevelValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Minimum Level</Form.Label>
-                    {this.state.minLevelValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.minLevelValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -329,9 +354,17 @@ class MissionForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.maxLevelValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.maxLevelValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Maximum Level</Form.Label>
-                    {this.state.maxLevelValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.maxLevelValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -359,9 +392,19 @@ class MissionForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.startDateValid ? "valid-input date-picker" : "invalid-input date-picker"}>
+                  <span
+                    className={
+                      this.state.startDateValid
+                        ? "valid-input date-picker"
+                        : "invalid-input date-picker"
+                    }
+                  >
                     <Form.Label>Played On</Form.Label>
-                    {this.state.startDateValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.startDateValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <DatePicker
                     selected={this.state.startDate}

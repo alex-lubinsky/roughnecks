@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ValidationMessage from "./ValidationMessage";
 import { countClassOccurences } from "../functions/levels";
-import Form from 'react-bootstrap/Form'
-import {AiOutlineCheck} from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
-
+import Form from "react-bootstrap/Form";
+import { AiOutlineCheck } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 
 const ClassForm = (props) => {
   const [subclassName, setSubclassName] = useState("");

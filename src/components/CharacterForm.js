@@ -8,12 +8,11 @@ import ValidationMessage from "./ValidationMessage";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import {AiOutlineCheck} from 'react-icons/ai';
-import { IoMdClose } from 'react-icons/io';
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { AiOutlineCheck } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 
 class CharacterForm extends React.Component {
   constructor(props) {
@@ -250,16 +249,23 @@ class CharacterForm extends React.Component {
     ];
 
     return (
-      
       <Form onSubmit={this.onSubmit}>
         <Modal.Body>
           <Container>
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.fullNameValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.fullNameValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Full Name </Form.Label>
-                    {this.state.fullNameValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.fullNameValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="text"
@@ -267,7 +273,7 @@ class CharacterForm extends React.Component {
                     onChange={this.onFullNameChange}
                     placeholder="Enter Character's First Name"
                   />
-                  
+
                   <ValidationMessage
                     valid={this.state.fullNameValid}
                     message={this.state.errorMsg.fullName}
@@ -278,9 +284,19 @@ class CharacterForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.armorClassValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.armorClassValid
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Armor Class</Form.Label>
-                    {this.state.armorClassValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.armorClassValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -298,9 +314,19 @@ class CharacterForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.passivePerception ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.passivePerception
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Passive Perception</Form.Label>
-                    {this.state.passivePerception ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.passivePerception ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
                   <Form.Control
                     type="number"
@@ -318,7 +344,11 @@ class CharacterForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.maxHpValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.maxHpValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Max HP</Form.Label>
                     {this.state.maxHpValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -340,11 +370,24 @@ class CharacterForm extends React.Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <span className={this.state.altVisionValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.altVisionValid
+                        ? "valid-input"
+                        : "invalid-input"
+                    }
+                  >
                     <Form.Label>Vision</Form.Label>
-                    {this.state.altVisionValid ? <AiOutlineCheck /> : <IoMdClose />}
+                    {this.state.altVisionValid ? (
+                      <AiOutlineCheck />
+                    ) : (
+                      <IoMdClose />
+                    )}
                   </span>
-                  <Select options={altVisionChoices} onChange={this.onVisionChange} />
+                  <Select
+                    options={altVisionChoices}
+                    onChange={this.onVisionChange}
+                  />
                   <ValidationMessage
                     valid={this.state.altVisionValid}
                     message={this.state.errorMsg.altVision}
@@ -353,7 +396,11 @@ class CharacterForm extends React.Component {
               </Col>
               <Col>
                 <Form.Group>
-                  <span className={this.state.goldValid ? "valid-input" : "invalid-input"}>
+                  <span
+                    className={
+                      this.state.goldValid ? "valid-input" : "invalid-input"
+                    }
+                  >
                     <Form.Label>Starting Gold</Form.Label>
                     {this.state.goldValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
@@ -373,7 +420,11 @@ class CharacterForm extends React.Component {
               </Col>
             </Row>
             <Form.Group>
-              <span className={this.state.raceNameValid ? "valid-input" : "invalid-input"}>
+              <span
+                className={
+                  this.state.raceNameValid ? "valid-input" : "invalid-input"
+                }
+              >
                 <Form.Label>Race</Form.Label>
                 {this.state.raceNameValid ? <AiOutlineCheck /> : <IoMdClose />}
               </span>
@@ -398,7 +449,7 @@ class CharacterForm extends React.Component {
                 onChange={this.onClassFormChange}
               />
             )}
-          </Container>  
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button

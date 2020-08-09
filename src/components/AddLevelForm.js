@@ -11,7 +11,7 @@ const AddLevelForm = (props) => {
       <Modal.Header closeButton>
         <h1>{` Add Level for ${props.character.fullName}`}</h1>
       </Modal.Header>
-      
+
       <LevelUpForm
         character={props.character}
         subclasses={props.subclasses}

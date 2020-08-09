@@ -10,7 +10,7 @@ const AddCharacterPage = (props) => {
   return (
     <div>
       <Modal.Header closeButton>
-      <h1>Create Player Character</h1>
+        <h1>Create Player Character</h1>
       </Modal.Header>
       <CharacterForm
         onSubmit={(formData) => {
@@ -46,7 +46,7 @@ const AddCharacterPage = (props) => {
               airshipPot: false,
               earnedSpent: 1,
             };
-            
+
             props.startAddTransaction(startingGoldTransaction);
           });
           props.handleClose();

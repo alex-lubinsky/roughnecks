@@ -1,12 +1,11 @@
-import React from 'react';
-import DowntimeTable from './DowntimeTable';
+import React from "react";
+import DowntimeTable from "./DowntimeTable";
 import { connect } from "react-redux";
-import { startSetCharacters } from '../actions/characters';
-import { startSetDowntime } from '../actions/downtime';
-import { startSetDowntimeTypes } from '../actions/downtimetypes';
+import { startSetCharacters } from "../actions/characters";
+import { startSetDowntime } from "../actions/downtime";
+import { startSetDowntimeTypes } from "../actions/downtimetypes";
 
 class DowntimeList extends React.Component {
-
   componentDidMount() {
     this.props.startSetCharacters();
     this.props.startSetDowntime();
@@ -17,13 +16,18 @@ class DowntimeList extends React.Component {
     return (
       <div className="div-margin-sm">
         <h1>Downtime Spent</h1>
-        {this.props.charactersIsLoading || this.props.downtimeIsLoading || this.props.downtimeTypesIsLoading ? null :
-          <DowntimeTable downtime={this.props.downtime} characters={this.props.characters} downtimeTypes={this.props.downtimeTypes}/>
-        }
+        {this.props.charactersIsLoading ||
+        this.props.downtimeIsLoading ||
+        this.props.downtimeTypesIsLoading ? null : (
+          <DowntimeTable
+            downtime={this.props.downtime}
+            characters={this.props.characters}
+            downtimeTypes={this.props.downtimeTypes}
+          />
+        )}
       </div>
-    )
+    );
   }
-  
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
@@ -42,4 +46,4 @@ const mapStateToProps = (state, props) => ({
   downtimeTypesIsLoading: state.downtimeTypes.isLoading,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DowntimeList)
+export default connect(mapStateToProps, mapDispatchToProps)(DowntimeList);
