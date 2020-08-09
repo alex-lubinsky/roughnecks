@@ -28,6 +28,7 @@ import { startSetSubclasses } from "../actions/subclasses";
 import { startSetDowntime } from "../actions/downtime";
 import { startSetMissions } from "../actions/missions";
 import { startSetPCSubclasses } from "../actions/playercharacterclasses";
+import ResetEmailLanding from '../components/ResetEmailLanding';
 
 class AppRouter extends React.Component {
   componentDidMount() {
@@ -65,6 +66,7 @@ class AppRouter extends React.Component {
             <PrivateRoute path="/downtime" component={DowntimeList} />
             <Route exact path="/reset" component={ResetEmail} />
             <Route path="/reset/:uid/:token/" component={ResetForm} />
+            <Route path="/reset/successful/" component={ResetEmailLanding} />
             <Route component={NotFoundPage} />
           </Switch>
         </div>

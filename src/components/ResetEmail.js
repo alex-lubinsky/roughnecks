@@ -20,7 +20,7 @@ const ResetEmail = () => {
   function onSubmit() {
     resetPassword(values.email).then((res) => {
       if (res.status === 200) {
-        history.push("/");
+        history.push("/reset/successful/");
       } else {
         console.log(res.response);
       }
