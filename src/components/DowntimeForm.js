@@ -340,7 +340,7 @@ class DowntimeForm extends React.Component {
         transactionAmount +=
           (Math.floor(Math.random() * 6) + 1) * this.state.numOfDaysSpent;
       });
-      description = `${this.state.character.label} aided Carylye in adding ${transactionAmount} gold to his network`;
+      description = `${this.state.character.label} aided Carlyle in adding ${transactionAmount} gold to his network`;
       upgradeRoom = "Carlyle's Trading Network";
     } else if (this.state.downtimeType.value === UPGRADING_THE_AIRSHIP) {
       transactionAmount = 10 * this.state.numOfDaysSpent;
