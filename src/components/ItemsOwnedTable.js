@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
+import Form from 'react-bootstrap/Form';
 
 const ItemsOwnedTable = (props) => {
+  
+  const [qty, setQty] = useState({});
+
+  const onQtyChange = (e) => {
+    setQty({ ...qty, [e.target.name]: e.target.value });
+  };
+  
   const onClick = (e) => {
-    const itemId = e.target.getAttribute("data-key");
-    props.onClick(itemId);
+    const ownedItemId = e.target.getAttribute("item-owned-id");
+    const itemId = e.target.getAttribute("item-id");
+    const removeSell = e.target.getAttribute("remove-sell");
+    const qty = e.target.getAttribute("qty");
+    props.onClick(ownedItemId, itemId, removeSell, qty);
   };
 
   return (
@@ -17,7 +28,13 @@ const ItemsOwnedTable = (props) => {
           <th>Copper</th>
           <th>Description</th>
           <th>Qty</th>
-          {props.hasSellPermission ? <th>Sell</th> : null}
+          {props.hasSellPermission ? (
+            <>
+              <th>Qty to Remove / Sell</th>
+              <th>Remove</th>
+              <th>Sell</th> 
+            </>
+          ) : null}
         </tr>
       </thead>
       <tbody>
@@ -32,11 +49,40 @@ const ItemsOwnedTable = (props) => {
               <td>{item.description}</td>
               <td>{ownedItem.qty}</td>
               {props.hasSellPermission ? (
-                <td>
-                  <Button onClick={onClick} data-key={ownedItem.id}>
-                    Sell Item
-                  </Button>
-                </td>
+                <>
+                  <td>
+                    <Form.Control
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={qty[ownedItem.id] || ""}
+                      onChange={onQtyChange}
+                      name={ownedItem.id}
+                    />
+                  </td>
+                  <td>
+                    <Button 
+                      onClick={onClick} 
+                      item-owned-id={ownedItem.id} 
+                      item-id={item.id} 
+                      remove-sell="remove" 
+                      qty={qty[ownedItem.id]}
+                    >
+                      Remove
+                    </Button>
+                  </td>
+                  <td>
+                    <Button 
+                      onClick={onClick} 
+                      item-owned-id={ownedItem.id} 
+                      item-id={item.id} 
+                      remove-sell="sell"
+                      qty={qty[ownedItem.id]}
+                    >
+                      Sell
+                    </Button>
+                  </td>
+                </>
               ) : null}
             </tr>
           );

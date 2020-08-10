@@ -3,6 +3,7 @@ import {
   ADD_ITEMS_OWNED,
   ITEMS_OWNED_LOADING,
   REMOVE_ITEM_OWNED,
+  UPDATE_ITEM_OWNED,
 } from "../variables/actionvariables";
 
 const itemsOwnedReducerDefaultState = { data: [], isLoading: false };
@@ -17,6 +18,19 @@ export default (state = itemsOwnedReducerDefaultState, action) => {
       return Object.assign({}, state, {
         isLoading: false,
         data: action.itemsOwned,
+      });
+    case UPDATE_ITEM_OWNED:
+      return Object.assign({}, state, {
+        data: state.data.map((itemOwned) => {
+          if (itemOwned.id === action.id) {
+            return {
+              ...itemOwned,
+              ...action.updates,
+            };
+          } else {
+            return itemOwned;
+          }
+        }),
       });
     case REMOVE_ITEM_OWNED:
       return Object.assign({}, state, {

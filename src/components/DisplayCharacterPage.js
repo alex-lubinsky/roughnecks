@@ -27,12 +27,13 @@ import Col from "react-bootstrap/Col";
 import { getDowntimeDays } from "../functions/levels";
 import ItemsOwnedTable from "./ItemsOwnedTable";
 import { startSetItems } from "../actions/items";
-import { startSetItemsOwned } from "../actions/itemsowned";
+import { startSetItemsOwned, startUpdateItemOwned} from "../actions/itemsowned";
 import { startAddTransaction } from "../actions/transactions";
 import { startRemoveItemOwned } from "../actions/itemsowned";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { startSetDowntimeTypes } from "../actions/downtimetypes";
+import ValidationMessage from './ValidationMessage';
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -41,6 +42,8 @@ class DisplayCharacterPage extends React.Component {
     this.state = {
       showLevelUpModal: false,
       showKillPCModal: false,
+      errorMsg: {},
+      qtyValid: true
     };
   }
 
@@ -84,48 +87,52 @@ class DisplayCharacterPage extends React.Component {
     this.handleKillPCClose();
   };
 
-  sellItem = (itemId) => {
-    const itemsOwned = this.props.itemsOwned.find(
-      (item) => item.id.toString() === itemId
+  sellItem = (ownedItemId, itemId, removeSell, qty) => {
+    const itemOwned = this.props.itemsOwned.find(
+      (item) => ownedItemId === item.id.toString()
     );
-    const item = this.props.items.find((item) => item.id === itemsOwned.item);
-    const total = parseFloat(
-      `${item.costGold}.${item.costSilver}${item.costCopper}`
-    );
+    const item = this.props.items.find((item) => item.id.toString() === itemId);
 
-    const gold = Math.floor((itemsOwned.qty * total) / 2);
-    const silver = Math.floor(((itemsOwned.qty * total) / 2 - gold) * 10);
-    const copper = Math.floor(
-      (((itemsOwned.qty * total) / 2 - gold) * 10 - silver) * 10
-    );
+    let errorMsg = {...this.state.errorMsg}
+    if(itemOwned.qty < qty){
+      errorMsg.qty = `You are trying to Sell/Remove more ${item.name} items than you have`
+      this.setState({qtyValid: false, errorMsg})
+      return null; 
+    } else {
+      this.setState({qtyValid: true, errorMsg})
+    }
 
-    this.props.startAddTransaction({
-      name: `Sold ${item.name} (x${itemsOwned.qty})`,
-      goldPcs: gold,
-      silverPcs: silver,
-      copperPcs: copper,
-      mission: this.props.missions.find((mission) => mission.name === "Skymall")
-        .id,
-      characters: [this.props.characterid],
-      airshipPot: false,
-      earnedSpent: 1,
-    });
-
-    this.props.startRemoveItemOwned(itemsOwned.id);
-  };
-
-  getGroupedItems = () => {
-    let itemsSoFar = [];
-    this.props.itemsOwned
-      .filter((item) => item.character === this.props.characterid)
-      .forEach((item) => {
-        if (!itemsSoFar[item.item]) {
-          itemsSoFar[item.item] = JSON.parse(JSON.stringify(item));
-        } else {
-          itemsSoFar[item.item].qty = itemsSoFar[item.item].qty + item.qty;
-        }
+    if(removeSell === "sell") {
+      const total = parseFloat(
+        `${item.costGold}.${item.costSilver}${item.costCopper}`
+      );
+  
+      const gold = Math.floor((qty * total) / 2);
+      const silver = Math.floor(((qty * total) / 2 - gold) * 10);
+      const copper = Math.floor(
+        (((qty * total) / 2 - gold) * 10 - silver) * 10
+      );
+  
+      this.props.startAddTransaction({
+        name: `Sold ${item.name} (x${qty})`,
+        goldPcs: gold,
+        silverPcs: silver,
+        copperPcs: copper,
+        mission: this.props.missions.find((mission) => mission.name === "Skymall")
+          .id,
+        characters: [this.props.characterid],
+        airshipPot: false,
+        earnedSpent: 1,
       });
-    return itemsSoFar;
+    } 
+    
+    if (itemOwned.qty === qty) {
+      this.props.startRemoveItemOwned(itemOwned.id);
+    } else {
+      this.props.startUpdateItemOwned(itemOwned.id, {
+        qty: itemOwned.qty - parseInt(qty)
+      });
+    }
   };
 
   render() {
@@ -380,9 +387,14 @@ class DisplayCharacterPage extends React.Component {
                 <Container fluid className="tab-margin">
                   <Row>
                     <Col>
+                      <ValidationMessage
+                        valid={this.state.qtyValid}
+                        message={this.state.errorMsg.qty}
+                      />
                       <ItemsOwnedTable
                         items={this.props.items}
-                        groupedItemsOwned={this.getGroupedItems()}
+                        groupedItemsOwned={this.props.itemsOwned
+                          .filter((item) => item.character === this.props.characterid)}
                         onClick={this.sellItem}
                         hasSellPermission={
                           this.props.user.id === this.props.character.creator ||
@@ -419,6 +431,7 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(startAddTransaction(transaction)),
   startRemoveItemOwned: (id) => dispatch(startRemoveItemOwned(id)),
   startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
+  startUpdateItemOwned: (id, updates) => dispatch(startUpdateItemOwned(id, updates)),
 });
 
 const mapStateToProps = (state, props) => ({

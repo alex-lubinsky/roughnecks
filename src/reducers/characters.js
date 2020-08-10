@@ -1,7 +1,7 @@
 import {
   ADD_CHARACTER,
   SET_CHARACTERS,
-  EDIT_CHARACTER,
+  UPDATE_CHARACTER,
   REMOVE_CHARACTER,
   CHARACTERS_LOADING,
 } from "../variables/actionvariables";
@@ -25,7 +25,7 @@ export default (state = characterReducerDefaultState, action) => {
       return Object.assign({}, state, {
         data: state.data.filter(({ id }) => action.id !== id),
       });
-    case EDIT_CHARACTER:
+    case UPDATE_CHARACTER:
       return Object.assign({}, state, {
         data: state.data.map((character) => {
           if (character.id === action.id) {

@@ -3,7 +3,7 @@ import { tokenConfig } from "./auth";
 import {
   ADD_CHARACTER,
   SET_CHARACTERS,
-  EDIT_CHARACTER,
+  UPDATE_CHARACTER,
   REMOVE_CHARACTER,
   CHARACTERS_LOADING,
 } from "../variables/actionvariables";
@@ -87,7 +87,7 @@ export function startRemoveCharacter({ id } = {}) {
 }
 
 const editCharacter = (id, updates) => ({
-  type: EDIT_CHARACTER,
+  type: UPDATE_CHARACTER,
   id,
   updates,
 });

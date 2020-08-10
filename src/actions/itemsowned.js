@@ -5,6 +5,7 @@ import {
   ADD_ITEMS_OWNED,
   ITEMS_OWNED_LOADING,
   REMOVE_ITEM_OWNED,
+  UPDATE_ITEM_OWNED
 } from "../variables/actionvariables";
 
 const setItemsOwned = (itemsOwned) => ({
@@ -44,6 +45,29 @@ export const startAddItemsOwned = (itemsOwnedData = {}) => {
       .then((res) => {
         dispatch(addItemsOwned(res.data));
         return res.data;
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+};
+
+const updateItemOwned = (id, updates) => ({
+  type: UPDATE_ITEM_OWNED,
+  id,
+  updates,
+});
+
+export const startUpdateItemOwned = (id, updates) => {
+  return (dispatch, getState) => {
+    return axios
+      .patch(
+        `/api/itemsowned/${id}/`,
+        updates,
+        tokenConfig(getState().auth.token)
+      )
+      .then((res) => {
+        dispatch(updateItemOwned(id, updates));
       })
       .catch((err) => {
         console.log(err.response);

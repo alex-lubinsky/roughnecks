@@ -3,7 +3,7 @@ import { startSetItems, startUpdateItem } from "../actions/items";
 import { connect } from "react-redux";
 import Select from "react-select";
 import { totalBalance } from "../functions/money";
-import { startAddItemsOwned } from "../actions/itemsowned";
+import { startAddItemsOwned, startSetItemsOwned, startUpdateItemOwned } from "../actions/itemsowned";
 import {
   startAddTransaction,
   startSetTransactions,
@@ -33,6 +33,7 @@ class Skymall extends React.Component {
     this.props.startSetMissions();
     this.props.startSetCharacters();
     this.props.startSetTransactions();
+    this.props.startSetItemsOwned();
   }
 
   onCharacterChange = (selectedValue) => {
@@ -90,11 +91,22 @@ class Skymall extends React.Component {
       this.props.startUpdateItem(foundItem.id, {
         numberInSkymall: foundItem.numberInSkymall - qty,
       });
-      this.props.startAddItemsOwned({
-        item: foundItem.id,
-        character: this.state.character.value,
-        qty: qty,
-      });
+
+      if (this.props.itemsOwned.find(itemOwned => itemOwned.item === foundItem.id && itemOwned.character === this.state.character.value)) {
+        const itemOwned = this.props.itemsOwned.find(itemOwned => itemOwned.item === foundItem.id && itemOwned.character === this.state.character.value);
+        console.log(itemOwned, parseInt(itemOwned.qty) + parseInt(qty))
+        this.props.startUpdateItemOwned(itemOwned.id, {
+          qty: itemOwned.qty + parseInt(qty)
+        })
+
+      } else {
+        this.props.startAddItemsOwned({
+          item: foundItem.id,
+          character: this.state.character.value,
+          qty: qty,
+        });
+
+      }
 
       const goldCost = foundItem.costGold * qty;
       const silverCost = foundItem.costSilver * qty;
@@ -190,7 +202,8 @@ class Skymall extends React.Component {
 
         {this.props.missionsIsLoading ||
         this.props.transactionsIsLoading ||
-        this.props.itemsIsLoading ? null : (
+        this.props.itemsIsLoading ||
+        this.props.itemsOwnedIsLoading ? <div>Loading...</div> : (
           <div>
             <h2>Weapons</h2>
             <SkymallTable
@@ -257,12 +270,14 @@ class Skymall extends React.Component {
 const mapDispatchToProps = (dispatch, props) => ({
   startSetItems: () => dispatch(startSetItems()),
   startUpdateItem: (id, updates) => dispatch(startUpdateItem(id, updates)),
+  startSetItemsOwned: () => dispatch(startSetItemsOwned()),
   startAddItemsOwned: (itemOwned) => dispatch(startAddItemsOwned(itemOwned)),
   startSetCharacters: () => dispatch(startSetCharacters()),
   startAddTransaction: (transaction) =>
     dispatch(startAddTransaction(transaction)),
   startSetMissions: () => dispatch(startSetMissions()),
   startSetTransactions: () => dispatch(startSetTransactions()),
+  startUpdateItemOwned: (id, updates) => dispatch(startUpdateItemOwned(id, updates)),
 });
 
 const mapStateToProps = (state, props) => ({
@@ -272,11 +287,13 @@ const mapStateToProps = (state, props) => ({
   ),
   missions: state.missions.data,
   transactions: state.transactions.data,
+  itemsOwned: state.itemsOwned.data,
 
   itemsIsLoading: state.items.isLoading,
   charactersIsLoading: state.characters.isLoading,
   missionsIsLoading: state.missions.isLoading,
   transactionsIsLoading: state.transactions.isLoading,
+  itemsOwnedIsLoading: state.itemsOwned.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Skymall);
