@@ -9,12 +9,12 @@ class HeroTable extends React.Component {
 
     this.state = {
       active: 1,
-      items: [],
+      missionsForPagination: [],
     };
   }
 
   componentDidMount() {
-    this.getItems();
+    this.missionPagination();
   }
 
   onClick = (e) => {
@@ -22,10 +22,10 @@ class HeroTable extends React.Component {
     this.setState({ active }, this.getItems);
   };
 
-  getItems = () => {
-    let itemsForState = [];
+  missionPagination = () => {
+    let missionsForPagination = [];
     for (let number = 1; number <= this.props.totalPages; number++) {
-      itemsForState.push(
+      missionsForPagination.push(
         <Pagination.Item
           key={number}
           onClick={this.onClick}
@@ -36,7 +36,7 @@ class HeroTable extends React.Component {
         </Pagination.Item>
       );
     }
-    this.setState({ items: itemsForState });
+    this.setState({ missionsForPagination });
   };
 
   render() {
@@ -108,7 +108,7 @@ class HeroTable extends React.Component {
           </tbody>
         </table>
         <div className="hero-pagination">
-          <Pagination size="sm">{this.state.items}</Pagination>
+          <Pagination size="sm">{this.state.missionsForPagination}</Pagination>
         </div>
       </>
     );

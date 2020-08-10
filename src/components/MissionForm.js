@@ -278,7 +278,7 @@ class MissionForm extends React.Component {
                     <Form.Label>DM</Form.Label>
                     {this.state.dmValid ? <AiOutlineCheck /> : <IoMdClose />}
                   </span>
-                  {this.props.characters.isLoading ? null : (
+                  {this.props.characters.isLoading ? <div>Loading...</div> : (
                     <Select
                       id="dm"
                       name="dm"
@@ -310,7 +310,7 @@ class MissionForm extends React.Component {
                       <IoMdClose />
                     )}
                   </span>
-                  {this.props.charactersIsLoading ? null : (
+                  {this.props.charactersIsLoading ? <div>Loading ...</div> : (
                     <Select
                       id="characters"
                       name="characters"

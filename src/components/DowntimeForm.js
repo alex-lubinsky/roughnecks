@@ -477,17 +477,21 @@ class DowntimeForm extends React.Component {
                       <IoMdClose />
                     )}
                   </span>
-                  <Select
-                    options={this.selectDowntimeTypeOptions}
-                    value={this.state.downtimeType}
-                    onChange={this.onDowntimeTypeChange}
-                    styles={{
-                      container: (provided, state) => ({
-                        ...provided,
-                        marginBottom: "15px",
-                      }),
-                    }}
-                  />
+                  {this.props.downtimeTypesIsLoading ? (
+                    <div>loading...</div>
+                  ) : (
+                    <Select
+                      options={this.selectDowntimeTypeOptions}
+                      value={this.state.downtimeType}
+                      onChange={this.onDowntimeTypeChange}
+                      styles={{
+                        container: (provided, state) => ({
+                          ...provided,
+                          marginBottom: "15px",
+                        }),
+                      }}
+                    />
+                  )}
                   <div>{this.state.downtimeType.description}</div>
                   <ValidationMessage
                     valid={this.state.downtimeTypeValid}
@@ -496,7 +500,7 @@ class DowntimeForm extends React.Component {
                 </Form.Group>
               </Col>
             </Row>
-            {this.state.showDowntimeJobs ? (
+            {this.state.showDowntimeJobs && !this.props.downtimeJobsIsLoading ? (
               <Row>
                 <Col>
                   <Form.Group>

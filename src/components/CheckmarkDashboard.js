@@ -30,7 +30,7 @@ class CheckmarkDashboard extends React.Component {
         this.props.racesIsLoading ||
         this.props.usersIsLoading ||
         this.props.subclassesIsLoading ||
-        this.props.downtimeIsLoading ? null : (
+        this.props.downtimeIsLoading ? <div>Loading ...</div> : (
           <HeroTable
             characters={this.props.characters}
             missions={this.props.missions}

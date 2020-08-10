@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { resetPassword } from "../actions/auth";
-import { NavLink } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import validate from "../validation/resetemail";
 import ValidationMessage from "./ValidationMessage";
@@ -15,7 +14,6 @@ const ResetEmail = () => {
     onSubmit,
     validate
   );
-  const [showLink, setShowLink] = useState(false);
 
   function onSubmit() {
     resetPassword(values.email).then((res) => {

@@ -472,7 +472,7 @@ class TransactionForm extends React.Component {
                       <IoMdClose />
                     )}
                   </span>
-                  {this.props.missionsIsLoading ? null : (
+                  {this.props.missionsIsLoading ? <div>Loading...</div> : (
                     <Select
                       options={selectMissionOptions}
                       onChange={this.onMissionChange}
@@ -500,7 +500,7 @@ class TransactionForm extends React.Component {
                       <IoMdClose />
                     )}
                   </span>
-                  {this.props.charactersIsLoading ? null : (
+                  {this.props.charactersIsLoading ? <div>Loading...</div> : (
                     <Select
                       isMulti
                       options={selectCharacterOptions}

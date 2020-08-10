@@ -30,7 +30,7 @@ const LoginForm = (props) => {
 
   function onSubmit() {
     props.startLogin({
-      username: values.email,
+      username: values.email.toLowerCase(),
       password: values.password,
     });
   }

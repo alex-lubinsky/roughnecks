@@ -139,7 +139,8 @@ class DisplayCharacterPage extends React.Component {
         this.props.transactionsIsLoading ||
         this.props.downtimeIsLoading ||
         this.props.itemsIsLoading ||
-        this.props.itemsOwnedIsLoading ? null : (
+        this.props.itemsOwnedIsLoading ||
+        this.props.downtimeTypesIsLoading ? <div>Loading...</div> : (
           <div>
             <Modal
               show={this.state.showKillPCModal}

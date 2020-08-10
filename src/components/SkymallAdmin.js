@@ -75,7 +75,7 @@ class SkymallAdmin extends React.Component {
             placeholder="Use this to filter items in the store"
           />
         </Form.Group>
-        {this.props.itemsIsLoading ? null : (
+        {this.props.itemsIsLoading ? <div>Loading...</div> : (
           <>
             <h2>Weapons</h2>
             <SkymallTable

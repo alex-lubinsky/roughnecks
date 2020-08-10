@@ -16,7 +16,8 @@ class TransactionList extends React.Component {
     return (
       <div className="div-margin-sm">
         {this.props.transactionsIsLoading ||
-        this.props.charactersIsLoading ? null : (
+        this.props.charactersIsLoading ||
+        this.props.transactionsIsLoading ? <div>Loading...</div> : (
           <TransactionsTable
             transactions={this.props.transactions}
             characters={this.props.characters}
@@ -38,6 +39,7 @@ const mapStateToProps = (state, props) => ({
   transactions: state.transactions.data,
   characters: state.characters.data,
   missions: state.missions.data,
+
   transactionsIsLoading: state.transactions.isLoading,
   charactersIsLoading: state.characters.isLoading,
   missionsIsLoading: state.missions.isLoading,
