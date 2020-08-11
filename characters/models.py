@@ -136,11 +136,10 @@ class Item(models.Model):
   costCopper = models.IntegerField(default=0)
   description = models.TextField()
   numberInSkymall = models.IntegerField()
-  canBePurchasesBy = models.ManyToManyField(Character, related_name="itemPurchasedBy", blank=True)
+  canBePurchasedBy = models.ManyToManyField(Character, related_name="itemPurchasedBy", blank=True)
   allPcsCanPurchase = models.BooleanField(default=True)
   downtimeCost = models.IntegerField(default=0)
   typeOfItem = models.CharField(choices = ITEM_TYPE_CHOICES, max_length=10, default='Gear')
-
 
   def __str__(self):
     return self.name

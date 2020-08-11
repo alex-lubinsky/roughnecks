@@ -13,8 +13,11 @@ const SkymallTable = (props) => {
     <table className="width-100 table-highlights">
       <thead>
         <tr>
-          <th className="width-20">Name</th>
+          <th className="width-15">Name</th>
           <th className="width-10">Cost (in gold)</th>
+          {props.downtime ? 
+            <th className="width-10">Cost (Downtime Days)</th>
+          : null}
           <th>Desctiption</th>
           <th className="width-10">Number in Skymall</th>
           <th className="width-10">
@@ -35,6 +38,9 @@ const SkymallTable = (props) => {
               <td>
                 {`${item.costGold}.${item.costSilver}${item.costCopper}`}{" "}
               </td>
+              {props.downtime ? 
+                <td>{item.downtimeCost}</td>
+              : null}
               <td>{item.description}</td>
               <td>{item.numberInSkymall}</td>
               <td>

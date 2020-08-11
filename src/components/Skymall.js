@@ -14,6 +14,7 @@ import ValidationMessage from "./ValidationMessage";
 import SkymallTable from "./SkymallTable";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import { startAddDowntime } from '../actions/downtime';
 
 class Skymall extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Skymall extends React.Component {
       errorMsg: {},
       filter: "",
       showAlert: false,
+      visable: {},
     };
   }
 
@@ -37,7 +39,10 @@ class Skymall extends React.Component {
   }
 
   onCharacterChange = (selectedValue) => {
+    let visable = {}
+    visable[selectedValue.value] = true
     this.setState({ character: selectedValue });
+    this.setState({ visable })
     this.setState({ purchaseValid: true, errorMsg: {} });
   };
 
@@ -79,7 +84,7 @@ class Skymall extends React.Component {
       parseFloat(
         `${foundItem.costGold}.${foundItem.costSilver}${foundItem.costCopper}`
       ) *
-        qty >
+      qty >
       parseFloat(`${gold}.${silver}${copper}`)
     ) {
       this.setState({
@@ -106,6 +111,17 @@ class Skymall extends React.Component {
           qty: qty,
         });
 
+      }
+
+      if (foundItem.downtimeCost > 0) {
+        this.props.startAddDowntime(
+          {
+            description: `${this.state.character.label} purchased ${foundItem.name}`,
+            character: this.state.character.value,
+            numOfDaysSpent: this.foundItem.downtimeCost,
+            downtimeType: 'Miscellaneous'
+          }
+        )
       }
 
       const goldCost = foundItem.costGold * qty;
@@ -169,27 +185,27 @@ class Skymall extends React.Component {
         </Alert>
         <h1>Skymall</h1>
         {this.props.charactersIsLoading ||
-        this.props.transactionsIsLoading ? null : (
-          <Form.Group>
-            <Form.Label>Purchasing Character</Form.Label>
-            <Select
-              options={selectCharacterOptions}
-              value={this.state.character}
-              onChange={this.onCharacterChange}
-            />
-            {this.state.character === "" ? (
-              <div>Select a character to purchase items</div>
-            ) : (
-              <div>
-                {`${this.state.character.label} has ${gold}.${silver}${copper} gold to spend.`}
-              </div>
-            )}
-            <ValidationMessage
-              valid={this.state.purchaseValid}
-              message={this.state.errorMsg.purchase}
-            />
-          </Form.Group>
-        )}
+          this.props.transactionsIsLoading ? null : (
+            <Form.Group>
+              <Form.Label>Purchasing Character</Form.Label>
+              <Select
+                options={selectCharacterOptions}
+                value={this.state.character}
+                onChange={this.onCharacterChange}
+              />
+              {this.state.character === "" ? (
+                <div>Select a character to purchase items</div>
+              ) : (
+                  <div>
+                    {`${this.state.character.label} has ${gold}.${silver}${copper} gold to spend.`}
+                  </div>
+                )}
+              <ValidationMessage
+                valid={this.state.purchaseValid}
+                message={this.state.errorMsg.purchase}
+              />
+            </Form.Group>
+          )}
         <Form.Group>
           <Form.Label>Filter</Form.Label>
           <Form.Control
@@ -201,67 +217,87 @@ class Skymall extends React.Component {
         </Form.Group>
 
         {this.props.missionsIsLoading ||
-        this.props.transactionsIsLoading ||
-        this.props.itemsIsLoading ||
-        this.props.itemsOwnedIsLoading ? <div>Loading...</div> : (
-          <div>
-            <h2>Weapons</h2>
-            <SkymallTable
-              items={this.props.items}
-              filteredItems={filteredItems.filter(
-                (item) =>
-                  item.typeOfItem === "Weapon" &&
-                  item.numberInSkymall > 0 &&
-                  item.allPcsCanPurchase
-              )}
-              onClick={this.onBuyItemClick}
-            />
-            <h2>Armor</h2>
-            <SkymallTable
-              items={this.props.items}
-              filteredItems={filteredItems.filter(
-                (item) =>
-                  item.typeOfItem === "Armor" &&
-                  item.numberInSkymall > 0 &&
-                  item.allPcsCanPurchase
-              )}
-              onClick={this.onBuyItemClick}
-            />
-            <h2>Gear</h2>
-            <SkymallTable
-              items={this.props.items}
-              filteredItems={filteredItems.filter(
-                (item) =>
-                  item.typeOfItem === "Gear" &&
-                  item.numberInSkymall > 0 &&
-                  item.allPcsCanPurchase
-              )}
-              onClick={this.onBuyItemClick}
-            />
-            <h2>Magic Items</h2>
-            <SkymallTable
-              items={this.props.items}
-              filteredItems={filteredItems.filter(
-                (item) =>
-                  item.typeOfItem === "Magic" &&
-                  item.numberInSkymall > 0 &&
-                  item.allPcsCanPurchase
-              )}
-              onClick={this.onBuyItemClick}
-            />
-            <h2>Spell Components</h2>
-            <SkymallTable
-              items={this.props.items}
-              filteredItems={filteredItems.filter(
-                (item) =>
-                  item.typeOfItem === "Component" &&
-                  item.numberInSkymall > 0 &&
-                  item.allPcsCanPurchase
-              )}
-              onClick={this.onBuyItemClick}
-            />
-          </div>
-        )}
+          this.props.transactionsIsLoading ||
+          this.props.itemsIsLoading ||
+          this.props.itemsOwnedIsLoading ? <div>Loading...</div> : (
+            <div>
+              <h2>Weapons</h2>
+              <SkymallTable
+                items={this.props.items}
+                filteredItems={filteredItems.filter(
+                  (item) =>
+                    item.typeOfItem === "Weapon" &&
+                    item.numberInSkymall > 0 &&
+                    item.allPcsCanPurchase
+                )}
+                onClick={this.onBuyItemClick}
+              />
+              <h2>Armor</h2>
+              <SkymallTable
+                items={this.props.items}
+                filteredItems={filteredItems.filter(
+                  (item) =>
+                    item.typeOfItem === "Armor" &&
+                    item.numberInSkymall > 0 &&
+                    item.allPcsCanPurchase
+                )}
+                onClick={this.onBuyItemClick}
+              />
+              <h2>Gear</h2>
+              <SkymallTable
+                items={this.props.items}
+                filteredItems={filteredItems.filter(
+                  (item) =>
+                    item.typeOfItem === "Gear" &&
+                    item.numberInSkymall > 0 &&
+                    item.allPcsCanPurchase
+                )}
+                onClick={this.onBuyItemClick}
+              />
+              <h2>Magic Items</h2>
+              <SkymallTable
+                items={this.props.items}
+                filteredItems={filteredItems.filter(
+                  (item) =>
+                    item.typeOfItem === "Magic" &&
+                    item.numberInSkymall > 0 &&
+                    item.allPcsCanPurchase
+                )}
+                onClick={this.onBuyItemClick}
+              />
+              <h2>Spell Components</h2>
+              <SkymallTable
+                items={this.props.items}
+                filteredItems={filteredItems.filter(
+                  (item) =>
+                    item.typeOfItem === "Component" &&
+                    item.numberInSkymall > 0 &&
+                    item.allPcsCanPurchase
+                )}
+                onClick={this.onBuyItemClick}
+              />
+              {this.props.characters.map(character => {
+                if (this.state.visable[character.id] === true) {
+                  return (
+                    <div key={character.id}>
+                     <h2>{character.fullName}</h2>
+                     <SkymallTable
+                       items={this.props.items}
+                       downtime={true}
+                       filteredItems={filteredItems.filter(
+                         (item) =>
+                           item.numberInSkymall > 0 &&
+                           item.canBePurchasedBy.includes(character.id)
+                       )}
+                       onClick={this.onBuyItemClick}
+                     />
+                    </div>
+                  )
+                }
+                return null
+              })}
+            </div>
+          )}
       </div>
     );
   }
@@ -278,6 +314,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetMissions: () => dispatch(startSetMissions()),
   startSetTransactions: () => dispatch(startSetTransactions()),
   startUpdateItemOwned: (id, updates) => dispatch(startUpdateItemOwned(id, updates)),
+  startAddDowntime: (downtime) => dispatch(startAddDowntime(downtime)),
 });
 
 const mapStateToProps = (state, props) => ({

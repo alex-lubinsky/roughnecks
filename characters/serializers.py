@@ -52,7 +52,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Item
-    fields = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall', 'canBePurchasesBy', 'allPcsCanPurchase', 'downtimeCost', 'typeOfItem')
+    fields = ('id', 'name', 'costGold', 'costSilver', 'costCopper', 'description', 'numberInSkymall', 'canBePurchasedBy', 'allPcsCanPurchase', 'downtimeCost', 'typeOfItem')
 
 class ItemsOwnedSerializer(serializers.ModelSerializer):
 
