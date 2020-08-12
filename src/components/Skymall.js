@@ -221,65 +221,114 @@ class Skymall extends React.Component {
           this.props.itemsIsLoading ||
           this.props.itemsOwnedIsLoading ? <div>Loading...</div> : (
             <div>
-              <h2>Weapons</h2>
-              <SkymallTable
-                items={this.props.items}
-                filteredItems={filteredItems.filter(
+              {filteredItems.filter(
                   (item) =>
                     item.typeOfItem === "Weapon" &&
                     item.numberInSkymall > 0 &&
                     item.allPcsCanPurchase
-                )}
-                onClick={this.onBuyItemClick}
-              />
-              <h2>Armor</h2>
-              <SkymallTable
-                items={this.props.items}
-                filteredItems={filteredItems.filter(
+                ).length > 0 ? 
+                <>
+                  <h2 className="margin-top">Weapons</h2>
+                  <SkymallTable
+                    items={this.props.items}
+                    filteredItems={filteredItems.filter(
+                      (item) =>
+                        item.typeOfItem === "Weapon" &&
+                        item.numberInSkymall > 0 &&
+                        item.allPcsCanPurchase
+                    )}
+                    onClick={this.onBuyItemClick}
+                  />
+                </>
+              : null}
+              {filteredItems.filter(
                   (item) =>
                     item.typeOfItem === "Armor" &&
                     item.numberInSkymall > 0 &&
                     item.allPcsCanPurchase
-                )}
-                onClick={this.onBuyItemClick}
-              />
-              <h2>Gear</h2>
-              <SkymallTable
-                items={this.props.items}
-                filteredItems={filteredItems.filter(
+                ).length > 0 ? 
+                <>
+                  <h2 className="margin-top">Armor</h2>
+                  <SkymallTable
+                    items={this.props.items}
+                    filteredItems={filteredItems.filter(
+                      (item) =>
+                        item.typeOfItem === "Armor" &&
+                        item.numberInSkymall > 0 &&
+                        item.allPcsCanPurchase
+                    )}
+                    onClick={this.onBuyItemClick}
+                  />
+                </>
+              : null}
+              {filteredItems.filter(
                   (item) =>
                     item.typeOfItem === "Gear" &&
                     item.numberInSkymall > 0 &&
                     item.allPcsCanPurchase
-                )}
-                onClick={this.onBuyItemClick}
-              />
-              <h2>Magic Items</h2>
-              <SkymallTable
-                items={this.props.items}
-                filteredItems={filteredItems.filter(
+                ).length > 0 ? 
+                <>
+                  <h2 className="margin-top">Gear</h2>
+                  <SkymallTable
+                    items={this.props.items}
+                    filteredItems={filteredItems.filter(
+                      (item) =>
+                        item.typeOfItem === "Gear" &&
+                        item.numberInSkymall > 0 &&
+                        item.allPcsCanPurchase
+                    )}
+                    onClick={this.onBuyItemClick}
+                  />
+                </>
+              : null}
+              {filteredItems.filter(
                   (item) =>
                     item.typeOfItem === "Magic" &&
                     item.numberInSkymall > 0 &&
                     item.allPcsCanPurchase
-                )}
-                onClick={this.onBuyItemClick}
-              />
-              <h2>Spell Components</h2>
-              <SkymallTable
-                items={this.props.items}
-                filteredItems={filteredItems.filter(
+                ).length > 0 ?
+                <>
+                  <h2 className="margin-top">Magic Items</h2>
+                  <SkymallTable
+                    items={this.props.items}
+                    filteredItems={filteredItems.filter(
+                      (item) =>
+                        item.typeOfItem === "Magic" &&
+                        item.numberInSkymall > 0 &&
+                        item.allPcsCanPurchase
+                    )}
+                    onClick={this.onBuyItemClick}
+                  />
+                </>
+              : null}
+              {filteredItems.filter(
                   (item) =>
                     item.typeOfItem === "Component" &&
                     item.numberInSkymall > 0 &&
                     item.allPcsCanPurchase
-                )}
-                onClick={this.onBuyItemClick}
-              />
+                ).length > 0 ? 
+                <>
+                  <h2 className="margin-top">Spell Components</h2>
+                  <SkymallTable
+                    items={this.props.items}
+                    filteredItems={filteredItems.filter(
+                      (item) =>
+                        item.typeOfItem === "Component" &&
+                        item.numberInSkymall > 0 &&
+                        item.allPcsCanPurchase
+                    )}
+                    onClick={this.onBuyItemClick}
+                  />
+                </>
+              : null}
               {this.props.characters.map(character => {
-                if (this.state.visable[character.id] === true) {
+                if (this.state.visable[character.id] === true && filteredItems.filter(
+                  (item) =>
+                    item.numberInSkymall > 0 &&
+                    item.canBePurchasedBy.includes(character.id)
+                ).length > 0) {
                   return (
-                    <div key={character.id}>
+                    <div className="margin-top" key={character.id}>
                      <h2>{character.fullName}</h2>
                      <SkymallTable
                        items={this.props.items}
