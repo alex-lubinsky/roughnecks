@@ -13,7 +13,7 @@ const CharacterRow = (props) => {
 
   return (
     <>
-      <tr className="character-row">
+      <tr className={props.secondRow ? "character-row checkmark-dashboard-dark-row" : "character-row"}>
         <td>
           {
             props.users.find((user) => user.id === props.character.creator)

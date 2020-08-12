@@ -2,6 +2,7 @@ import React from "react";
 import CharacterRow from "./CharacterRow";
 import MissionColumn from "./MissionColumn";
 import Pagination from "react-bootstrap/Pagination";
+import { getLevel, getCheckmarks } from "../functions/levels";
 
 class HeroTable extends React.Component {
   constructor(props) {
@@ -40,6 +41,13 @@ class HeroTable extends React.Component {
   };
 
   render() {
+    const heroTiers = [
+      {name: "Masters of the World", minLevel: 17, maxLevel: 20},
+      {name: "Masters of the Realm", minLevel: 11, maxLevel: 16},
+      {name: "Heroes of the Realm", minLevel: 5, maxLevel: 10},
+      {name: "Local Heroes", minLevel: 1, maxLevel: 4}
+    ]
+    let secondRow = true
     return (
       <>
         <table className="width-100">
@@ -76,35 +84,72 @@ class HeroTable extends React.Component {
                 })}
             </tr>
           </thead>
-          <tbody className="checkmark-dashboard">
-            {this.props.characters
-              .filter((character) => {
-                return character.dead === this.props.fallen;
-              })
-              .sort((a, b) => (a.fullName > b.fullName ? 1 : -1))
-              .map((character) => {
+          <tbody className="">
+            {heroTiers.map(heroTier => {
+              return (
+              this.props.characters.filter(character => {
+                const level = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === character.id).length
                 return (
-                  <CharacterRow
-                    key={character.id}
-                    character={character}
-                    missionsForMissionList={this.props.missions
-                      .filter(
-                        (mission) =>
-                          mission.episode >= 1 + 10 * (this.state.active - 1) &&
-                          mission.episode <= 10 + 10 * (this.state.active - 1)
+                  character.dead === this.props.fallen &&
+                  level <= heroTier.maxLevel && 
+                  level >= heroTier.minLevel
+                )}).length > 0 ?
+                  <>
+                  <tr>
+                    <td colspan="3"><h4>{heroTier.name}</h4></td>
+                  </tr>
+                  
+                  {this.props.characters
+                    .filter((character) => {
+                      const level = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === character.id).length
+                      return (
+                        character.dead === this.props.fallen &&
+                        level <= heroTier.maxLevel && 
+                        level >= heroTier.minLevel
                       )
-                      .sort((a, b) => (a.episode > b.episode ? 1 : -2))}
-                    missions={this.props.missions.filter(
-                      (mission) => mission.visable === true
-                    )}
-                    pcSubclasses={this.props.pcSubclasses}
-                    races={this.props.races}
-                    users={this.props.users}
-                    subclasses={this.props.subclasses}
-                    downtime={this.props.downtime}
-                  />
-                );
-              })}
+                    })
+                    .sort((a, b) => {
+                      const aLevel = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === a.id).length
+                      const bLevel = this.props.pcSubclasses.filter(pcSubclass => pcSubclass.classCharacter === b.id).length
+                      if (aLevel > bLevel) {
+                        return -1
+                      } else if (bLevel > aLevel) {
+                        return 1
+                      } else {
+                        return (a.fullName > b.fullName ? 1 : -1)
+                      }
+
+                    })
+                    .map((character) => {
+                      secondRow = !secondRow
+                      return (
+                        <CharacterRow
+                          key={character.id}
+                          character={character}
+                          missionsForMissionList={this.props.missions
+                            .filter(
+                              (mission) =>
+                                mission.episode >= 1 + 10 * (this.state.active - 1) &&
+                                mission.episode <= 10 + 10 * (this.state.active - 1)
+                            )
+                            .sort((a, b) => (a.episode > b.episode ? 1 : -1))}
+                          missions={this.props.missions.filter(
+                            (mission) => mission.visable === true
+                          )}
+                          pcSubclasses={this.props.pcSubclasses}
+                          races={this.props.races}
+                          users={this.props.users}
+                          subclasses={this.props.subclasses}
+                          downtime={this.props.downtime}
+                          secondRow={secondRow}
+                          
+                        />
+                      );
+                    })}
+                  </>  
+                : null
+              )
+            })}
           </tbody>
         </table>
         <div className="hero-pagination">

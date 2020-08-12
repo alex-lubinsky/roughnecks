@@ -19,6 +19,10 @@
   background: rgb(240, 240, 240);
 }
 
+.checkmark-dashboard-dark-row {
+  background: rgb(240, 240, 240);
+}
+
 .table-highlights tr:nth-child(2n + 2) {
   background: rgb(240, 240, 240);
 }
@@ -146,4 +150,8 @@ th.width-4 {
 
 .tab-margin {
   margin-top: 10px;
+}
+
+.column-span-all {
+  column-span: all;
 }
