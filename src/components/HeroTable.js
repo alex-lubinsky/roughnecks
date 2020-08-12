@@ -20,7 +20,7 @@ class HeroTable extends React.Component {
 
   onClick = (e) => {
     const active = parseInt(e.target.getAttribute("name"));
-    this.setState({ active }, this.getItems);
+    this.setState({ active }, this.missionPagination);
   };
 
   missionPagination = () => {
@@ -42,10 +42,10 @@ class HeroTable extends React.Component {
 
   render() {
     const heroTiers = [
-      {name: "Masters of the World", minLevel: 17, maxLevel: 20},
-      {name: "Masters of the Realm", minLevel: 11, maxLevel: 16},
-      {name: "Heroes of the Realm", minLevel: 5, maxLevel: 10},
-      {name: "Local Heroes", minLevel: 1, maxLevel: 4}
+      {name: "Masters of the World (Level 17 - 20)", minLevel: 17, maxLevel: 20},
+      {name: "Masters of the Realm (Level 11 - 16)", minLevel: 11, maxLevel: 16},
+      {name: "Heroes of the Realm (Level 5 - 10)", minLevel: 5, maxLevel: 10},
+      {name: "Local Heroes (Level 1 - 4)", minLevel: 1, maxLevel: 4}
     ]
     let secondRow = true
     return (
