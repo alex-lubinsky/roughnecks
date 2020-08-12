@@ -155,3 +155,16 @@ th.width-4 {
 .column-span-all {
   column-span: all;
 }
+
+.float-right {
+  position: relative;
+  float: right;
+}
+
+.margin-right-100 {
+  margin-right: 100px;
+}
+
+.padding-left {
+  padding-left: 10px;
+}

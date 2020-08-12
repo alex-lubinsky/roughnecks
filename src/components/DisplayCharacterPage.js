@@ -34,6 +34,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { startSetDowntimeTypes } from "../actions/downtimetypes";
 import ValidationMessage from './ValidationMessage';
+import { BsPencil } from 'react-icons/bs';
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -227,6 +228,13 @@ class DisplayCharacterPage extends React.Component {
                 <Container fluid className="tab-margin">
                   <Row>
                     <Col>
+                      {this.props.character.creator === this.props.userid ?
+                        <span className="float-right margin-right-100">
+                          <Button variant="link">
+                            <BsPencil />
+                          </Button>
+                        </span>
+                      : null}
                       <p>
                         Race:{" "}
                         {
@@ -320,7 +328,7 @@ class DisplayCharacterPage extends React.Component {
                   <Row>
                     <Col>
                       Missions:
-                      <ul className="double-column">
+                      <ul className="double-column padding-left">
                         {this.props.missions
                           .filter((mission) =>
                             mission.characters.some(
@@ -335,7 +343,7 @@ class DisplayCharacterPage extends React.Component {
                     </Col>
                     <Col>
                       DMed:
-                      <ul className="double-column">
+                      <ul className="double-column padding-left">
                         {this.props.missions
                           .filter(
                             (mission) => mission.dm === this.props.characterid

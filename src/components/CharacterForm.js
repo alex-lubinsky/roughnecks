@@ -457,7 +457,7 @@ class CharacterForm extends React.Component {
             disabled={!this.state.formValid}
             type="submit"
           >
-            Add Character
+            {this.props.edit ? "Edit Character" : "Add Character"}
           </Button>
         </Modal.Footer>
       </Form>

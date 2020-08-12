@@ -2,7 +2,6 @@ import React from "react";
 import CharacterRow from "./CharacterRow";
 import MissionColumn from "./MissionColumn";
 import Pagination from "react-bootstrap/Pagination";
-import { getLevel, getCheckmarks } from "../functions/levels";
 
 class HeroTable extends React.Component {
   constructor(props) {
