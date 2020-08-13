@@ -29,12 +29,12 @@ class CharacterSubClassAdmin(admin.ModelAdmin):
 admin.site.register(CharacterSubClass, CharacterSubClassAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'airshipPot', 'earnedSpent')
+  list_display = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'airshipPot', 'earnedSpent', 'creationDate')
 
 admin.site.register(Transaction, TransactionAdmin)
 
 class DowntimeAdmin(admin.ModelAdmin):
-  list_display = ('id', 'description', 'numOfDaysSpent', 'character', 'downtimeType')
+  list_display = ('id', 'description', 'numOfDaysSpent', 'character', 'downtimeType', 'creationDate')
 
 admin.site.register(Downtime, DowntimeAdmin)
 
@@ -49,7 +49,7 @@ class ItemAdmin(admin.ModelAdmin):
 admin.site.register(Item, ItemAdmin)
 
 class ItemsOwnedAdmin(admin.ModelAdmin):
-  list_display = ('id', 'item', 'character', 'qty')
+  list_display = ('id', 'item', 'character', 'qty', 'dateLastModified')
 
 admin.site.register(ItemsOwned, ItemsOwnedAdmin)
 
@@ -59,7 +59,7 @@ class DowntimeJobsAdmin(admin.ModelAdmin):
 admin.site.register(DowntimeJobs, DowntimeJobsAdmin)
 
 class AirshipUpgradesAdmin(admin.ModelAdmin):
-  list_display = ('id', 'upgradeType', 'amount', 'fromAirshipPot')
+  list_display = ('id', 'upgradeType', 'amount', 'fromAirshipPot', 'creationDate')
 
 admin.site.register(AirshipUpgrades, AirshipUpgradesAdmin)
 
