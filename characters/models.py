@@ -102,7 +102,7 @@ class Transaction(models.Model):
   characters = models.ManyToManyField(Character, related_name="transactions")
   airshipPot = models.BooleanField(default=True)
   earnedSpent = models.IntegerField(choices=TRANSACTION_CHOICES)
-  creationDate = models.DateField(null=True, blank=True)
+  creationDate = models.DateField(default=datetime.date.today)
 
   def __str__(self):
     return self.name
@@ -120,7 +120,7 @@ class Downtime(models.Model):
   character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
   numOfDaysSpent = models.IntegerField()
   downtimeType = models.ForeignKey(DowntimeType, null=True, related_name="downtimeTransaction", on_delete=models.SET_NULL)
-  creationDate = models.DateField(null=True, blank=True)
+  creationDate = models.DateField(default=datetime.date.today)
 
 class Item(models.Model):
 
@@ -151,7 +151,7 @@ class ItemsOwned(models.Model):
   item = models.ForeignKey(Item, related_name="item", on_delete=models.CASCADE)
   character = models.ForeignKey(Character, related_name="owningCharacter", on_delete=models.CASCADE)
   qty = models.IntegerField()
-  dateLastModified = models.DateField(null=True, blank=True)
+  dateLastModified = models.DateField(default=datetime.date.today)
 
 
 class DowntimeJobs(models.Model):
@@ -192,6 +192,6 @@ class AirshipUpgrades(models.Model):
   upgradeType = models.CharField(max_length=255, choices=UPGRADE_CHOICES)
   fromAirshipPot = models.BooleanField(default=False)
   amount = models.IntegerField()
-  creationDate = models.DateField(null=True, blank=True)
+  creationDate = models.DateField(default=datetime.date.today)
   
 
