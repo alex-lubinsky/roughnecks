@@ -18,7 +18,7 @@ const DowntimeTable = (props) => {
               {props.characters
                 .filter((character) => character.id === downtime.character)
                 .sort((a,b) => {
-                  return a.creationDate > b.creationDate ? 1 : -1
+                  return a.creationDate > b.creationDate ? -1 : 1
                 })
                 .map((character) => {
                   return <td key={character.id}>{`${character.fullName}`}</td>;

@@ -334,7 +334,7 @@ class DowntimeForm extends React.Component {
         transactionAmount +=
           (Math.floor(Math.random() * 100) + 1) % 25 === 0 ? 100 : 15;
       }
-      description = `${this.state.character.label} finds ${transactionAmount} worth of spellcasting components`;
+      description = `${this.state.character.label} finds ${transactionAmount} gold worth of spellcasting components`;
     } else if (this.state.downtimeType.value === CARLYLES_TRADING_NETWORK) {
       levels.forEach((level) => {
         transactionAmount +=
