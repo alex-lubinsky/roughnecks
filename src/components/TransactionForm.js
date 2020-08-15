@@ -291,7 +291,7 @@ class TransactionForm extends React.Component {
       silverPcs: this.state.silver === "" ? 0 : this.state.silver,
       copperPcs: this.state.copper === "" ? 0 : this.state.copper,
       airshipPot: this.state.airshipPot,
-      earnedSpent: earnedSpent,
+      earnedSpent: earnedSpent
     });
   };
 

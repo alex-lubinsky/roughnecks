@@ -15,6 +15,7 @@ import SkymallTable from "./SkymallTable";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import { startAddDowntime } from '../actions/downtime';
+import { MISCELLANEOUS } from '../variables/downtimejobvariables';
 
 class Skymall extends React.Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class Skymall extends React.Component {
     const foundItem = this.props.items.find(
       (item) => item.id.toString() === itemId
     );
+    console.log(foundItem)
     if (
       !Number.isInteger(Number(qty)) ||
       foundItem.numberInSkymall < qty ||
@@ -118,8 +120,8 @@ class Skymall extends React.Component {
           {
             description: `${this.state.character.label} purchased ${foundItem.name}`,
             character: this.state.character.value,
-            numOfDaysSpent: this.foundItem.downtimeCost,
-            downtimeType: 'Miscellaneous'
+            numOfDaysSpent: foundItem.downtimeCost,
+            downtimeType: MISCELLANEOUS
           }
         )
       }
