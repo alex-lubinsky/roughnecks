@@ -35,6 +35,7 @@ import Tab from "react-bootstrap/Tab";
 import { startSetDowntimeTypes } from "../actions/downtimetypes";
 import ValidationMessage from './ValidationMessage';
 import { BsPencil } from 'react-icons/bs';
+import EditCharacterPage from './EditCharacterPage';
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class DisplayCharacterPage extends React.Component {
     this.state = {
       showLevelUpModal: false,
       showKillPCModal: false,
+      showCharacterEditPage: false,
       errorMsg: {},
       qtyValid: true
     };
@@ -67,6 +69,14 @@ class DisplayCharacterPage extends React.Component {
 
   handleLevelUpShow = () => {
     this.setState({ showLevelUpModal: true });
+  };
+
+  handleCharacterEditPageClose = () => {
+    this.setState({ showCharacterEditPage: false });
+  };
+
+  handleCharacterEditPageShow = () => {
+    this.setState({ showCharacterEditPage: true });
   };
 
   handleKillPCClose = () => {
@@ -173,6 +183,13 @@ class DisplayCharacterPage extends React.Component {
                 </Container>
               </Modal.Body>
             </Modal>
+            <Modal
+              size="lg"
+              show={this.state.showCharacterEditPage}
+              onHide={this.handleCharacterEditPageClose}
+            >
+              <EditCharacterPage character={this.props.character} handleClose={this.handleCharacterEditPageClose}/>
+            </Modal>
 
             <Modal
               show={this.state.showLevelUpModal}
@@ -230,7 +247,7 @@ class DisplayCharacterPage extends React.Component {
                     <Col>
                       {this.props.character.creator === this.props.userid ?
                         <span className="float-right margin-right-100">
-                          <Button variant="link">
+                          <Button variant="link" onClick={this.handleCharacterEditPageShow}>
                             <BsPencil />
                           </Button>
                         </span>

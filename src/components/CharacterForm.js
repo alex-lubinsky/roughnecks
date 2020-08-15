@@ -19,31 +19,32 @@ class CharacterForm extends React.Component {
     super(props);
 
     this.state = {
-      fullName: "",
-      fullNameValid: false,
-      lastName: "",
-      raceName: "",
-      raceNameValid: false,
-      armorClass: 1,
+      fullName: props.character ? props.character.fullName : "",
+      fullNameValid: props.character ? true : false,
+      raceName: props.raceName ? props.raceName : "",
+      raceNameValid: props.raceName ? true : false,
+      armorClass: props.character ? props.character.armorClass : 1,
       armorClassValid: true,
-      passivePerception: 1,
+      passivePerception: props.character ? props.character.passivePerception : 1,
       passivePerceptionValid: true,
-      maxHp: 1,
+      maxHp: props.character ? props.character.maxHp : 1,
       maxHpValid: true,
       gold: 0,
-      goldValid: false,
+      goldValid: props.editForm ? true : false,
       subclassName: "",
-      subclassNameValid: false,
-      altVision: "",
-      altVisionValid: false,
+      subclassNameValid: props.editForm ? true : false,
+      altVision: props.altVision ? props.altVision : "",
+      altVisionValid: props.altVision ? true : false,
       errorMsg: {},
-      formValid: false,
+      formValid: props.editForm ? true : false,
     };
   }
 
   componentDidMount() {
-    this.props.startSetRaces();
-    this.props.startSetSubclasses();
+    if (!this.props.editForm) {
+      this.props.startSetRaces();
+      this.props.startSetSubclasses();
+    }
   }
 
   onFullNameChange = (e) => {
@@ -153,7 +154,8 @@ class CharacterForm extends React.Component {
   };
 
   onVisionChange = (selectedItem) => {
-    this.setState({ altVision: selectedItem.value }, this.validateAltVision);
+    const altVision = selectedItem
+    this.setState({ altVision }, this.validateAltVision);
   };
 
   validateAltVision = () => {
@@ -178,7 +180,8 @@ class CharacterForm extends React.Component {
   };
 
   onRaceChange = (selectedItem) => {
-    this.setState({ raceName: selectedItem.value }, this.validateRaceName);
+    const raceName = selectedItem
+    this.setState({ raceName }, this.validateRaceName);
   };
 
   validateRaceName = () => {
@@ -232,13 +235,13 @@ class CharacterForm extends React.Component {
     e.preventDefault();
     this.props.onSubmit({
       fullName: this.state.fullName,
-      raceName: this.state.raceName,
+      raceName: this.state.raceName.value,
       armorClass: this.state.armorClass,
       passivePerception: this.state.passivePerception,
       maxHp: this.state.maxHp,
       subclassName: this.state.subclassName,
       goldPcs: this.state.gold,
-      altVision: this.state.altVision,
+      altVision: this.state.altVision.value,
     });
   };
 
@@ -385,6 +388,7 @@ class CharacterForm extends React.Component {
                     )}
                   </span>
                   <Select
+                    value={this.state.altVision}
                     options={altVisionChoices}
                     onChange={this.onVisionChange}
                   />
@@ -394,6 +398,7 @@ class CharacterForm extends React.Component {
                   />
                 </Form.Group>
               </Col>
+              {this.props.editForm ? null :
               <Col>
                 <Form.Group>
                   <span
@@ -417,7 +422,7 @@ class CharacterForm extends React.Component {
                     message={this.state.errorMsg.gold}
                   />
                 </Form.Group>
-              </Col>
+              </Col>}
             </Row>
             <Form.Group>
               <span
@@ -432,6 +437,7 @@ class CharacterForm extends React.Component {
                 <p>loading races....</p>
               ) : (
                 <Select
+                  value={this.state.raceName}
                   options={this.getRaceOptions()}
                   onChange={this.onRaceChange}
                 />
@@ -441,7 +447,8 @@ class CharacterForm extends React.Component {
                 message={this.state.errorMsg.raceName}
               />
             </Form.Group>
-            {this.props.subclassesIsLoading ? (
+            {this.props.editForm ? null :
+            this.props.subclassesIsLoading ? (
               <p>loading subclasses....</p>
             ) : (
               <ClassForm
@@ -457,7 +464,7 @@ class CharacterForm extends React.Component {
             disabled={!this.state.formValid}
             type="submit"
           >
-            {this.props.edit ? "Edit Character" : "Add Character"}
+            {this.props.editForm ? "Edit Character" : "Add Character"}
           </Button>
         </Modal.Footer>
       </Form>

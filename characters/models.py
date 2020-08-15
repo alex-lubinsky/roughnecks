@@ -69,7 +69,6 @@ class PlayerCharacterClass(models.Model):
   levelNumber = models.IntegerField(default=1)
   dateCreated = models.DateField(blank=True, null=True, default=datetime.date.today)
 
-
   def __str__(self):
     return self.playerClass.subclassName
 
