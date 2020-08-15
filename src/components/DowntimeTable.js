@@ -9,20 +9,23 @@ const DowntimeTable = (props) => {
           <th>Days Spent</th>
           <th>Type</th>
           <th>Description</th>
+          <th>Date Created</th>
         </tr>
       </thead>
       <tbody>
-        {props.downtime.map((downtime) => {
+        {props.downtime.sort((a,b) => {
+            console.log(a)
+            if (a.creationDate > b.creationDate) {
+              return -1
+            } else if (a.creationDate < b.creationDate) {
+              return 1
+            } else {
+              return a.downtimeType >= b.downtimeType ? 1 : -1
+            }
+          }).map((downtime) => {
           return (
             <tr key={downtime.id} className="downtime-row">
-              {props.characters
-                .filter((character) => character.id === downtime.character)
-                .sort((a,b) => {
-                  return a.creationDate > b.creationDate ? -1 : 1
-                })
-                .map((character) => {
-                  return <td key={character.id}>{`${character.fullName}`}</td>;
-                })}
+              <td>{props.characters.find(character => character.id === downtime.character).fullName}</td>
               <td>{downtime.numOfDaysSpent}</td>
               <td>
                 {
@@ -32,6 +35,7 @@ const DowntimeTable = (props) => {
                 }
               </td>
               <td className="width-10">{downtime.description}</td>
+              <td>{downtime.creationDate}</td>
             </tr>
           );
         })}
