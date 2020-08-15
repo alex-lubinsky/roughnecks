@@ -6,6 +6,7 @@ import { startSetCharacters } from "../actions/characters";
 import { startSetMissions } from "../actions/missions";
 
 class TransactionList extends React.Component {
+  
   componentDidMount() {
     this.props.startSetTransactions();
     this.props.startSetCharacters();

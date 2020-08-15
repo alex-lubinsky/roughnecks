@@ -8,7 +8,7 @@ class HeroTable extends React.Component {
     super(props);
 
     this.state = {
-      active: 1,
+      active: this.props.totalPages,
       missionsForPagination: [],
     };
   }
@@ -93,9 +93,9 @@ class HeroTable extends React.Component {
                   level <= heroTier.maxLevel && 
                   level >= heroTier.minLevel
                 )}).length > 0 ?
-                  <>
+                  <React.Fragment key={heroTier.name}>
                   <tr>
-                    <td colspan="3"><h4>{heroTier.name}</h4></td>
+                    <td colSpan="3"><h4>{heroTier.name}</h4></td>
                   </tr>
                   
                   {this.props.characters
@@ -145,7 +145,7 @@ class HeroTable extends React.Component {
                         />
                       );
                     })}
-                  </>  
+                  </React.Fragment>  
                 : null
               )
             })}

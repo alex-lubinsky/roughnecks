@@ -33,7 +33,18 @@ const TransactionsTable = (props) => {
                       .filter((transaction) => {
                         return transaction.earnedSpent === 1;
                       })
-                      .sort((a, b) => (a.episode >= b.episode ? 1 : -1))
+                      .sort((a,b) => {
+                        const aEpisodeNumber = props.missions.find((mission) => mission.id === a.mission).episode
+                        const bEpisodeNumber = props.missions.find((mission) => mission.id === a.mission).episode
+                        if (a.creationDate > b.creationDate) {
+                          return -1
+                        } else if (a.creationDate < b.creationDate) {
+                          return 1
+                        } else {
+                          console.log(aEpisodeNumber, bEpisodeNumber)
+                          return (aEpisodeNumber >= bEpisodeNumber ? -1 : 1)
+                        }
+                      })
                       .map((transaction) => {
                         return (
                           <tr key={transaction.id} className="transaction-row">
@@ -49,13 +60,9 @@ const TransactionsTable = (props) => {
                             </td>
                             <td>
                               {props.missions.find(
-                                (mission) => mission.id === transaction.mission
-                              ).name !== "Starting Gold"
-                                ? props.missions.find(
-                                    (mission) =>
-                                      mission.id === transaction.mission
-                                  ).name
-                                : ""}
+                                (mission) =>
+                                  mission.id === transaction.mission
+                              ).name}
                             </td>
                             <td>{transaction.name}</td>
                             <td>{transaction.goldPcs}</td>
@@ -107,6 +114,17 @@ const TransactionsTable = (props) => {
                     {props.transactions
                       .filter((transaction) => {
                         return transaction.earnedSpent === -1;
+                      })
+                      .sort((a,b) => {
+                        const aEpisodeNumber = props.missions.find((mission) => mission.id === a.mission).episode
+                        const bEpisodeNumber = props.missions.find((mission) => mission.id === a.mission).episode
+                        if (a.creationDate > b.creationDate) {
+                          return -1
+                        } else if (a.creationDate < b.creationDate) {
+                          return 1
+                        } else {
+                          return (aEpisodeNumber > bEpisodeNumber ? -1 : 1)
+                        }
                       })
                       .map((transaction) => {
                         return (

@@ -38,7 +38,7 @@ const ItemsOwnedTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.groupedItemsOwned.map((ownedItem) => {
+        {props.groupedItemsOwned.sort((a,b) => a.dateLastModified > b.dateLastModified ? 1 : -1).map((ownedItem) => {
           const item = props.items.find((item) => item.id === ownedItem.item);
           return (
             <tr className="mission-row" key={ownedItem.id}>
