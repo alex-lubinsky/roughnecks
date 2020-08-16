@@ -3,13 +3,14 @@ import CharacterForm from "./CharacterForm";
 import { startUpdateCharacter } from "../actions/characters";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
+import { altVision } from '../variables/altvision'; 
 
 const EditCharacterPage = (props) => {
 
   const raceName = props.races.find(race => {
     return race.id === props.character.raceName
   })
-  const altVision = props.character.altVision === "NORM" ? { value: "NORM", label: "Normal Vision" } : { value: "60DV", label: "60 ft Dark Vision" }
+  const characterVision = altVision.find(vision => vision.value === props.character.altVision) 
 
   return (
     <div>
@@ -19,7 +20,7 @@ const EditCharacterPage = (props) => {
       <CharacterForm
         character={props.character}
         editForm = {true}
-        altVision = {altVision}
+        altVision = {characterVision}
         raceName = {{value: raceName.id, label: raceName.raceName}}
         onSubmit={(formData) => {
           const character = {

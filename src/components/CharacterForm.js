@@ -13,6 +13,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { AiOutlineCheck } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
+import { altVision } from '../variables/altvision';
 
 class CharacterForm extends React.Component {
   constructor(props) {
@@ -246,11 +247,6 @@ class CharacterForm extends React.Component {
   };
 
   render() {
-    const altVisionChoices = [
-      { value: "NORM", label: "Normal Vision" },
-      { value: "60DV", label: "60 ft Dark Vision" },
-    ];
-
     return (
       <Form onSubmit={this.onSubmit}>
         <Modal.Body>
@@ -389,7 +385,7 @@ class CharacterForm extends React.Component {
                   </span>
                   <Select
                     value={this.state.altVision}
-                    options={altVisionChoices}
+                    options={altVision}
                     onChange={this.onVisionChange}
                   />
                   <ValidationMessage

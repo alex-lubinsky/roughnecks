@@ -1,5 +1,10 @@
+//import axios
 import axios from "axios";
+
+//import Auth Token Function
 import { tokenConfig } from "./auth";
+
+//import variables
 import {
   ADD_AIRSHIP_UPGRADE,
   SET_AIRSHIP_UPGRADE,

@@ -1,21 +1,36 @@
+//import react and redux
 import React from "react";
-import { startSetItems, startUpdateItem } from "../actions/items";
 import { connect } from "react-redux";
+
+//import modules
 import Select from "react-select";
+
+//import functions
 import { totalBalance } from "../functions/money";
+
+//import actions
 import { startAddItemsOwned, startSetItemsOwned, startUpdateItemOwned } from "../actions/itemsowned";
+import { startAddDowntime } from '../actions/downtime';
 import {
   startAddTransaction,
   startSetTransactions,
 } from "../actions/transactions";
 import { startSetMissions } from "../actions/missions";
 import { startSetCharacters } from "../actions/characters";
+import { startSetItems, startUpdateItem } from "../actions/items";
+
+//import components
 import ValidationMessage from "./ValidationMessage";
 import SkymallTable from "./SkymallTable";
+
+//import react bootstrap
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
-import { startAddDowntime } from '../actions/downtime';
+
+//import variables
 import { MISCELLANEOUS } from '../variables/downtimejobvariables';
+
+
 
 class Skymall extends React.Component {
   constructor(props) {
