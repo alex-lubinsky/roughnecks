@@ -3,6 +3,8 @@ from datetime import date
 from django import utils
 import datetime
 from django.contrib.auth.models import User
+from django.db.models import Sum
+import math
 
 # Create your models here.
 
@@ -60,8 +62,51 @@ class Character(models.Model):
   dateOfDeath = models.DateField(null=True, blank=True)
   startingCheckmarks = models.IntegerField(default=0)
 
+  @property
+  def getCreatedLevels(self):
+    return PlayerCharacterClass.objects.filter(classCharacter=self.id).count()
+
+  @property
+  def getCheckmarks(self):
+    missionscount = Mission.objects.filter(characters__id__exact=self.id).count() 
+    dmCount = Mission.objects.filter(dm_id=self.id).count() 
+    trainingRoomCount = Downtime.objects.filter(downtimeType=1, character=self.id).aggregate(daysSpent=Sum('numOfDaysSpent'))['daysSpent']
+    if isinstance(trainingRoomCount, int):
+      trainingRoomCount = math.floor(trainingRoomCount / 10)
+    else:
+      trainingRoomCount = 0
+
+    return trainingRoomCount + dmCount + missionscount + self.startingCheckmarks
+
   def __str__(self):
     return self.fullName
+
+  @property
+  def getEarnedLevel(self):
+    LEVELS = [
+      0,
+      1,
+      4,
+      8,
+      12,
+      16,
+      21,
+      26,
+      31,
+      36,
+      42,
+      48,
+      54,
+      58,
+      67,
+      74,
+      81,
+      89,
+      98,
+      108,
+    ]
+
+    return LEVELS.index(min(LEVELS, key=lambda x: (abs(x - self.getCheckmarks)))) + 1
 
 class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)

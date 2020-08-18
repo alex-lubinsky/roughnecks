@@ -145,12 +145,12 @@ STATICFILES_DIRS = (
 
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.IsAuthenticated',
-    # 'rest_framework.permissions.AllowAny',
+    # 'rest_framework.permissions.IsAuthenticated',
+    'rest_framework.permissions.AllowAny',
   ],
   'DEFAULT_RENDERER_CLASSES': [
     'rest_framework.renderers.JSONRenderer',
-    # 'rest_framework.renderers.BrowsableAPIRenderer',
+    'rest_framework.renderers.BrowsableAPIRenderer',
   ],
   'DEFAULT_AUTHENTICATION_CLASSES': [
     'rest_framework.authentication.TokenAuthentication',
@@ -160,8 +160,8 @@ REST_FRAMEWORK = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'alex@reggiesroughnecks.com'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = config("EMAIL_PORT", cast=int)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
