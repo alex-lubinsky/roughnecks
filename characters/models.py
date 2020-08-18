@@ -68,7 +68,7 @@ class Character(models.Model):
 
   @property
   def getCheckmarks(self):
-    missionscount = Mission.objects.filter(characters__id__exact=self.id).count() 
+    missioncount = Mission.objects.filter(characters__id__exact=self.id).count() 
     dmCount = Mission.objects.filter(dm_id=self.id).count() 
     trainingRoomCount = Downtime.objects.filter(downtimeType=1, character=self.id).aggregate(daysSpent=Sum('numOfDaysSpent'))['daysSpent']
     if isinstance(trainingRoomCount, int):
@@ -76,7 +76,7 @@ class Character(models.Model):
     else:
       trainingRoomCount = 0
 
-    return trainingRoomCount + dmCount + missionscount + self.startingCheckmarks
+    return trainingRoomCount + dmCount + missioncount + self.startingCheckmarks
 
   def __str__(self):
     return self.fullName
@@ -107,6 +107,30 @@ class Character(models.Model):
     ]
 
     return LEVELS.index(min(LEVELS, key=lambda x: (abs(x - self.getCheckmarks)))) + 1
+
+  @property
+  def downtimeAvailable(self):
+    missioncount = Mission.objects.filter(characters__id__exact=self.id).count() 
+    dmCount = Mission.objects.filter(dm_id=self.id).count()
+    
+    try:
+      missionsMissed = Mission.objects.filter(playedOn__gte=self.dateCreated, visable=True, playedOn__lte=self.dateOfDeath).exclude(characters__id__exact=self.id).exclude(dm_id=self.id)
+    except:
+      missionsMissed = Mission.objects.filter(playedOn__gte=self.dateCreated, visable=True).exclude(characters__id__exact=self.id).exclude(dm_id=self.id)
+    
+    countOfMissedMissions = 0
+    for mission in missionsMissed:
+      levelCount = PlayerCharacterClass.objects.filter(classCharacter=self.id, dateCreated__lte=mission.playedOn).count()
+      if mission.levelMax >= levelCount and mission.levelMin <= levelCount:
+        countOfMissedMissions += 1
+    
+    downtimeSpent = Downtime.objects.filter(character=self.id).aggregate(daysSpent=Sum('numOfDaysSpent'))['daysSpent']
+    if isinstance(downtimeSpent, int):
+      downtimeSpent = downtimeSpent
+    else:
+      downtimeSpent = 0
+
+    return ((countOfMissedMissions * 2 + dmCount * 7 + missioncount * 5) - downtimeSpent)
 
 class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)

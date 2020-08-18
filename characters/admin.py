@@ -9,7 +9,7 @@ class CharacterAdmin(admin.ModelAdmin):
 admin.site.register(Character, CharacterAdmin)
 
 class MissionAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'visable', 'episode', 'levelMin', 'levelMax')
+  list_display = ('id', 'name', 'visable', 'episode', 'levelMin', 'levelMax', 'playedOn')
 
 admin.site.register(Mission, MissionAdmin)
 
