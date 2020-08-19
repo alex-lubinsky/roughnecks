@@ -131,6 +131,18 @@ class Character(models.Model):
       downtimeSpent = 0
 
     return ((countOfMissedMissions * 2 + dmCount * 7 + missioncount * 5) - downtimeSpent)
+  
+  @property
+  def goldTotalEarned(self):
+    goldTotalEarned = 0 
+    earnedTransactions = Transaction.objects.filter(characters__id__exact=self.id, earnedSpent=1)
+    for transaction in earnedTransactions:
+      if transaction.airshipPot:
+        goldTotalEarned += (transaction.goldPcs * .9) + (transaction.silverPcs * .9) / 10 + (transaction.copperPcs * .9) / 100
+      else:
+        goldTotalEarned += transaction.goldPcs + transaction.silverPcs / 10 + transaction.copperPcs / 100
+
+    return goldTotalEarned
 
 class PlayerCharacterClass(models.Model):
   playerClass = models.ForeignKey(CharacterSubClass, on_delete=models.SET_NULL, null=True)

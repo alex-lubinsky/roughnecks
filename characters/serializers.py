@@ -16,11 +16,7 @@ class CharacterSerializer(serializers.ModelSerializer):
       'fullName', 
       'dead', 
       'startingCheckmarks', 
-      'dateOfDeath', 
-      'getCheckmarks', 
-      'getEarnedLevel', 
-      'downtimeAvailable', 
-      'getCreatedLevels'
+      'dateOfDeath',
     )
 
 class CharacterRaceSerializer(serializers.ModelSerializer):
