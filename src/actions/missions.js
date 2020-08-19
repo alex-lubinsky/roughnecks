@@ -23,6 +23,7 @@ export const startAddMission = (missionData = {}) => {
       episode = 1,
       levelMin = 1,
       levelMax = 1,
+      creator = 1,
     } = missionData;
 
     const mission = {
@@ -33,6 +34,7 @@ export const startAddMission = (missionData = {}) => {
       episode,
       levelMin,
       levelMax,
+      creator,
     };
 
     return axios

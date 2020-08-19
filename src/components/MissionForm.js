@@ -220,6 +220,7 @@ class MissionForm extends React.Component {
       episode: this.props.editForm ? this.props.mission.episode : `${this.props.highestEpisode + 1}`,
       levelMin: this.state.minLevel,
       levelMax: this.state.maxLevel,
+      creator: this.props.editForm ? this.props.mission.creator : this.props.userId,
     });
   };
 
@@ -449,6 +450,7 @@ const mapStateToProps = (state, props) => ({
   highestEpisode: state.missions.data.sort((a, b) =>
     a.episode < b.episode ? 1 : -1
   )[0].episode,
+  userId: state.auth.user.id
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MissionForm);

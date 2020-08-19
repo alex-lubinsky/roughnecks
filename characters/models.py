@@ -163,6 +163,7 @@ class Mission(models.Model):
   episode = models.IntegerField(default=1)
   levelMin = models.IntegerField(default=1)
   levelMax = models.IntegerField(default=20)
+  creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="mission_created", blank=True)
 
   def __str__(self):
     return self.name

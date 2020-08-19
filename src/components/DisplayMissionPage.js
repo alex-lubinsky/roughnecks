@@ -55,7 +55,7 @@ class DisplayMissionPage extends React.Component {
             <div>
               <h1>{`Episode ${this.props.mission.episode}: ${this.props.mission.name}`}</h1>
               <span>
-                {dm.creator === this.props.user.id || this.props.user.is_staff === true ? 
+                {dm.creator === this.props.user.id || this.props.user.is_staff === true || this.props.mission.creator === this.props.user.id ? 
                   <Button variant="link" onClick={this.handleUpdateMissionModalOpen}><BsPencil /></Button> : null}
               </span>
               <p>Played on: {this.props.mission.playedOn}</p>
