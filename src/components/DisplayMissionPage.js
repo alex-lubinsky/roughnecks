@@ -4,17 +4,19 @@ import { startSetMissions } from "../actions/missions";
 import TransactionsTable from "./TransactionsTable";
 import { startSetCharacters } from "../actions/characters";
 import { startSetTransactions } from "../actions/transactions";
-// import Button from 'react-bootstrap/Button'
-// import Modal from "react-bootstrap/Modal";
+import Button from 'react-bootstrap/Button';
+import Modal from "react-bootstrap/Modal";
+import { BsPencil } from 'react-icons/bs';
+import EditMissionForm from './EditMissionForm';
 
 class DisplayMissionPage extends React.Component {
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
 
-  //   this.state = {
-  //     showItemModal:false
-  //   };
-  // }
+    this.state = {
+      showUpdateMissionModal: false
+    };
+  }
 
   componentDidMount() {
     this.props.startSetMissions();
@@ -22,17 +24,13 @@ class DisplayMissionPage extends React.Component {
     this.props.startSetTransactions();
   }
 
-  // handleItemModalClose =() => {
-  //   this.setState({showItemModal: false})
-  // }
+  handleUpdateMissionModalOpen = () => {
+    this.setState({showUpdateMissionModal: true })
+  };
 
-  // handleItemModalOpen =() => {
-  //   this.setState({showItemModal: true})
-  // }
-
-  // onGiveItemClick = () => {
-
-  // }
+  handleUpdateMissionModalClose = () => {
+    this.setState({showUpdateMissionModal: false })
+  };
 
   render() {
     const dm = this.props.characters.find(
@@ -41,17 +39,14 @@ class DisplayMissionPage extends React.Component {
 
     return (
       <>
-        {/* <Modal show={this.state.showItemModal}  onHide={this.handleItemModalClose}>
-          <Modal.Header closeButton>
-            <h1>Give a PC an Item</h1>
-          </Modal.Header>
-          <Modal.Body>
-          
-          </Modal.Body>
-          <Modal.Footer>
-            <Button>Give Item</Button>
-          </Modal.Footer>
-        </Modal> */}
+
+        <Modal
+          show={this.state.showUpdateMissionModal}
+          onHide={this.handleUpdateMissionModalClose}
+        >
+          <EditMissionForm mission={this.props.mission} handleClose={this.handleUpdateMissionModalClose}/>
+        </Modal>
+
 
         <div className="div-margin-sm">
           {this.props.transactionsIsLoading ||
@@ -59,10 +54,10 @@ class DisplayMissionPage extends React.Component {
           this.props.charactersIsLoading ? null : (
             <div>
               <h1>{`Episode ${this.props.mission.episode}: ${this.props.mission.name}`}</h1>
-              {/* <span>
+              <span>
                 {dm.creator === this.props.user.id || this.props.user.is_staff === true ? 
-                  <Button onClick={this.handleItemModalOpen}>Give PC an Item</Button> : null}
-              </span> */}
+                  <Button variant="link" onClick={this.handleUpdateMissionModalOpen}><BsPencil /></Button> : null}
+              </span>
               <p>Played on: {this.props.mission.playedOn}</p>
               <p>DM: {dm.fullName}</p>
               Players:{" "}

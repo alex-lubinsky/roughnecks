@@ -50,7 +50,7 @@ export const REMOVE_ITEM_OWNED = "REMOVE_ITEM_OWNED";
 export const ADD_MISSION = "ADD_MISSION";
 export const SET_MISSIONS = "SET_MISSIONS";
 export const REMOVE_MISSION = "REMOVE_MISSION";
-export const EDIT_MISSION = "EDIT_MISSION";
+export const UPDATE_MISSION = "UPDATE_MISSION";
 export const MISSIONS_LOADING = "MISSIONS_LOADING";
 
 // PCSubclass Action Types

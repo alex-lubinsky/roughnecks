@@ -109,6 +109,14 @@ class DisplayCharacterPage extends React.Component {
       errorMsg.qty = `You are trying to Sell/Remove more ${item.name} items than you have`
       this.setState({qtyValid: false, errorMsg})
       return null; 
+    } else if (!Number.isInteger(Number(qty))) {
+      errorMsg.qty = `You must sell/remove a whole number `
+      this.setState({qtyValid: false, errorMsg})
+      return null
+    } else if (qty < 1) {
+      errorMsg.qty = `You must sell/remove a number larger than 0 `
+      this.setState({qtyValid: false, errorMsg})
+      return null
     } else {
       this.setState({qtyValid: true, errorMsg})
     }

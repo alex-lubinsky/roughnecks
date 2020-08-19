@@ -2,7 +2,7 @@ import {
   ADD_MISSION,
   SET_MISSIONS,
   REMOVE_MISSION,
-  EDIT_MISSION,
+  UPDATE_MISSION,
   MISSIONS_LOADING,
 } from "../variables/actionvariables";
 
@@ -18,7 +18,7 @@ export default (state = missionReducerDefaultState, action) => {
       return Object.assign({}, state, {
         data: state.data.filter(({ id }) => action.id !== id),
       });
-    case EDIT_MISSION:
+    case UPDATE_MISSION:
       return Object.assign({}, state, {
         data: state.data.map((mission) => {
           if (mission.id === action.id) {
