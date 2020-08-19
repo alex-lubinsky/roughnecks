@@ -36,6 +36,7 @@ import { startSetDowntimeTypes } from "../actions/downtimetypes";
 import ValidationMessage from './ValidationMessage';
 import { BsPencil } from 'react-icons/bs';
 import EditCharacterPage from './EditCharacterPage';
+import { NavLink } from "react-router-dom";
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -362,7 +363,13 @@ class DisplayCharacterPage extends React.Component {
                             )
                           )
                           .map((mission) => {
-                            return <li key={mission.id}>{mission.name}</li>;
+                            return (
+                              <NavLink
+                                to={`/missions/${mission.id}`}
+                                activeClassName="is-active"
+                              >         
+                                <li key={mission.id}>{mission.name}</li>
+                              </NavLink>);
                           })}
                       </ul>
                     </Col>
@@ -374,7 +381,14 @@ class DisplayCharacterPage extends React.Component {
                             (mission) => mission.dm === this.props.characterid
                           )
                           .map((dm) => {
-                            return <li key={dm.id}>{dm.name}</li>;
+                            return (
+                              <NavLink
+                                to={`/missions/${dm.id}`}
+                                activeClassName="is-active"
+                              >         
+                                <li key={dm.id}>{dm.name}</li>
+                              </NavLink>
+                            );
                           })}
                       </ul>
                     </Col>
