@@ -136,8 +136,8 @@ class DisplayCharacterPage extends React.Component {
         earnedSpent: 1,
       });
     } 
-    
-    if (itemOwned.qty === qty) {
+
+    if (itemOwned.qty.toString() === qty) {
       this.props.startRemoveItemOwned(itemOwned.id);
     } else {
       this.props.startUpdateItemOwned(itemOwned.id, {

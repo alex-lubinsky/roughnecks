@@ -14,7 +14,6 @@ const DowntimeTable = (props) => {
       </thead>
       <tbody>
         {props.downtime.sort((a,b) => {
-            console.log(a)
             if (a.creationDate > b.creationDate) {
               return -1
             } else if (a.creationDate < b.creationDate) {
