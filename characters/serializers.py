@@ -53,7 +53,7 @@ class DowntimeSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Downtime
-    fields = ('id', 'description', 'character', 'numOfDaysSpent', 'downtimeType', 'creationDate')
+    fields = ('id', 'description', 'character', 'numOfDaysSpent', 'downtimeType', 'creationDate', 'creator')
 
 class DowntimeTypeSerializer(serializers.ModelSerializer):
 

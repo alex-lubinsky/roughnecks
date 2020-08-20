@@ -202,6 +202,7 @@ class Downtime(models.Model):
   numOfDaysSpent = models.IntegerField()
   downtimeType = models.ForeignKey(DowntimeType, null=True, related_name="downtimeTransaction", on_delete=models.SET_NULL)
   creationDate = models.DateField(default=datetime.date.today)
+  creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="downtime_creator", blank=True)
 
 class Item(models.Model):
 
