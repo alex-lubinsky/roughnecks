@@ -1,5 +1,5 @@
 import React from "react";
-import EditButton from './EditButton';
+import DeleteButton from './DeleteButton';
 
 const DowntimeTable = (props) => {
   
@@ -13,7 +13,7 @@ const DowntimeTable = (props) => {
             <th>Type</th>
             <th>Description</th>
             <th>Date Created</th>
-            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -43,7 +43,7 @@ const DowntimeTable = (props) => {
                   {downtime.creator === props.user.id || 
                   props.user.is_staff === true ||
                   props.characters.find(character => character.id === downtime.character).creator === props.user.id ? 
-                    <EditButton objectToPass={downtime} onClick={props.selectDowntime} />
+                    <DeleteButton objectToPass={downtime} onClick={props.selectDowntime} />
                   : null}
                 </td>
               </tr>
