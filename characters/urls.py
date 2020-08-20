@@ -10,6 +10,7 @@ urlpatterns = [
   path('subclasses/', CharacterSubClassList.as_view()),
   path('playercharacterclasses/', PlayerCharacterClassList.as_view()),
   path('transactions/', TransactionList.as_view()),
+  path('downtime/<int:pk>/', DowntimeDetail.as_view()),
   path('downtime/', DowntimeList.as_view()),
   path('items/', ItemList.as_view()),
   path('items/<int:pk>/', ItemDetail.as_view()),

@@ -4,7 +4,7 @@ import {
   SET_DOWNTIME,
   ADD_DOWNTIME,
   DOWNTIME_LOADING,
-  UPDATE_DOWNTIME,
+  REMOVE_DOWNTIME,
 } from "../variables/actionvariables";
 
 const setDowntime = (downtime) => ({
@@ -59,27 +59,20 @@ export const startAddDowntime = (downtimeData = {}) => {
   };
 };
 
-const updateDowntime = (id, updates) => ({
-  type: UPDATE_DOWNTIME,
+
+export const removeDowntime = (id) => ({
+  type: REMOVE_DOWNTIME,
   id,
-  updates,
 });
 
-
-export const startUpdateDowntime = (id, updates) => {
+export function startRemoveDowntime({ id } = {}) {
   return (dispatch, getState) => {
     return axios
-      .patch(
-        `/api/characters/${id}/`,
-        updates,
-        tokenConfig(getState().auth.token)
-      )
+      .delete(`/api/downtime/${id}/`, tokenConfig(getState().auth.token))
       .then((res) => {
-        dispatch(updateDowntime(id, updates));
+        dispatch(removeDowntime(id));
+      }).catch(err => {
+        console.log(err.response)
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
-};
-
+}

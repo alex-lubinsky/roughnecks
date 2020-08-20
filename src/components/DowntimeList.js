@@ -5,7 +5,7 @@ import { startSetCharacters } from "../actions/characters";
 import { startSetDowntime } from "../actions/downtime";
 import { startSetDowntimeTypes } from "../actions/downtimetypes";
 import Modal from "react-bootstrap/Modal";
-import EditDowntimeForm from './EditDowntimeForm';
+import DeleteDowntime from './DeleteDowntime';
 
 
 class DowntimeList extends React.Component {
@@ -14,16 +14,16 @@ class DowntimeList extends React.Component {
     super(props);
 
     this.state = {
-      showEditDowntimeModal: false,
+      showDeleteDowntimeModal: false,
       downtimeSelected: '',
     }
   }
 
-  handleEditDowntimeModalClose = () => this.setState({showEditDowntimeModal : false});
-  handleEditDowntimeModalShow = () => this.setState({showEditDowntimeModal : true});
+  handleDeleteDowntimeModalClose = () => this.setState({showDeleteDowntimeModal : false});
+  handleDeleteDowntimeModalShow = () => this.setState({showDeleteDowntimeModal : true});
 
   selectDowntime = (dt) => {
-    this.setState({downtimeSelected : dt}, this.handleEditDowntimeModalShow);
+    this.setState({downtimeSelected : dt}, this.handleDeleteDowntimeModalShow);
   }
 
   componentDidMount() {
@@ -36,10 +36,15 @@ class DowntimeList extends React.Component {
     return (
       <>
         <Modal
-          show={this.state.showEditDowntimeModal}
-          onHide={this.handleEditDowntimeModalClose}
+          show={this.state.showDeleteDowntimeModal}
+          onHide={this.handleDeleteDowntimeModalClose}
         >
-          <EditDowntimeForm handleClose={this.handleEditDowntimeModalClose} downtime={this.state.downtimeSelected}/>
+          <DeleteDowntime 
+            handleClose={this.handleDeleteDowntimeModalClose} 
+            downtimeTypes={this.props.downtimeTypes} 
+            downtime={this.state.downtimeSelected}
+            characters={this.props.characters}
+          />
         </Modal>
 
 

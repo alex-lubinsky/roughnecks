@@ -26,48 +26,54 @@ const AddDowntimeForm = (props) => {
             character: formData.character,
             numOfDaysSpent: formData.numOfDaysSpent,
           };
-          props.startAddDowntime(downtime);
+          props.startAddDowntime(downtime).then(res => {
+            if (formData.downtimeType.value === THE_JOB_BOARD) {
+              const transaction = {
+                name: formData.downtimeJob.label,
+                mission: formData.mission,
+                characters: [formData.character],
+                goldPcs: formData.transactionAmount,
+                silverPcs: 0,
+                copperPcs: 0,
+                airshipPot: false,
+                earnedSpent: 1,
+                downtimeGoldTransaction: res.id,
+              };
+  
+              props.startAddTransaction(transaction);
 
-          if (formData.downtimeType.value === THE_JOB_BOARD) {
-            const transaction = {
-              name: formData.downtimeJob.label,
-              mission: formData.mission,
-              characters: [formData.character],
-              goldPcs: formData.transactionAmount,
-              silverPcs: 0,
-              copperPcs: 0,
-              airshipPot: false,
-              earnedSpent: 1,
-            };
+            } else if (
+              formData.downtimeType.value === CARLYLES_TRADING_NETWORK ||
+              formData.downtimeType.value === UPGRADING_THE_AIRSHIP ||
+              formData.downtimeType.value === MADAME_LYSALKAS_TAVERN
+            ) {
+              const airshipUpgrade = {
+                upgradeType: formData.upgradeRoom,
+                fromAirshipPot: false,
+                amount: formData.transactionAmount,
+                downtimeAirshipUpgrade: res.id
+              };
+              props.startAddAirshipUpgrade(airshipUpgrade);
+            }
+            if (formData.downtimeType.value === MADAME_LYSALKAS_TAVERN) {
+              const transactionAmount = formData.transactionAmount * 10;
+              const transaction = {
+                name: "A Night at Madame Lysalka's Tavern",
+                mission: formData.mission,
+                characters: [formData.character],
+                goldPcs: transactionAmount,
+                silverPcs: 0,
+                copperPcs: 0,
+                airshipPot: false,
+                earnedSpent: -1,
+                downtimeGoldTransaction: res.id,
+              };
+  
+              props.startAddTransaction(transaction);
+            }
+          })
 
-            props.startAddTransaction(transaction);
-          } else if (
-            formData.downtimeType.value === CARLYLES_TRADING_NETWORK ||
-            formData.downtimeType.value === UPGRADING_THE_AIRSHIP ||
-            formData.downtimeType.value === MADAME_LYSALKAS_TAVERN
-          ) {
-            const airshipUpgrade = {
-              upgradeType: formData.upgradeRoom,
-              fromAirshipPot: false,
-              amount: formData.transactionAmount,
-            };
-            props.startAddAirshipUpgrade(airshipUpgrade);
-          }
-          if (formData.downtimeType.value === MADAME_LYSALKAS_TAVERN) {
-            const transactionAmount = formData.transactionAmount * 10;
-            const transaction = {
-              name: "A Night at Madame Lysalka's Tavern",
-              mission: formData.mission,
-              characters: [formData.character],
-              goldPcs: transactionAmount,
-              silverPcs: 0,
-              copperPcs: 0,
-              airshipPot: false,
-              earnedSpent: -1,
-            };
-
-            props.startAddTransaction(transaction);
-          }
+          
           props.handleClose();
         }}
       />

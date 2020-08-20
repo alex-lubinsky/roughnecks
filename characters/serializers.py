@@ -47,7 +47,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Transaction
-    fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent', 'creationDate')
+    fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent', 'creationDate', 'downtimeGoldTransaction')
 
 class DowntimeSerializer(serializers.ModelSerializer):
 
@@ -83,4 +83,4 @@ class AirshipUpgradeSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = AirshipUpgrades
-    fields = ('id', 'upgradeType', 'amount', 'fromAirshipPot', 'creationDate')
+    fields = ('id', 'upgradeType', 'amount', 'fromAirshipPot', 'creationDate', 'downtimeAirshipUpgrade')

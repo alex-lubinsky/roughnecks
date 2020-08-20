@@ -46,9 +46,10 @@ export const startAddAirshipUpgrade = (airshipUpgradeData = {}) => {
       upgradeType = "Carlyle's Trading Network",
       fromAirshipPot = false,
       amount = 0,
+      downtimeAirshipUpgrade = 1,
     } = airshipUpgradeData;
 
-    const airshipUpgrade = { upgradeType, fromAirshipPot, amount };
+    const airshipUpgrade = { upgradeType, fromAirshipPot, amount, downtimeAirshipUpgrade };
 
     return axios
       .post(

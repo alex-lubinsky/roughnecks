@@ -46,6 +46,7 @@ export const startAddTransaction = (transactionData = {}) => {
       characters = [],
       airshipPot = true,
       earnedSpent = 1,
+      downtimeGoldTransaction = 1,
     } = transactionData;
 
     const transaction = {
@@ -57,6 +58,7 @@ export const startAddTransaction = (transactionData = {}) => {
       characters,
       airshipPot,
       earnedSpent,
+      downtimeGoldTransaction,
     };
 
     return axios
