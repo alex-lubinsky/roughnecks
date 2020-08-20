@@ -27,7 +27,7 @@ const DowntimeTable = (props) => {
               <td>{props.characters.find(character => character.id === downtime.character).fullName}</td>
               <td>{downtime.numOfDaysSpent}</td>
               <td>
-                {props.downtimeType &&
+                {props.downtimeTypes &&
                   props.downtimeTypes.find(
                     (dtt) => dtt.id === downtime.downtimeType
                   ).name
