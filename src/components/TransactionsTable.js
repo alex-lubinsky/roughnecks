@@ -5,8 +5,15 @@ import Col from "react-bootstrap/Col";
 import { FaCheck } from "react-icons/fa";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+import EditButton from './EditButton'
+import DeleteButton from './DeleteButton'
 
 const TransactionsTable = (props) => {
+
+  const startingGold = props.missions.find(mission => mission.name === "Starting Gold").id
+  const skymall = props.missions.find(mission => mission.name === "Skymall").id
+  const downtime = props.missions.find(mission => mission.name === "Downtime").id
+
   return (
     <>
       <h3>Transactions</h3>
@@ -27,6 +34,8 @@ const TransactionsTable = (props) => {
                       <th className="width-2">Airship Pot</th>
                       <th className="">Characters</th>
                       <th className="width-10">Date Created</th>
+                      <th className="width-3">Edit</th>
+                      <th className="width-3">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -46,6 +55,7 @@ const TransactionsTable = (props) => {
                         }
                       })
                       .map((transaction) => {
+                        const transactionMission = props.missions.find(mission => transaction.mission === mission.id)
                         return (
                           <tr key={transaction.id} className="transaction-row">
                             <td>
@@ -59,10 +69,7 @@ const TransactionsTable = (props) => {
                                 : ""}
                             </td>
                             <td>
-                              {props.missions.find(
-                                (mission) =>
-                                  mission.id === transaction.mission
-                              ).name}
+                              {transactionMission.name}
                             </td>
                             <td>{transaction.name}</td>
                             <td>{transaction.goldPcs}</td>
@@ -86,6 +93,21 @@ const TransactionsTable = (props) => {
                               </ul>
                             </td>
                             <td>{transaction.creationDate}</td>
+                            <td>
+                              {
+                              (!("Downtime" === transactionMission.name || 
+                                "Skymall" === transactionMission.name || 
+                                "Starting Gold" === transactionMission.name) 
+                                &&
+                                (transaction.creator === props.user.is || 
+                                  props.user.is_staff === true ||
+                                  transactionMission.
+                              <EditButton />
+                              : null}
+                            </td>
+                            <td>
+                              <DeleteButton />
+                            </td>
                           </tr>
                         );
                       })}
@@ -108,6 +130,8 @@ const TransactionsTable = (props) => {
                       <th className="width-3">Copper</th>
                       <th className="">Characters</th>
                       <th className="width-10">Date Created</th>
+                      <th className="width-3">Edit</th>
+                      <th className="width-3">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -148,6 +172,12 @@ const TransactionsTable = (props) => {
                               </ul>
                             </td>
                             <td>{transaction.creationDate}</td>
+                            <td>
+                              <EditButton />
+                            </td>
+                            <td>
+                              <DeleteButton />
+                            </td>
                           </tr>
                         );
                       })}

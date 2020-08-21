@@ -267,6 +267,7 @@ class Transaction(models.Model):
   airshipPot = models.BooleanField(default=True)
   earnedSpent = models.IntegerField(choices=TRANSACTION_CHOICES)
   creationDate = models.DateField(default=datetime.date.today)
+  creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="transaction_creator", blank=True)
   downtimeGoldTransaction = models.ForeignKey(Downtime, on_delete=models.CASCADE, null=True, blank=True, related_name="downtime_gold_transaction")
 
   def __str__(self):

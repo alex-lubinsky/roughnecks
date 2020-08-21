@@ -47,7 +47,20 @@ class TransactionSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Transaction
-    fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent', 'creationDate', 'downtimeGoldTransaction')
+    fields = (
+      'id', 
+      'name', 
+      'goldPcs', 
+      'silverPcs', 
+      'copperPcs', 
+      'mission', 
+      'characters', 
+      'airshipPot', 
+      'earnedSpent', 
+      'creationDate', 
+      'downtimeGoldTransaction',
+      'creator'
+    )
 
 class DowntimeSerializer(serializers.ModelSerializer):
 
