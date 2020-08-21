@@ -5,6 +5,7 @@ const DowntimeTable = (props) => {
     <table className="table-highlights width-100">
       <thead>
         <tr>
+          {console.log(props.downtimeTypes)}
           <th>Character</th>
           <th>Days Spent</th>
           <th>Type</th>
