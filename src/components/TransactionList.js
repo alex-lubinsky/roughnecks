@@ -23,6 +23,7 @@ class TransactionList extends React.Component {
             transactions={this.props.transactions}
             characters={this.props.characters}
             missions={this.props.missions}
+            user={this.props.user}
           />
         )}
       </div>
@@ -40,6 +41,7 @@ const mapStateToProps = (state, props) => ({
   transactions: state.transactions.data,
   characters: state.characters.data,
   missions: state.missions.data,
+  user: state.auth.user,
 
   transactionsIsLoading: state.transactions.isLoading,
   charactersIsLoading: state.characters.isLoading,

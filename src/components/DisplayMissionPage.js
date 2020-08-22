@@ -75,6 +75,7 @@ class DisplayMissionPage extends React.Component {
                 )}
                 characters={this.props.characters}
                 missions={this.props.missions}
+                user={this.props.user}
               />
             </div>
           )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,15 +7,61 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import EditButton from './EditButton'
 import DeleteButton from './DeleteButton'
+import Modal from 'react-bootstrap/Modal'
+import EditTransactionForm from './EditTransactionForm';
 
 const TransactionsTable = (props) => {
 
-  const startingGold = props.missions.find(mission => mission.name === "Starting Gold").id
-  const skymall = props.missions.find(mission => mission.name === "Skymall").id
-  const downtime = props.missions.find(mission => mission.name === "Downtime").id
+  const [showEditTransactionModal, setShowEditTransactionModal] = useState(false)
+  const [showDeleteTransactionModal, setShowDeleteTransactionModal] = useState(false)
+
+  const [transactionSelected, setTransactionsSelected] = useState('')
+  const [editDelete, setEditDelete] = useState('')
+
+  useEffect(() => {
+    if (transactionSelected !== '' && editDelete === 'Delete') {
+      handleDeleteTransactionModalOpen()
+    } else if (transactionSelected !== '' && editDelete === 'Edit') {
+      handleEditTransactionModalOpen()
+    }
+  }, [transactionSelected, editDelete])
+
+  const onClick = (transaction, eD) => {
+    setEditDelete(eD)
+    setTransactionsSelected(transaction)
+  }
+
+  const handleEditTransactionModalOpen = () => {
+    setShowEditTransactionModal(true)
+  };
+
+  const handleEditTransactionModalClose = () => {
+    setShowEditTransactionModal(false)
+  };
+
+  const handleDeleteTransactionModalOpen = () => {
+    setShowDeleteTransactionModal(true)
+  };
+
+  const handleDeleteTransactionModalClose = () => {
+    setShowDeleteTransactionModal(false)
+  };
+
 
   return (
     <>
+      <Modal show={showEditTransactionModal}
+        onHide={handleEditTransactionModalClose}>
+        <EditTransactionForm transaction={transactionSelected} handleClose={handleEditTransactionModalClose} />
+      </Modal>
+
+      <Modal show={showDeleteTransactionModal}
+        onHide={handleDeleteTransactionModalClose}>
+        <Modal.Header>
+          Delete
+        </Modal.Header>
+      </Modal>
+
       <h3>Transactions</h3>
       <Tabs defaultActiveKey="earned">
         <Tab eventKey="earned" title="Earned">
@@ -95,18 +141,31 @@ const TransactionsTable = (props) => {
                             <td>{transaction.creationDate}</td>
                             <td>
                               {
-                              (!("Downtime" === transactionMission.name || 
-                                "Skymall" === transactionMission.name || 
-                                "Starting Gold" === transactionMission.name) 
-                                &&
-                                (transaction.creator === props.user.is || 
-                                  props.user.is_staff === true ||
-                                  transactionMission.
-                              <EditButton />
-                              : null}
+                                (!("Downtime" === transactionMission.name ||
+                                  "Skymall" === transactionMission.name ||
+                                  "Starting Gold" === transactionMission.name)
+                                  &&
+                                  (transaction.creator === props.user.id ||
+                                    props.user.is_staff === true ||
+                                    (transactionMission.dm ?
+                                      props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
+                                      : false))) ?
+                                  <EditButton  onClick={onClick} objectToPass={transaction} />
+                                  : null}
                             </td>
                             <td>
-                              <DeleteButton />
+                              {
+                                (!("Downtime" === transactionMission.name ||
+                                  "Skymall" === transactionMission.name ||
+                                  "Starting Gold" === transactionMission.name)
+                                  &&
+                                  (transaction.creator === props.user.id ||
+                                    props.user.is_staff === true ||
+                                    (transactionMission.dm ?
+                                      props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
+                                      : false))) ?
+                                  <DeleteButton onClick={onClick} objectToPass={transaction} />
+                                  : null}
                             </td>
                           </tr>
                         );
@@ -151,6 +210,7 @@ const TransactionsTable = (props) => {
                         }
                       })
                       .map((transaction) => {
+                        const transactionMission = props.missions.find(mission => transaction.mission === mission.id)
                         return (
                           <tr key={transaction.id} className="transaction-row">
                             <td>{transaction.name}</td>
@@ -173,10 +233,32 @@ const TransactionsTable = (props) => {
                             </td>
                             <td>{transaction.creationDate}</td>
                             <td>
-                              <EditButton />
+                              {
+                                (!("Downtime" === transactionMission.name ||
+                                  "Skymall" === transactionMission.name ||
+                                  "Starting Gold" === transactionMission.name)
+                                  &&
+                                  (transaction.creator === props.user.id ||
+                                    props.user.is_staff === true ||
+                                    (transactionMission.dm ?
+                                      props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
+                                      : false))) ?
+                                  <EditButton  onClick={onClick} objectToPass={transaction} />
+                                  : null}
                             </td>
                             <td>
-                              <DeleteButton />
+                              {
+                                (!("Downtime" === transactionMission.name ||
+                                  "Skymall" === transactionMission.name ||
+                                  "Starting Gold" === transactionMission.name)
+                                  &&
+                                  (transaction.creator === props.user.id ||
+                                    props.user.is_staff === true ||
+                                    (transactionMission.dm ?
+                                      props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
+                                      : false))) ?
+                                  <DeleteButton  onClick={onClick} objectToPass={transaction} />
+                                  : null}
                             </td>
                           </tr>
                         );
