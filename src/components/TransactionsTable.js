@@ -46,6 +46,7 @@ const TransactionsTable = (props) => {
                         }
                       })
                       .map((transaction) => {
+                        console.log("hello")
                         return (
                           <tr key={transaction.id} className="transaction-row">
                             <td>
