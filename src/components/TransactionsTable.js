@@ -63,6 +63,7 @@ const TransactionsTable = (props) => {
       </Modal>
 
       <h3>Transactions</h3>
+      {console.log("hello")}
       <Tabs defaultActiveKey="earned">
         <Tab eventKey="earned" title="Earned">
           <Container fluid>
