@@ -192,15 +192,15 @@ class TransactionForm extends React.Component {
   };
 
   onMissionChange = (selectedValues) => {
-    const mission = selectedValues.value;
-    this.setState({ mission }, this.validateMission);
+    const missionSelected = selectedValues;
+    this.setState({ mission: missionSelected }, this.validateMission);
 
     if (
       this.state.earnedSpent.label === "Earned" &&
       this.state.characters.length === 0
     ) {
       const pcs = this.props.missions
-        .find((mission) => selectedValues.value === mission.id)
+        .find((mission) => missionSelected.value === mission.id)
         .characters.map((character) => {
           const pc = this.props.characters.find((pc) => pc.id === character);
 

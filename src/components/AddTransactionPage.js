@@ -12,7 +12,7 @@ const AddTransactionPage = (props) => {
       </Modal.Header>
       <TransactionForm
         onSubmit={(transaction) => {
-          
+          console.log(transaction)
           props.startAddTransaction({...transaction, creator: props.userId});
           props.handleClose();
         }}
