@@ -51,11 +51,7 @@ const TransactionsTable = (props) => {
                         }
                       })
                       .map((transaction) => {
-<<<<<<< HEAD
-                        console.log("hello")
-=======
                         const transactionMission = props.missions.find(mission => transaction.mission === mission.id)
->>>>>>> v1.1
                         return (
                           <tr key={transaction.id} className="transaction-row">
                             <td>
