@@ -25,6 +25,7 @@ const AddDowntimeForm = (props) => {
             downtimeType: formData.downtimeType.value,
             character: formData.character,
             numOfDaysSpent: formData.numOfDaysSpent,
+            creator: props.userId,
           };
           props.startAddDowntime(downtime).then(res => {
             if (formData.downtimeType.value === THE_JOB_BOARD) {
@@ -38,6 +39,7 @@ const AddDowntimeForm = (props) => {
                 airshipPot: false,
                 earnedSpent: 1,
                 downtimeGoldTransaction: res.id,
+                creator: props.userId,
               };
   
               props.startAddTransaction(transaction);
@@ -67,6 +69,7 @@ const AddDowntimeForm = (props) => {
                 airshipPot: false,
                 earnedSpent: -1,
                 downtimeGoldTransaction: res.id,
+                creator: props.userId,
               };
   
               props.startAddTransaction(transaction);
@@ -89,4 +92,8 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(startAddAirshipUpgrade(airshipUpgrade)),
 });
 
-export default connect(undefined, mapDispatchToProps)(AddDowntimeForm);
+const mapStateToProps = (state, props) => ({
+  userId: state.auth.user.id
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddDowntimeForm);

@@ -188,6 +188,7 @@ class DisplayCharacterPage extends React.Component {
         characters: [this.props.characterid],
         airshipPot: false,
         earnedSpent: 1,
+        creator: this.props.user.id,
       });
     } 
 

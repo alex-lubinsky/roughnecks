@@ -12,7 +12,8 @@ const AddTransactionPage = (props) => {
       </Modal.Header>
       <TransactionForm
         onSubmit={(transaction) => {
-          props.startAddTransaction(transaction);
+          
+          props.startAddTransaction({...transaction, creator: props.userId});
           props.handleClose();
         }}
       />
@@ -25,4 +26,8 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(startAddTransaction(transaction)),
 });
 
-export default connect(undefined, mapDispatchToProps)(AddTransactionPage);
+const mapStateToProps = (state, props) => ({
+  userId: state.auth.user.id
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTransactionPage);

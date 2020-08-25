@@ -136,7 +136,8 @@ class Skymall extends React.Component {
             description: `${this.state.character.label} purchased ${foundItem.name}`,
             character: this.state.character.value,
             numOfDaysSpent: foundItem.downtimeCost,
-            downtimeType: MISCELLANEOUS
+            downtimeType: MISCELLANEOUS,
+            creator: this.props.userId,            
           }
         )
       }
@@ -156,6 +157,7 @@ class Skymall extends React.Component {
         characters: [this.state.character.value],
         airshipPot: false,
         earnedSpent: -1,
+        creator: this.props.userId,
       });
     }
   };
@@ -391,6 +393,7 @@ const mapStateToProps = (state, props) => ({
   missions: state.missions.data,
   transactions: state.transactions.data,
   itemsOwned: state.itemsOwned.data,
+  userId: state.auth.user.id,
 
   itemsIsLoading: state.items.isLoading,
   charactersIsLoading: state.characters.isLoading,

@@ -45,6 +45,7 @@ const AddCharacterPage = (props) => {
               characters: [res.id],
               airshipPot: false,
               earnedSpent: 1,
+              creator: props.userId,
             };
 
             props.startAddTransaction(startingGoldTransaction);
