@@ -49,6 +49,7 @@ export const startAddTransaction = (transactionData = {}) => {
       airshipPot = true,
       earnedSpent = 1,
       downtimeGoldTransaction = 1,
+      creator = 1,
     } = transactionData;
 
     const transaction = {
@@ -61,6 +62,7 @@ export const startAddTransaction = (transactionData = {}) => {
       airshipPot,
       earnedSpent,
       downtimeGoldTransaction,
+      creator
     };
 
     return axios

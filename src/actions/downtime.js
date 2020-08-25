@@ -43,9 +43,10 @@ export const startAddDowntime = (downtimeData = {}) => {
       downtimeType = 2,
       character = 0,
       numOfDaysSpent = 0,
+      creator = 1,
     } = downtimeData;
 
-    const downtime = { description, downtimeType, character, numOfDaysSpent };
+    const downtime = { description, downtimeType, character, numOfDaysSpent, creator };
 
     return axios
       .post(`/api/downtime/`, downtime, tokenConfig(getState().auth.token))
