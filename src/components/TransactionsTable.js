@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,63 +7,12 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import EditButton from './EditButton'
 import DeleteButton from './DeleteButton'
-import Modal from 'react-bootstrap/Modal'
-import EditTransactionForm from './EditTransactionForm';
 
 const TransactionsTable = (props) => {
 
-  const [showEditTransactionModal, setShowEditTransactionModal] = useState(false)
-  const [showDeleteTransactionModal, setShowDeleteTransactionModal] = useState(false)
-
-  const [transactionSelected, setTransactionsSelected] = useState('')
-  const [editDelete, setEditDelete] = useState('')
-
-  useEffect(() => {
-    if (transactionSelected !== '' && editDelete === 'Delete') {
-      handleDeleteTransactionModalOpen()
-    } else if (transactionSelected !== '' && editDelete === 'Edit') {
-      handleEditTransactionModalOpen()
-    }
-  }, [transactionSelected, editDelete])
-
-  const onClick = (transaction, eD) => {
-    setEditDelete(eD)
-    setTransactionsSelected(transaction)
-  }
-
-  const handleEditTransactionModalOpen = () => {
-    setShowEditTransactionModal(true)
-  };
-
-  const handleEditTransactionModalClose = () => {
-    setShowEditTransactionModal(false)
-  };
-
-  const handleDeleteTransactionModalOpen = () => {
-    setShowDeleteTransactionModal(true)
-  };
-
-  const handleDeleteTransactionModalClose = () => {
-    setShowDeleteTransactionModal(false)
-  };
-
-
   return (
     <>
-      <Modal show={showEditTransactionModal}
-        onHide={handleEditTransactionModalClose}>
-        <EditTransactionForm transaction={transactionSelected} handleClose={handleEditTransactionModalClose} />
-      </Modal>
-
-      <Modal show={showDeleteTransactionModal}
-        onHide={handleDeleteTransactionModalClose}>
-        <Modal.Header>
-          Delete
-        </Modal.Header>
-      </Modal>
-
       <h3>Transactions</h3>
-      {console.log("hello")}
       <Tabs defaultActiveKey="earned">
         <Tab eventKey="earned" title="Earned">
           <Container fluid>
@@ -151,7 +100,7 @@ const TransactionsTable = (props) => {
                                     (transactionMission.dm ?
                                       props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
                                       : false))) ?
-                                  <EditButton  onClick={onClick} objectToPass={transaction} />
+                                  <EditButton  onClick={props.onClick} objectToPass={transaction} />
                                   : null}
                             </td>
                             <td>
@@ -165,7 +114,7 @@ const TransactionsTable = (props) => {
                                     (transactionMission.dm ?
                                       props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
                                       : false))) ?
-                                  <DeleteButton onClick={onClick} objectToPass={transaction} />
+                                  <DeleteButton onClick={props.onClick} objectToPass={transaction} />
                                   : null}
                             </td>
                           </tr>
@@ -244,7 +193,7 @@ const TransactionsTable = (props) => {
                                     (transactionMission.dm ?
                                       props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
                                       : false))) ?
-                                  <EditButton  onClick={onClick} objectToPass={transaction} />
+                                  <EditButton  onClick={props.onClick} objectToPass={transaction} />
                                   : null}
                             </td>
                             <td>
@@ -258,7 +207,7 @@ const TransactionsTable = (props) => {
                                     (transactionMission.dm ?
                                       props.characters.find(character => character.id === transactionMission.dm).creator === props.user.id
                                       : false))) ?
-                                  <DeleteButton  onClick={onClick} objectToPass={transaction} />
+                                  <DeleteButton  onClick={props.onClick} objectToPass={transaction} />
                                   : null}
                             </td>
                           </tr>

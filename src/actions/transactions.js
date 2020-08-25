@@ -4,6 +4,8 @@ import {
   SET_TRANSACTIONS,
   ADD_TRANSACTION,
   TRANSACTIONS_LOADING,
+  UPDATE_TRANSACTION,
+  REMOVE_TRANSACTION,
 } from "../variables/actionvariables";
 
 const setTransactions = (transactions) => ({
@@ -76,3 +78,43 @@ export const startAddTransaction = (transactionData = {}) => {
       });
   };
 };
+
+const updateTransaction = (id, updates) => ({
+  type: UPDATE_TRANSACTION,
+  id,
+  updates,
+});
+
+export const startUpdateTransaction = (id, updates) => {
+  return (dispatch, getState) => {
+    return axios
+      .patch(
+        `/api/transactions/${id}/`,
+        updates,
+        tokenConfig(getState().auth.token)
+      )
+      .then((res) => {
+        dispatch(updateTransaction(id, updates));
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+};
+
+
+export const removeTransaction = (id) => ({
+  type: REMOVE_TRANSACTION,
+  id,
+});
+
+export function startRemoveTransaction({ id } = {}) {
+  return (dispatch, getState) => {
+    return axios
+      .delete(`/api/transactions/${id}/`, tokenConfig(getState().auth.token))
+      .then((res) => {
+        dispatch(removeTransaction(id));
+      });
+  };
+}
+

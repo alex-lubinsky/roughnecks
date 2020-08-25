@@ -8,13 +8,19 @@ import Button from 'react-bootstrap/Button';
 import Modal from "react-bootstrap/Modal";
 import { BsPencil } from 'react-icons/bs';
 import EditMissionForm from './EditMissionForm';
+import EditTransactionForm from './EditTransactionForm';
+import DeleteTransactionForm from "./DeleteTransactionForm";
 
 class DisplayMissionPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showUpdateMissionModal: false
+      showUpdateMissionModal: false,
+      showEditTransactionModal: false,
+      showDeleteTransactionModal: false,
+      editDelete: '',
+      transactionSelected: '',
     };
   }
 
@@ -23,6 +29,34 @@ class DisplayMissionPage extends React.Component {
     this.props.startSetCharacters();
     this.props.startSetTransactions();
   }
+
+  onClick = (transaction, eD) => {
+    this.setState({ editDelete: eD, transactionSelected: transaction }, this.handleModalOpen)
+  }
+
+  handleModalOpen = () => {
+    if (this.state.transactionSelected !== '' && this.state.editDelete === 'Delete') {
+      this.handleDeleteTransactionModalOpen()
+    } else if (this.state.transactionSelected !== '' && this.state.editDelete === 'Edit') {
+      this.handleEditTransactionModalOpen()
+    }
+  }
+
+  handleEditTransactionModalOpen = () => {
+    this.setState({showEditTransactionModal: true})
+  };
+
+  handleEditTransactionModalClose = () => {
+    this.setState({showEditTransactionModal: false})
+  };
+
+  handleDeleteTransactionModalOpen = () => {
+    this.setState({showDeleteTransactionModal: true})
+  };
+
+  handleDeleteTransactionModalClose = () => {
+    this.setState({showDeleteTransactionModal: false})
+  };
 
   handleUpdateMissionModalOpen = () => {
     this.setState({showUpdateMissionModal: true })
@@ -45,6 +79,21 @@ class DisplayMissionPage extends React.Component {
           onHide={this.handleUpdateMissionModalClose}
         >
           <EditMissionForm mission={this.props.mission} handleClose={this.handleUpdateMissionModalClose}/>
+        </Modal>
+
+        <Modal show={this.state.showEditTransactionModal}
+          onHide={this.handleEditTransactionModalClose}>
+          <EditTransactionForm 
+            transaction={this.state.transactionSelected} 
+            handleClose={this.handleEditTransactionModalClose} />
+        </Modal>
+
+        <Modal show={this.state.showDeleteTransactionModal}
+          onHide={this.handleDeleteTransactionModalClose}>
+          <DeleteTransactionForm
+            transaction={this.state.transactionSelected} 
+            handleClose={this.handleDeleteTransactionModalClose}
+          />
         </Modal>
 
 
@@ -76,6 +125,7 @@ class DisplayMissionPage extends React.Component {
                 characters={this.props.characters}
                 missions={this.props.missions}
                 user={this.props.user}
+                onClick={this.onClick}
               />
             </div>
           )}

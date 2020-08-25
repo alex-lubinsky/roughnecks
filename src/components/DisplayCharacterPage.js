@@ -38,6 +38,8 @@ import { BsPencil } from 'react-icons/bs';
 import EditCharacterPage from './EditCharacterPage';
 import { NavLink } from "react-router-dom";
 import DeleteDowntime from './DeleteDowntime';
+import EditTransactionForm from './EditTransactionForm';
+import DeleteTransactionForm from "./DeleteTransactionForm";
 
 
 class DisplayCharacterPage extends React.Component {
@@ -52,6 +54,10 @@ class DisplayCharacterPage extends React.Component {
       qtyValid: true,
       showDeleteDowntimeModal: false,
       downtimeSelected: '',
+      showEditTransactionModal: false,
+      showDeleteTransactionModal: false,
+      editDelete: '',
+      transactionSelected: '',
     };
   }
 
@@ -68,6 +74,33 @@ class DisplayCharacterPage extends React.Component {
     this.props.startSetDowntimeTypes();
   }
 
+  onClick = (transaction, eD) => {
+    this.setState({ editDelete: eD, transactionSelected: transaction }, this.handleModalOpen)
+  }
+
+  handleModalOpen = () => {
+    if (this.state.transactionSelected !== '' && this.state.editDelete === 'Delete') {
+      this.handleDeleteTransactionModalOpen()
+    } else if (this.state.transactionSelected !== '' && this.state.editDelete === 'Edit') {
+      this.handleEditTransactionModalOpen()
+    }
+  }
+
+  handleEditTransactionModalOpen = () => {
+    this.setState({showEditTransactionModal: true})
+  };
+
+  handleEditTransactionModalClose = () => {
+    this.setState({showEditTransactionModal: false})
+  };
+
+  handleDeleteTransactionModalOpen = () => {
+    this.setState({showDeleteTransactionModal: true})
+  };
+
+  handleDeleteTransactionModalClose = () => {
+    this.setState({showDeleteTransactionModal: false})
+  };
 
   handleDeleteDowntimeModalClose = () => this.setState({showDeleteDowntimeModal : false});
   handleDeleteDowntimeModalShow = () => this.setState({showDeleteDowntimeModal : true});
@@ -181,6 +214,21 @@ class DisplayCharacterPage extends React.Component {
         this.props.itemsOwnedIsLoading ||
         this.props.downtimeTypesIsLoading ? <div>Loading...</div> : (
           <div>
+            <Modal show={this.state.showEditTransactionModal}
+              onHide={this.handleEditTransactionModalClose}>
+              <EditTransactionForm 
+                transaction={this.state.transactionSelected} 
+                handleClose={this.handleEditTransactionModalClose} />
+            </Modal>
+
+            <Modal show={this.state.showDeleteTransactionModal}
+              onHide={this.handleDeleteTransactionModalClose}>
+              <DeleteTransactionForm
+                transaction={this.state.transactionSelected} 
+                handleClose={this.handleDeleteTransactionModalClose}
+              />
+            </Modal>
+
             <Modal
               show={this.state.showDeleteDowntimeModal}
               onHide={this.handleDeleteDowntimeModalClose}
@@ -436,6 +484,7 @@ class DisplayCharacterPage extends React.Component {
                         characters={this.props.characters}
                         missions={this.props.missions}
                         user={this.props.user}
+                        onClick={this.onClick}
                       />
                     </Col>
                   </Row>
