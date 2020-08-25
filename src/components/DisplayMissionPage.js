@@ -4,17 +4,25 @@ import { startSetMissions } from "../actions/missions";
 import TransactionsTable from "./TransactionsTable";
 import { startSetCharacters } from "../actions/characters";
 import { startSetTransactions } from "../actions/transactions";
-// import Button from 'react-bootstrap/Button'
-// import Modal from "react-bootstrap/Modal";
+import Button from 'react-bootstrap/Button';
+import Modal from "react-bootstrap/Modal";
+import { BsPencil } from 'react-icons/bs';
+import EditMissionForm from './EditMissionForm';
+import EditTransactionForm from './EditTransactionForm';
+import DeleteTransactionForm from "./DeleteTransactionForm";
 
 class DisplayMissionPage extends React.Component {
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
 
-  //   this.state = {
-  //     showItemModal:false
-  //   };
-  // }
+    this.state = {
+      showUpdateMissionModal: false,
+      showEditTransactionModal: false,
+      showDeleteTransactionModal: false,
+      editDelete: '',
+      transactionSelected: '',
+    };
+  }
 
   componentDidMount() {
     this.props.startSetMissions();
@@ -22,17 +30,41 @@ class DisplayMissionPage extends React.Component {
     this.props.startSetTransactions();
   }
 
-  // handleItemModalClose =() => {
-  //   this.setState({showItemModal: false})
-  // }
+  onClick = (transaction, eD) => {
+    this.setState({ editDelete: eD, transactionSelected: transaction }, this.handleModalOpen)
+  }
 
-  // handleItemModalOpen =() => {
-  //   this.setState({showItemModal: true})
-  // }
+  handleModalOpen = () => {
+    if (this.state.transactionSelected !== '' && this.state.editDelete === 'Delete') {
+      this.handleDeleteTransactionModalOpen()
+    } else if (this.state.transactionSelected !== '' && this.state.editDelete === 'Edit') {
+      this.handleEditTransactionModalOpen()
+    }
+  }
 
-  // onGiveItemClick = () => {
+  handleEditTransactionModalOpen = () => {
+    this.setState({showEditTransactionModal: true})
+  };
 
-  // }
+  handleEditTransactionModalClose = () => {
+    this.setState({showEditTransactionModal: false})
+  };
+
+  handleDeleteTransactionModalOpen = () => {
+    this.setState({showDeleteTransactionModal: true})
+  };
+
+  handleDeleteTransactionModalClose = () => {
+    this.setState({showDeleteTransactionModal: false})
+  };
+
+  handleUpdateMissionModalOpen = () => {
+    this.setState({showUpdateMissionModal: true })
+  };
+
+  handleUpdateMissionModalClose = () => {
+    this.setState({showUpdateMissionModal: false })
+  };
 
   render() {
     const dm = this.props.characters.find(
@@ -41,17 +73,29 @@ class DisplayMissionPage extends React.Component {
 
     return (
       <>
-        {/* <Modal show={this.state.showItemModal}  onHide={this.handleItemModalClose}>
-          <Modal.Header closeButton>
-            <h1>Give a PC an Item</h1>
-          </Modal.Header>
-          <Modal.Body>
-          
-          </Modal.Body>
-          <Modal.Footer>
-            <Button>Give Item</Button>
-          </Modal.Footer>
-        </Modal> */}
+
+        <Modal
+          show={this.state.showUpdateMissionModal}
+          onHide={this.handleUpdateMissionModalClose}
+        >
+          <EditMissionForm mission={this.props.mission} handleClose={this.handleUpdateMissionModalClose}/>
+        </Modal>
+
+        <Modal show={this.state.showEditTransactionModal}
+          onHide={this.handleEditTransactionModalClose}>
+          <EditTransactionForm 
+            transaction={this.state.transactionSelected} 
+            handleClose={this.handleEditTransactionModalClose} />
+        </Modal>
+
+        <Modal show={this.state.showDeleteTransactionModal}
+          onHide={this.handleDeleteTransactionModalClose}>
+          <DeleteTransactionForm
+            transaction={this.state.transactionSelected} 
+            handleClose={this.handleDeleteTransactionModalClose}
+          />
+        </Modal>
+
 
         <div className="div-margin-sm">
           {this.props.transactionsIsLoading ||
@@ -59,10 +103,10 @@ class DisplayMissionPage extends React.Component {
           this.props.charactersIsLoading ? null : (
             <div>
               <h1>{`Episode ${this.props.mission.episode}: ${this.props.mission.name}`}</h1>
-              {/* <span>
-                {dm.creator === this.props.user.id || this.props.user.is_staff === true ? 
-                  <Button onClick={this.handleItemModalOpen}>Give PC an Item</Button> : null}
-              </span> */}
+              <span>
+                {dm.creator === this.props.user.id || this.props.user.is_staff === true || this.props.mission.creator === this.props.user.id ? 
+                  <Button variant="link" onClick={this.handleUpdateMissionModalOpen}><BsPencil /></Button> : null}
+              </span>
               <p>Played on: {this.props.mission.playedOn}</p>
               <p>DM: {dm.fullName}</p>
               Players:{" "}
@@ -80,6 +124,8 @@ class DisplayMissionPage extends React.Component {
                 )}
                 characters={this.props.characters}
                 missions={this.props.missions}
+                user={this.props.user}
+                onClick={this.onClick}
               />
             </div>
           )}

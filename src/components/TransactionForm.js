@@ -18,26 +18,26 @@ class TransactionForm extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
-      nameValid: false,
-      mission: "",
-      missionValid: false,
-      characters: [],
-      charactersValid: false,
-      gold: 0,
+      name: props.transaction ? props.transaction.name : "",
+      nameValid: props.transaction ? true : false,
+      mission: props.mission ? props.mission : "",
+      missionValid: props.transaction ? true : false,
+      characters: props.pcs ? props.pcs : [],
+      charactersValid: props.pcs ? true : false,
+      gold: props.transaction ? props.transaction.goldPcs : 0,
       goldValid: true,
-      silver: 0,
+      silver: props.transaction ? props.transaction.silverPcs : 0,
       silverValid: true,
-      copper: 0,
+      copper: props.transaction ? props.transaction.copperPcs : 0,
       copperValid: true,
-      moneyValid: false,
-      airshipPot: true,
-      airshipPotDisabled: false,
-      earnedSpent: { label: "Earned", value: "Earned" },
-      errorMsg: {
+      moneyValid: props.transaction ? true : false,
+      airshipPot: props.transaction ? props.transaction.airshipPot : true,
+      airshipPotDisabled: props.airshipPotDiabled ? props.airshipPotDiabled : false,
+      earnedSpent: props.earnedSpent ? props.earnedSpent : { label: "Earned", value: "Earned" },
+      errorMsg: props.transaction ? {} : {
         moneyValid: "Total Gold, Silver and Copper must be greater than 0.",
       },
-      formValid: false,
+      formValid: props.transaction ? true : false,
     };
   }
 
@@ -285,7 +285,7 @@ class TransactionForm extends React.Component {
 
     this.props.onSubmit({
       name: this.state.name,
-      mission: this.state.mission,
+      mission: this.state.mission.value,
       characters: pcs,
       goldPcs: this.state.gold === "" ? 0 : this.state.gold,
       silverPcs: this.state.silver === "" ? 0 : this.state.silver,
@@ -474,6 +474,7 @@ class TransactionForm extends React.Component {
                   </span>
                   {this.props.missionsIsLoading ? <div>Loading...</div> : (
                     <Select
+                      value={this.state.mission}
                       options={selectMissionOptions}
                       onChange={this.onMissionChange}
                     />
@@ -519,7 +520,7 @@ class TransactionForm extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button disabled={!this.state.formValid} type="submit">
-            Add Transaction
+            {this.props.editForm ? "Edit Transaction" : "Add Transaction"}
           </Button>
         </Modal.Footer>
       </Form>

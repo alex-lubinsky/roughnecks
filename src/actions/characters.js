@@ -86,7 +86,7 @@ export function startRemoveCharacter({ id } = {}) {
   };
 }
 
-const editCharacter = (id, updates) => ({
+const updateCharacter = (id, updates) => ({
   type: UPDATE_CHARACTER,
   id,
   updates,
@@ -101,7 +101,7 @@ export const startEditCharacter = (id, updates) => {
         updates
       )
       .then((res) => {
-        dispatch(editCharacter(id));
+        dispatch(updateCharacter(id));
       })
       .catch((err) => {
         console.log(err);
@@ -118,7 +118,7 @@ export const startUpdateCharacter = (id, updates) => {
         tokenConfig(getState().auth.token)
       )
       .then((res) => {
-        dispatch(editCharacter(id, updates));
+        dispatch(updateCharacter(id, updates));
       })
       .catch((err) => {
         console.log(err);

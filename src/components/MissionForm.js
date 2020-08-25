@@ -15,26 +15,27 @@ import Col from "react-bootstrap/Col";
 import { AiOutlineCheck } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import Button from "react-bootstrap/Button";
+import { parseISO } from 'date-fns';
 
 class MissionForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: "",
-      nameValid: false,
-      dm: "",
-      dmValid: false,
-      characters: [],
-      charactersValid: false,
+      name: props.mission ? props.mission.name : "",
+      nameValid: props.mission ? true : false,
+      dm: props.dm ? props.dm : "",
+      dmValid: props.dm ? true : false,
+      characters: props.pcs ? props.pcs : [],
+      charactersValid: props.pcs ? true : false,
       filteredCharacters: this.props.characters,
-      minLevel: 1,
+      minLevel: props.mission ? props.mission.levelMin : 1,
       minLevelValid: true,
-      maxLevel: 1,
-      maxLevelValid: false,
+      maxLevel: props.mission ? props.mission.levelMax : 1,
+      maxLevelValid: props.mission ? true : false,
       errorMsg: {},
-      formValid: false,
-      startDate: new Date(),
+      formValid: props.mission ? true : false,
+      startDate: props.mission ? parseISO(props.mission.playedOn) : new Date(),
       startDateValid: true,
     };
   }
@@ -63,7 +64,7 @@ class MissionForm extends React.Component {
   };
 
   onDmChange = (selectedValues) => {
-    const dm = selectedValues.value;
+    const dm = selectedValues;
     this.setState({ dm }, this.validateDm);
 
     const filteredCharacters = this.props.characters.filter((character) => {
@@ -211,14 +212,15 @@ class MissionForm extends React.Component {
 
     this.props.onSubmit({
       name: this.state.name,
-      dm: this.state.dm,
+      dm: this.state.dm.value,
       characters: pcs,
       playedOn: `${this.state.startDate.getFullYear()}-${
         this.state.startDate.getMonth() + 1
       }-${this.state.startDate.getDate()}`,
-      episode: `${this.props.highestEpisode + 1}`,
+      episode: this.props.editForm ? this.props.mission.episode : `${this.props.highestEpisode + 1}`,
       levelMin: this.state.minLevel,
       levelMax: this.state.maxLevel,
+      creator: this.props.editForm ? this.props.mission.creator : this.props.userId,
     });
   };
 
@@ -284,6 +286,7 @@ class MissionForm extends React.Component {
                       name="dm"
                       options={this.selectDMOptions}
                       onChange={this.onDmChange}
+                      value={this.state.dm}
                     />
                   )}
                   <ValidationMessage
@@ -426,7 +429,7 @@ class MissionForm extends React.Component {
             variant="primary"
             type="submit"
           >
-            Add Mission
+            {this.props.editForm ? "Edit Mission" : "Add Mission"}
           </Button>
         </Modal.Footer>
       </Form>
@@ -447,6 +450,7 @@ const mapStateToProps = (state, props) => ({
   highestEpisode: state.missions.data.sort((a, b) =>
     a.episode < b.episode ? 1 : -1
   )[0].episode,
+  userId: state.auth.user.id
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MissionForm);

@@ -36,7 +36,7 @@ class MissionSerializer(serializers.ModelSerializer):
 
   class Meta:
       model = Mission
-      fields = ('id', 'name', 'dm', 'characters', 'playedOn', 'visable', 'episode', 'levelMin', 'levelMax')
+      fields = ('id', 'name', 'dm', 'characters', 'playedOn', 'visable', 'episode', 'levelMin', 'levelMax', 'creator')
 
 class CharacterSubClassSerializer(serializers.ModelSerializer):
   class Meta:
@@ -47,13 +47,26 @@ class TransactionSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Transaction
-    fields = ('id', 'name', 'goldPcs', 'silverPcs', 'copperPcs', 'mission', 'characters', 'airshipPot', 'earnedSpent', 'creationDate')
+    fields = (
+      'id', 
+      'name', 
+      'goldPcs', 
+      'silverPcs', 
+      'copperPcs', 
+      'mission', 
+      'characters', 
+      'airshipPot', 
+      'earnedSpent', 
+      'creationDate', 
+      'downtimeGoldTransaction',
+      'creator'
+    )
 
 class DowntimeSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Downtime
-    fields = ('id', 'description', 'character', 'numOfDaysSpent', 'downtimeType', 'creationDate')
+    fields = ('id', 'description', 'character', 'numOfDaysSpent', 'downtimeType', 'creationDate', 'creator')
 
 class DowntimeTypeSerializer(serializers.ModelSerializer):
 
@@ -83,4 +96,4 @@ class AirshipUpgradeSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = AirshipUpgrades
-    fields = ('id', 'upgradeType', 'amount', 'fromAirshipPot', 'creationDate')
+    fields = ('id', 'upgradeType', 'amount', 'fromAirshipPot', 'creationDate', 'downtimeAirshipUpgrade')

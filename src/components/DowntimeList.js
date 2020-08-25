@@ -4,8 +4,28 @@ import { connect } from "react-redux";
 import { startSetCharacters } from "../actions/characters";
 import { startSetDowntime } from "../actions/downtime";
 import { startSetDowntimeTypes } from "../actions/downtimetypes";
+import Modal from "react-bootstrap/Modal";
+import DeleteDowntime from './DeleteDowntime';
+
 
 class DowntimeList extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showDeleteDowntimeModal: false,
+      downtimeSelected: '',
+    }
+  }
+
+  handleDeleteDowntimeModalClose = () => this.setState({showDeleteDowntimeModal : false});
+  handleDeleteDowntimeModalShow = () => this.setState({showDeleteDowntimeModal : true});
+
+  selectDowntime = (dt) => {
+    this.setState({downtimeSelected : dt}, this.handleDeleteDowntimeModalShow);
+  }
+
   componentDidMount() {
     this.props.startSetCharacters();
     this.props.startSetDowntime();
@@ -14,18 +34,35 @@ class DowntimeList extends React.Component {
 
   render() {
     return (
-      <div className="div-margin-sm">
-        <h1>Downtime Spent</h1>
-        {this.props.charactersIsLoading ||
-        this.props.downtimeIsLoading ||
-        this.props.downtimeTypesIsLoading ? null : (
-          <DowntimeTable
-            downtime={this.props.downtime}
+      <>
+        <Modal
+          show={this.state.showDeleteDowntimeModal}
+          onHide={this.handleDeleteDowntimeModalClose}
+        >
+          <DeleteDowntime 
+            handleClose={this.handleDeleteDowntimeModalClose} 
+            downtimeTypes={this.props.downtimeTypes} 
+            downtime={this.state.downtimeSelected}
             characters={this.props.characters}
-            downtimeTypes={this.props.downtimeTypes}
           />
-        )}
-      </div>
+        </Modal>
+
+
+        <div className="div-margin-sm">
+          <h1>Downtime Spent</h1>
+          {this.props.charactersIsLoading ||
+          this.props.downtimeIsLoading ||
+          this.props.downtimeTypesIsLoading ? null : (
+            <DowntimeTable
+              downtime={this.props.downtime}
+              characters={this.props.characters}
+              downtimeTypes={this.props.downtimeTypes}
+              user={this.props.user}
+              selectDowntime={this.selectDowntime}
+            />
+          )}
+        </div>
+      </>
     );
   }
 }
@@ -40,6 +77,7 @@ const mapStateToProps = (state, props) => ({
   characters: state.characters.data,
   downtime: state.downtime.data,
   downtimeTypes: state.downtimeTypes.data,
+  user: state.auth.user,
 
   charactersIsLoading: state.characters.isLoading,
   downtimeIsLoading: state.downtime.isLoading,

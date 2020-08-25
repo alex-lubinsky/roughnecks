@@ -36,6 +36,11 @@ import { startSetDowntimeTypes } from "../actions/downtimetypes";
 import ValidationMessage from './ValidationMessage';
 import { BsPencil } from 'react-icons/bs';
 import EditCharacterPage from './EditCharacterPage';
+import { NavLink } from "react-router-dom";
+import DeleteDowntime from './DeleteDowntime';
+import EditTransactionForm from './EditTransactionForm';
+import DeleteTransactionForm from "./DeleteTransactionForm";
+
 
 class DisplayCharacterPage extends React.Component {
   constructor(props) {
@@ -46,7 +51,13 @@ class DisplayCharacterPage extends React.Component {
       showKillPCModal: false,
       showCharacterEditPage: false,
       errorMsg: {},
-      qtyValid: true
+      qtyValid: true,
+      showDeleteDowntimeModal: false,
+      downtimeSelected: '',
+      showEditTransactionModal: false,
+      showDeleteTransactionModal: false,
+      editDelete: '',
+      transactionSelected: '',
     };
   }
 
@@ -61,6 +72,41 @@ class DisplayCharacterPage extends React.Component {
     this.props.startSetItems();
     this.props.startSetItemsOwned();
     this.props.startSetDowntimeTypes();
+  }
+
+  onClick = (transaction, eD) => {
+    this.setState({ editDelete: eD, transactionSelected: transaction }, this.handleModalOpen)
+  }
+
+  handleModalOpen = () => {
+    if (this.state.transactionSelected !== '' && this.state.editDelete === 'Delete') {
+      this.handleDeleteTransactionModalOpen()
+    } else if (this.state.transactionSelected !== '' && this.state.editDelete === 'Edit') {
+      this.handleEditTransactionModalOpen()
+    }
+  }
+
+  handleEditTransactionModalOpen = () => {
+    this.setState({showEditTransactionModal: true})
+  };
+
+  handleEditTransactionModalClose = () => {
+    this.setState({showEditTransactionModal: false})
+  };
+
+  handleDeleteTransactionModalOpen = () => {
+    this.setState({showDeleteTransactionModal: true})
+  };
+
+  handleDeleteTransactionModalClose = () => {
+    this.setState({showDeleteTransactionModal: false})
+  };
+
+  handleDeleteDowntimeModalClose = () => this.setState({showDeleteDowntimeModal : false});
+  handleDeleteDowntimeModalShow = () => this.setState({showDeleteDowntimeModal : true});
+
+  selectDowntime = (dt) => {
+    this.setState({downtimeSelected : dt}, this.handleDeleteDowntimeModalShow);
   }
 
   handleLevelUpClose = () => {
@@ -109,6 +155,14 @@ class DisplayCharacterPage extends React.Component {
       errorMsg.qty = `You are trying to Sell/Remove more ${item.name} items than you have`
       this.setState({qtyValid: false, errorMsg})
       return null; 
+    } else if (!Number.isInteger(Number(qty))) {
+      errorMsg.qty = `You must sell/remove a whole number `
+      this.setState({qtyValid: false, errorMsg})
+      return null
+    } else if (qty < 1) {
+      errorMsg.qty = `You must sell/remove a number larger than 0 `
+      this.setState({qtyValid: false, errorMsg})
+      return null
     } else {
       this.setState({qtyValid: true, errorMsg})
     }
@@ -160,6 +214,33 @@ class DisplayCharacterPage extends React.Component {
         this.props.itemsOwnedIsLoading ||
         this.props.downtimeTypesIsLoading ? <div>Loading...</div> : (
           <div>
+            <Modal show={this.state.showEditTransactionModal}
+              onHide={this.handleEditTransactionModalClose}>
+              <EditTransactionForm 
+                transaction={this.state.transactionSelected} 
+                handleClose={this.handleEditTransactionModalClose} />
+            </Modal>
+
+            <Modal show={this.state.showDeleteTransactionModal}
+              onHide={this.handleDeleteTransactionModalClose}>
+              <DeleteTransactionForm
+                transaction={this.state.transactionSelected} 
+                handleClose={this.handleDeleteTransactionModalClose}
+              />
+            </Modal>
+
+            <Modal
+              show={this.state.showDeleteDowntimeModal}
+              onHide={this.handleDeleteDowntimeModalClose}
+            >
+              <DeleteDowntime 
+                handleClose={this.handleDeleteDowntimeModalClose} 
+                downtimeTypes={this.props.downtimeTypes} 
+                downtime={this.state.downtimeSelected}
+                characters={this.props.characters}
+              />
+            </Modal>
+
             <Modal
               show={this.state.showKillPCModal}
               onHide={this.handleKillPCClose}
@@ -354,7 +435,14 @@ class DisplayCharacterPage extends React.Component {
                             )
                           )
                           .map((mission) => {
-                            return <li key={mission.id}>{mission.name}</li>;
+                            return (
+                              <NavLink
+                                to={`/missions/${mission.id}`}
+                                activeClassName="is-active"
+                                key={mission.id}
+                              >         
+                                <li key={mission.id}>{mission.name}</li>
+                              </NavLink>);
                           })}
                       </ul>
                     </Col>
@@ -366,7 +454,15 @@ class DisplayCharacterPage extends React.Component {
                             (mission) => mission.dm === this.props.characterid
                           )
                           .map((dm) => {
-                            return <li key={dm.id}>{dm.name}</li>;
+                            return (
+                              <NavLink
+                                to={`/missions/${dm.id}`}
+                                activeClassName="is-active"
+                                key={dm.id}
+                              >         
+                                <li key={dm.id}>{dm.name}</li>
+                              </NavLink>
+                            );
                           })}
                       </ul>
                     </Col>
@@ -387,6 +483,8 @@ class DisplayCharacterPage extends React.Component {
                         )}
                         characters={this.props.characters}
                         missions={this.props.missions}
+                        user={this.props.user}
+                        onClick={this.onClick}
                       />
                     </Col>
                   </Row>
@@ -403,6 +501,8 @@ class DisplayCharacterPage extends React.Component {
                             dTransaction.character === this.props.characterid
                         )}
                         downtimeTypes={this.props.downtimeTypes}
+                        user={this.props.user}
+                        selectDowntime={this.selectDowntime}
                       />
                     </Col>
                   </Row>

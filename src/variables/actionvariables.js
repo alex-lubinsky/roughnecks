@@ -25,6 +25,7 @@ export const CHARACTERS_LOADING = "CHARACTERS_LOADING";
 export const SET_DOWNTIME = "SET_DOWNTIME";
 export const ADD_DOWNTIME = "ADD_DOWNTIME";
 export const DOWNTIME_LOADING = "DOWNTIME_LOADING";
+export const REMOVE_DOWNTIME = "REMOVE_DOWNTIME";
 
 // Downtime Jobs Action Types
 export const SET_DOWNTIME_JOBS = "SET_DOWNTIME_JOBS";
@@ -50,7 +51,7 @@ export const REMOVE_ITEM_OWNED = "REMOVE_ITEM_OWNED";
 export const ADD_MISSION = "ADD_MISSION";
 export const SET_MISSIONS = "SET_MISSIONS";
 export const REMOVE_MISSION = "REMOVE_MISSION";
-export const EDIT_MISSION = "EDIT_MISSION";
+export const UPDATE_MISSION = "UPDATE_MISSION";
 export const MISSIONS_LOADING = "MISSIONS_LOADING";
 
 // PCSubclass Action Types
@@ -66,7 +67,10 @@ export const RACES_LOADING = "RACES_LOADING";
 export const SET_SUBCLASSES = "SET_SUBCLASSES";
 export const SUBCLASSES_LOADING = "SUBCLASSES_LOADING";
 
-// PCSubclass Action Types
+// Transaction Action Types
 export const SET_TRANSACTIONS = "SET_TRANSACTIONS";
 export const ADD_TRANSACTION = "ADD_TRANSACTION";
 export const TRANSACTIONS_LOADING = "TRANSACTIONS_LOADING";
+export const UPDATE_TRANSACTION = "UPDATE_TRANSACTION";
+export const REMOVE_TRANSACTION = "REMOVE_TRANSACTION";
+

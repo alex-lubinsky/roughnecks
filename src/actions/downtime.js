@@ -4,6 +4,7 @@ import {
   SET_DOWNTIME,
   ADD_DOWNTIME,
   DOWNTIME_LOADING,
+  REMOVE_DOWNTIME,
 } from "../variables/actionvariables";
 
 const setDowntime = (downtime) => ({
@@ -57,3 +58,21 @@ export const startAddDowntime = (downtimeData = {}) => {
       });
   };
 };
+
+
+export const removeDowntime = (id) => ({
+  type: REMOVE_DOWNTIME,
+  id,
+});
+
+export function startRemoveDowntime({ id } = {}) {
+  return (dispatch, getState) => {
+    return axios
+      .delete(`/api/downtime/${id}/`, tokenConfig(getState().auth.token))
+      .then((res) => {
+        dispatch(removeDowntime(id));
+      }).catch(err => {
+        console.log(err.response)
+      })
+  };
+}

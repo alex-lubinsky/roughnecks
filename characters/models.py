@@ -163,29 +163,11 @@ class Mission(models.Model):
   episode = models.IntegerField(default=1)
   levelMin = models.IntegerField(default=1)
   levelMax = models.IntegerField(default=20)
+  creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="mission_created", blank=True)
 
   def __str__(self):
     return self.name
 
-class Transaction(models.Model):
-
-  TRANSACTION_CHOICES = [
-    (-1, 'Spent'),
-    (1, 'Earned')
-  ]
-
-  name = models.CharField(max_length=255)
-  goldPcs = models.IntegerField()
-  silverPcs = models.IntegerField()
-  copperPcs = models.IntegerField()
-  mission = models.ForeignKey(Mission, on_delete=models.CASCADE, related_name="transactions")
-  characters = models.ManyToManyField(Character, related_name="transactions")
-  airshipPot = models.BooleanField(default=True)
-  earnedSpent = models.IntegerField(choices=TRANSACTION_CHOICES)
-  creationDate = models.DateField(default=datetime.date.today)
-
-  def __str__(self):
-    return self.name
 
 class DowntimeType(models.Model):
   name = models.CharField(max_length=100)
@@ -194,13 +176,6 @@ class DowntimeType(models.Model):
   def __str__(self):
     return self.name
 
-class Downtime(models.Model):
-  
-  description = models.TextField()
-  character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
-  numOfDaysSpent = models.IntegerField()
-  downtimeType = models.ForeignKey(DowntimeType, null=True, related_name="downtimeTransaction", on_delete=models.SET_NULL)
-  creationDate = models.DateField(default=datetime.date.today)
 
 class Item(models.Model):
 
@@ -258,6 +233,46 @@ class DowntimeJobs(models.Model):
   chosenClass = models.CharField(max_length=255, choices=CLASS_CHOICES)
   validUntil = models.DateField(null=True, blank=True)
 
+  def __str__(self):
+    return self.name & " Downtime Job"
+
+
+
+class Downtime(models.Model):
+  
+  description = models.TextField()
+  character = models.ForeignKey(Character, related_name="downtimeSpend", on_delete=models.CASCADE)
+  numOfDaysSpent = models.IntegerField()
+  downtimeType = models.ForeignKey(DowntimeType, null=True, related_name="downtimeTransaction", on_delete=models.SET_NULL)
+  creationDate = models.DateField(default=datetime.date.today)
+  creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="downtime_creator", blank=True)
+
+  def __str__(self):
+    return self.description
+  
+  
+class Transaction(models.Model):
+
+  TRANSACTION_CHOICES = [
+    (-1, 'Spent'),
+    (1, 'Earned')
+  ]
+
+  name = models.CharField(max_length=255)
+  goldPcs = models.IntegerField()
+  silverPcs = models.IntegerField()
+  copperPcs = models.IntegerField()
+  mission = models.ForeignKey(Mission, on_delete=models.CASCADE, related_name="transactions")
+  characters = models.ManyToManyField(Character, related_name="transactions")
+  airshipPot = models.BooleanField(default=True)
+  earnedSpent = models.IntegerField(choices=TRANSACTION_CHOICES)
+  creationDate = models.DateField(default=datetime.date.today)
+  creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="transaction_creator", blank=True)
+  downtimeGoldTransaction = models.ForeignKey(Downtime, on_delete=models.CASCADE, null=True, blank=True, related_name="downtime_gold_transaction")
+
+  def __str__(self):
+    return self.name
+
 class AirshipUpgrades(models.Model):
   
   UPGRADE_CHOICES = [
@@ -273,5 +288,8 @@ class AirshipUpgrades(models.Model):
   fromAirshipPot = models.BooleanField(default=False)
   amount = models.IntegerField()
   creationDate = models.DateField(default=datetime.date.today)
-  
+  downtimeAirshipUpgrade = models.ForeignKey(Downtime, on_delete=models.CASCADE, null=True, blank=True, related_name="downtime_airship_upgrade")
+
+  def __str__(self):
+    return '%s %s' % (self.upgradeType, self.amount)
 

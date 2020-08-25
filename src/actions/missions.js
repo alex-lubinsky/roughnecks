@@ -4,7 +4,7 @@ import {
   ADD_MISSION,
   SET_MISSIONS,
   REMOVE_MISSION,
-  EDIT_MISSION,
+  UPDATE_MISSION,
   MISSIONS_LOADING,
 } from "../variables/actionvariables";
 
@@ -23,6 +23,7 @@ export const startAddMission = (missionData = {}) => {
       episode = 1,
       levelMin = 1,
       levelMax = 1,
+      creator = 1,
     } = missionData;
 
     const mission = {
@@ -33,6 +34,7 @@ export const startAddMission = (missionData = {}) => {
       episode,
       levelMin,
       levelMax,
+      creator,
     };
 
     return axios
@@ -86,18 +88,18 @@ export function startRemoveMission({ id } = {}) {
   };
 }
 
-export const editMission = (id, updates) => ({
-  type: EDIT_MISSION,
+export const updateMission = (id, updates) => ({
+  type: UPDATE_MISSION,
   id,
   updates,
 });
 
-export const startEditMission = (id, updates) => {
+export const startUpdateMission = (id, updates) => {
   return (dispatch, getState) => {
     return axios
-      .put(`/api/missions/${id}/`, updates, tokenConfig(getState().auth.token))
+      .patch(`/api/missions/${id}/`, updates, tokenConfig(getState().auth.token))
       .then((res) => {
-        dispatch(editMission(id));
+        dispatch(updateMission(id, updates));
       })
       .catch((err) => {
         console.log(err);

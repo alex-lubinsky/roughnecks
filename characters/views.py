@@ -47,6 +47,10 @@ class TransactionList(generics.ListCreateAPIView):
   queryset = Transaction.objects.all()
   serializer_class = TransactionSerializer
 
+class TransactionDetail(generics.RetrieveUpdateDestroyAPIView):
+  queryset = Transaction.objects.all()
+  serializer_class = TransactionSerializer
+
 class DowntimeList(generics.ListCreateAPIView):
   queryset = Downtime.objects.all()
   serializer_class = DowntimeSerializer
