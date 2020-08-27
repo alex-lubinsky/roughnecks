@@ -73,7 +73,7 @@ class Skymall extends React.Component {
     const foundItem = this.props.items.find(
       (item) => item.id.toString() === itemId
     );
-    console.log(foundItem)
+
     if (
       !Number.isInteger(Number(qty)) ||
       foundItem.numberInSkymall < qty ||
@@ -116,7 +116,7 @@ class Skymall extends React.Component {
 
       if (this.props.itemsOwned.find(itemOwned => itemOwned.item === foundItem.id && itemOwned.character === this.state.character.value)) {
         const itemOwned = this.props.itemsOwned.find(itemOwned => itemOwned.item === foundItem.id && itemOwned.character === this.state.character.value);
-        console.log(itemOwned, parseInt(itemOwned.qty) + parseInt(qty))
+
         this.props.startUpdateItemOwned(itemOwned.id, {
           qty: itemOwned.qty + parseInt(qty)
         })

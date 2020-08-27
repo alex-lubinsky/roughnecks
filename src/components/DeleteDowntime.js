@@ -20,7 +20,6 @@ const DeleteDowntime = (props) => {
   
   return (
     <div>
-      {console.log(props.transactions)}
       <Modal.Header closeButton>
         <h1>Delete Downtime Spend</h1>
       </Modal.Header>

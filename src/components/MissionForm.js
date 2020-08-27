@@ -45,7 +45,6 @@ class MissionForm extends React.Component {
     this.props.startSetCharacters();
     this.props.startSetMissions();
     this.props.startSetPCSubclasses();
-    console.log(parseISO(this.props.mission.playedOn))
   }
 
   onNameChange = (e) => {
