@@ -28,7 +28,7 @@ class MissionForm extends React.Component {
       dmValid: props.dm ? true : false,
       characters: props.pcs ? props.pcs : [],
       charactersValid: props.pcs ? true : false,
-      filteredCharacters: this.props.characters,
+      filteredCharacters: props.characters,
       minLevel: props.mission ? props.mission.levelMin : 1,
       minLevelValid: true,
       maxLevel: props.mission ? props.mission.levelMax : 1,
@@ -67,14 +67,15 @@ class MissionForm extends React.Component {
     const dm = selectedValues;
     this.setState({ dm }, this.validateDm);
 
-    const filteredCharacters = this.props.characters.filter((character) => {
-      return character.id !== dm;
+    const filteredCharacters = this.props.characters.filter(character => {
+
+      return character.id !== dm.value;
     });
     this.setState({ filteredCharacters });
 
     if (this.state.characters.length > 0) {
       const pcs = this.state.characters.filter((character) => {
-        return character.value !== dm;
+        return character.value !== dm.value;
       });
       this.setState({ characters: pcs }, this.validateCharacters);
     }

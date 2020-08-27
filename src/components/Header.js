@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -9,6 +9,7 @@ import AddDowntimeForm from "./AddDowntimeForm";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
 import Modal from "react-bootstrap/Modal";
+import {startSetCharacters} from '../actions/characters'
 
 const Header = (props) => {
   const [showCharacterModal, setShowCharacterModal] = useState(false);
@@ -32,6 +33,10 @@ const Header = (props) => {
   const LOGOUT = () => {
     props.logout();
   };
+
+  useEffect(() => {
+    props.startSetCharacters()
+  }, [])
 
   return (
     <>
@@ -102,14 +107,24 @@ const Header = (props) => {
               </NavDropdown>
             </Nav>
             <Nav>
-              {props.userFirstName ? (
                 <NavDropdown
                   title={`${props.userFirstName}`}
                   id="basic-nav-dropdown"
                 >
+
+                  {props.charactersIsLoading ? null : props.characters.filter(character => {
+                    return character.creator === props.userId
+                  }).map(character => {
+                    return (
+                      <NavDropdown.Item key={character.id} href={`/characters/${character.id}`}>
+                        {character.fullName}
+                      </NavDropdown.Item>
+                    )
+                  })}
+                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={LOGOUT}>Log Out</NavDropdown.Item>
                 </NavDropdown>
-              ) : null}
+              
             </Nav>
           </>
         ) : null}
@@ -119,6 +134,8 @@ const Header = (props) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(logout()),
+  startSetCharacters: () => dispatch(startSetCharacters())
+
 });
 
 const mapStateToProps = (state) => {
@@ -126,6 +143,10 @@ const mapStateToProps = (state) => {
     return {
       userFirstName: state.auth.user.first_name,
       isStaff: state.auth.user.isSkymallAdmin,
+      userId: state.auth.user.id,
+      characters: state.characters.data,
+      charactersIsLoading: state.characters.isLoading,
+
     };
   } else {
     return {};

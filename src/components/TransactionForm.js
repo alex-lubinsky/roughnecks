@@ -42,8 +42,10 @@ class TransactionForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.startSetCharacters();
-    this.props.startSetMissions();
+    if (!this.props.editForm) {
+      this.props.startSetCharacters();
+      this.props.startSetMissions();
+    }
   }
 
   onNameChange = (e) => {
@@ -247,7 +249,7 @@ class TransactionForm extends React.Component {
       errorMsg.characters = "Transaction must have at least 1 Character";
     }
 
-    this.setState({ charactersValid, errorMsg }, this.validateForm);
+    this.setState({ charactersValid: charactersValid, errorMsg }, this.validateForm);
   };
 
   validateForm = () => {
@@ -491,7 +493,7 @@ class TransactionForm extends React.Component {
                 <Form.Group>
                   <span
                     className={
-                      this.state.missionValid ? "valid-input" : "invalid-input"
+                      this.state.charactersValid ? "valid-input" : "invalid-input"
                     }
                   >
                     <Form.Label>Characters</Form.Label>
