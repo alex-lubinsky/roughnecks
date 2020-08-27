@@ -1,5 +1,6 @@
 import React from "react";
 import DeleteButton from './DeleteButton';
+import {DOWNTIME_TYPES} from '../variables/downtimeTypes'
 
 const DowntimeTable = (props) => {
   
@@ -31,11 +32,9 @@ const DowntimeTable = (props) => {
                 <td>{props.characters.find(character => character.id === downtime.character).fullName}</td>
                 <td>{downtime.numOfDaysSpent}</td>
                 <td>
-                  {props.downtimeTypes ?
-                    props.downtimeTypes.find(
+                    {DOWNTIME_TYPES.find(
                       (dtt) => dtt.id === downtime.downtimeType
-                    ).name : null
-                  }
+                    ).name}
                 </td>
                 <td className="width-10">{downtime.description}</td>
                 <td>{downtime.creationDate}</td>
