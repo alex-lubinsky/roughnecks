@@ -17,6 +17,7 @@ class CharacterSerializer(serializers.ModelSerializer):
       'dead', 
       'startingCheckmarks', 
       'dateOfDeath',
+      'retired',
     )
 
 class CharacterRaceSerializer(serializers.ModelSerializer):

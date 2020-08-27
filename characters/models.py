@@ -61,6 +61,7 @@ class Character(models.Model):
   dead = models.BooleanField(default=False)
   dateOfDeath = models.DateField(null=True, blank=True)
   startingCheckmarks = models.IntegerField(default=0)
+  retired = models.BooleanField(default=False)
 
   @property
   def getCreatedLevels(self):

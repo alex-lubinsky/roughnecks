@@ -41,10 +41,11 @@ class HeroTable extends React.Component {
 
   render() {
     const heroTiers = [
-      {name: "Masters of the World (Level 17 - 20)", minLevel: 17, maxLevel: 20},
-      {name: "Masters of the Realm (Level 11 - 16)", minLevel: 11, maxLevel: 16},
-      {name: "Heroes of the Realm (Level 5 - 10)", minLevel: 5, maxLevel: 10},
-      {name: "Local Heroes (Level 1 - 4)", minLevel: 1, maxLevel: 4}
+      {name: "Masters of the World (Level 17 - 20)", minLevel: 17, maxLevel: 20, retired: false},
+      {name: "Masters of the Realm (Level 11 - 16)", minLevel: 11, maxLevel: 16, retired: false},
+      {name: "Heroes of the Realm (Level 5 - 10)", minLevel: 5, maxLevel: 10, retired: false},
+      {name: "Local Heroes (Level 1 - 4)", minLevel: 1, maxLevel: 4, retired: false},
+      {name: "Retired Heroes", minLevel: 1, maxLevel: 20, retired: true},
     ]
     let secondRow = true
     return (
@@ -91,7 +92,8 @@ class HeroTable extends React.Component {
                 return (
                   character.dead === this.props.fallen &&
                   level <= heroTier.maxLevel && 
-                  level >= heroTier.minLevel
+                  level >= heroTier.minLevel &&
+                  character.retired === heroTier.retired
                 )}).length > 0 ?
                   <React.Fragment key={heroTier.name}>
                   <tr>
@@ -104,7 +106,8 @@ class HeroTable extends React.Component {
                       return (
                         character.dead === this.props.fallen &&
                         level <= heroTier.maxLevel && 
-                        level >= heroTier.minLevel
+                        level >= heroTier.minLevel &&
+                        character.retired === heroTier.retired
                       )
                     })
                     .sort((a, b) => {
