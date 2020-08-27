@@ -97,14 +97,16 @@ class MissionForm extends React.Component {
 
   onCharactersChange = (selectedValues) => {
     const pcs = selectedValues;
-    this.setState({ characters: pcs }, this.validateCharacters);
+    if (pcs !== null) {
+      this.setState({ characters: pcs }, this.validateCharacters);
+    }
   };
 
   validateCharacters = () => {
     const { characters } = this.state;
     let charactersValid = true;
     let errorMsg = { ...this.state.errorMsg };
-    console.log(characters)
+
     if (characters.length === 0) {
       charactersValid = false;
       errorMsg.characters = "Mission must have at least 1 Character";
@@ -465,7 +467,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const mapStateToProps = (state, props) => ({
   characters: state.characters.data.filter(
-    (character) => character.dead === false
+    (character) => !character.dead && !character.retired
   ),
   charactersIsLoading: state.characters.isLoading,
   highestEpisode: state.missions.data.sort((a, b) =>
