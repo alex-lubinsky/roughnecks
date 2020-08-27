@@ -388,7 +388,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 const mapStateToProps = (state, props) => ({
   items: state.items.data,
   characters: state.characters.data.filter(
-    (character) => character.creator === state.auth.user.id && !character.dead
+    (character) => character.creator === state.auth.user.id && !character.dead && !character.retired
   ),
   missions: state.missions.data,
   transactions: state.transactions.data,
