@@ -239,6 +239,7 @@ class DisplayCharacterPage extends React.Component {
                 downtimeTypes={this.props.downtimeTypes} 
                 downtime={this.state.downtimeSelected}
                 characters={this.props.characters}
+                transactions={this.props.transactions}
               />
             </Modal>
 

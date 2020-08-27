@@ -6,6 +6,7 @@ import { startSetDowntime } from "../actions/downtime";
 import { startSetDowntimeTypes } from "../actions/downtimetypes";
 import Modal from "react-bootstrap/Modal";
 import DeleteDowntime from './DeleteDowntime';
+import { startSetTransactions } from '../actions/transactions';
 
 
 class DowntimeList extends React.Component {
@@ -30,6 +31,7 @@ class DowntimeList extends React.Component {
     this.props.startSetCharacters();
     this.props.startSetDowntime();
     this.props.startSetDowntimeTypes();
+    this.props.startSetTransactions();
   }
 
   render() {
@@ -44,6 +46,7 @@ class DowntimeList extends React.Component {
             downtimeTypes={this.props.downtimeTypes} 
             downtime={this.state.downtimeSelected}
             characters={this.props.characters}
+            transactions={this.props.transactions}
           />
         </Modal>
 
@@ -52,7 +55,8 @@ class DowntimeList extends React.Component {
           <h1>Downtime Spent</h1>
           {this.props.charactersIsLoading ||
           this.props.downtimeIsLoading ||
-          this.props.downtimeTypesIsLoading ? null : (
+          this.props.downtimeTypesIsLoading ||
+          this.props.transactionsIsLoading ? null : (
             <DowntimeTable
               downtime={this.props.downtime}
               characters={this.props.characters}
@@ -71,6 +75,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   startSetCharacters: () => dispatch(startSetCharacters()),
   startSetDowntime: () => dispatch(startSetDowntime()),
   startSetDowntimeTypes: () => dispatch(startSetDowntimeTypes()),
+  startSetTransactions: () => dispatch(startSetTransactions()),
 });
 
 const mapStateToProps = (state, props) => ({
@@ -78,10 +83,12 @@ const mapStateToProps = (state, props) => ({
   downtime: state.downtime.data,
   downtimeTypes: state.downtimeTypes.data,
   user: state.auth.user,
+  transactions: state.transactions.data,
 
   charactersIsLoading: state.characters.isLoading,
   downtimeIsLoading: state.downtime.isLoading,
   downtimeTypesIsLoading: state.downtimeTypes.isLoading,
+  transactionsIsLoading: state.transactions.isLoading
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DowntimeList);

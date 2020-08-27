@@ -11,7 +11,8 @@ import { logout } from "../actions/auth";
 import Modal from "react-bootstrap/Modal";
 import {startSetCharacters} from '../actions/characters'
 
-const Header = (props) => {
+const Header = ({userFirstName = '', isStaff = false, userId = 0, characters = [], charactersIsLoading = false, logout, startSetCharacters}) => {
+
   const [showCharacterModal, setShowCharacterModal] = useState(false);
   const handleCharacterFormClose = () => setShowCharacterModal(false);
   const handleCharacterFormShow = () => setShowCharacterModal(true);
@@ -31,12 +32,12 @@ const Header = (props) => {
   const handleDowntimeFormShow = () => setShowDowntimeFormModal(true);
 
   const LOGOUT = () => {
-    props.logout();
+    logout();
   };
 
   useEffect(() => {
-    props.startSetCharacters()
-  }, [])
+    startSetCharacters()
+  }, [startSetCharacters])
 
   return (
     <>
@@ -65,7 +66,7 @@ const Header = (props) => {
 
       <Navbar bg="light" expand="lg" variant="light">
         <Navbar.Brand href="/">Reggie's Roughnecks</Navbar.Brand>
-        {props.userFirstName ? (
+        {userFirstName !== '' ? (
           <>
             <Nav className="justify-content-start">
               <NavDropdown title="Create" id="basic-nav-dropdown">
@@ -99,7 +100,7 @@ const Header = (props) => {
                   Spend Downtime
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/skymall">Skymall</NavDropdown.Item>
-                {props.isStaff ? (
+                {isStaff === true ? (
                   <NavDropdown.Item href="/skymalladmin">
                     SkymallAdmin
                   </NavDropdown.Item>
@@ -108,12 +109,12 @@ const Header = (props) => {
             </Nav>
             <Nav>
                 <NavDropdown
-                  title={`${props.userFirstName}`}
+                  title={`${userFirstName}`}
                   id="basic-nav-dropdown"
                 >
 
-                  {props.charactersIsLoading ? null : props.characters.filter(character => {
-                    return character.creator === props.userId
+                  {charactersIsLoading === true ? null : characters.filter(character => {
+                    return character.creator === userId
                   }).map(character => {
                     return (
                       <NavDropdown.Item key={character.id} href={`/characters/${character.id}`}>

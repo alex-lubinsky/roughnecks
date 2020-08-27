@@ -16,6 +16,7 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import Button from "react-bootstrap/Button";
 import { parseISO } from 'date-fns';
+import { startSetPCSubclasses } from '../actions/playercharacterclasses';
 
 class MissionForm extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class MissionForm extends React.Component {
   componentDidMount() {
     this.props.startSetCharacters();
     this.props.startSetMissions();
+    this.props.startSetPCSubclasses();
   }
 
   onNameChange = (e) => {
@@ -68,7 +70,6 @@ class MissionForm extends React.Component {
     this.setState({ dm }, this.validateDm);
 
     const filteredCharacters = this.props.characters.filter(character => {
-
       return character.id !== dm.value;
     });
     this.setState({ filteredCharacters });
@@ -95,12 +96,7 @@ class MissionForm extends React.Component {
   };
 
   onCharactersChange = (selectedValues) => {
-    let pcs = "";
-    if (selectedValues) {
-      pcs = selectedValues.map((character) => {
-        return { value: character.value, label: character.label };
-      });
-    }
+    const pcs = selectedValues;
     this.setState({ characters: pcs }, this.validateCharacters);
   };
 
@@ -108,13 +104,13 @@ class MissionForm extends React.Component {
     const { characters } = this.state;
     let charactersValid = true;
     let errorMsg = { ...this.state.errorMsg };
-
+    console.log(characters)
     if (characters.length === 0) {
       charactersValid = false;
       errorMsg.characters = "Mission must have at least 1 Character";
     }
 
-    this.setState({ charactersValid, errorMsg }, this.validateForm);
+    this.setState({ charactersValid, errorMsg }, this.validateMinMaxLevel);
   };
 
   onMinLevelChange = (e) => {
@@ -128,10 +124,22 @@ class MissionForm extends React.Component {
   };
 
   validateMinMaxLevel = () => {
-    const { minLevel, maxLevel } = this.state;
+    const { minLevel, maxLevel, characters } = this.state;
     let maxLevelValid = true;
     let minLevelValid = true;
     let errorMsg = { ...this.state.errorMsg };
+    errorMsg.maxLevel = ''
+    errorMsg.minLevel = ''
+    let highestlevel = 1
+    let lowestLevel = 1
+
+    if (characters.length > 0) {
+      highestlevel = characters.sort((a,b) => a.level >= b.level ? -1 : 1)[0].level
+      lowestLevel = characters.sort((a,b) => a.level >= b.level ? 1 : -1)[0].level
+    }
+
+    console.log(highestlevel, lowestLevel)
+
 
     if (!Number.isInteger(Number(maxLevel))) {
       maxLevelValid = false;
@@ -146,7 +154,11 @@ class MissionForm extends React.Component {
       maxLevelValid = false;
       errorMsg.maxLevel =
         "Maximum level must be higher than to or equal the minimum level";
+    } else if (maxLevel < highestlevel) {
+      errorMsg.maxLevel =
+        "There is a character who played this mission with a level higher than the max level. It is suggested but not required that you increase the max level";
     }
+
 
     if (!Number.isInteger(Number(minLevel))) {
       minLevelValid = false;
@@ -161,6 +173,9 @@ class MissionForm extends React.Component {
       minLevelValid = false;
       errorMsg.minLevel =
         "Minimum level must be lower than to or equal the maximum level";
+    } else if (minLevel > lowestLevel) {
+      errorMsg.minLevel =
+        "There is a character who played this mission with a level lower than the min level. It is suggested but not required that you decrease the min level";
     }
 
     this.setState(
@@ -235,9 +250,13 @@ class MissionForm extends React.Component {
   render() {
     const selectFilteredCharacterOptions = this.state.filteredCharacters.map(
       (character) => {
+        const level = this.props.pcSubclasses.filter(subclass => {
+          return subclass.classCharacter === character.id
+        }).length
         return {
           value: character.id,
           label: character.fullName,
+          level: level
         };
       }
     );
@@ -384,11 +403,11 @@ class MissionForm extends React.Component {
             <Row>
               <Form.Group>
                 <ValidationMessage
-                  valid={this.state.minLevelValid}
+                  valid={false}
                   message={this.state.errorMsg.minLevel}
                 />
                 <ValidationMessage
-                  valid={this.state.maxLevelValid}
+                  valid={false}
                   message={this.state.errorMsg.maxLevel}
                 />
               </Form.Group>
@@ -441,6 +460,7 @@ class MissionForm extends React.Component {
 const mapDispatchToProps = (dispatch, props) => ({
   startSetCharacters: () => dispatch(startSetCharacters()),
   startSetMissions: () => dispatch(startSetMissions()),
+  startSetPCSubclasses: () => dispatch(startSetPCSubclasses()),
 });
 
 const mapStateToProps = (state, props) => ({
@@ -451,7 +471,9 @@ const mapStateToProps = (state, props) => ({
   highestEpisode: state.missions.data.sort((a, b) =>
     a.episode < b.episode ? 1 : -1
   )[0].episode,
-  userId: state.auth.user.id
+  userId: state.auth.user.id,
+  pcSubclasses: state.pcSubclasses.data,
+  pcSubclassesIsLoading: state.pcSubclasses.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MissionForm);

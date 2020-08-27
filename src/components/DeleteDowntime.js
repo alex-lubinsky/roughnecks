@@ -6,17 +6,21 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { startRemoveDowntime } from '../actions/downtime';
+import {removeTransaction} from '../actions/transactions';
 
 
 const DeleteDowntime = (props) => {
   
   const onClick = () => {
+    const transactionId = props.transactions.find(transaction => transaction.downtimeGoldTransaction === props.downtime.id).id
+    props.removeTransaction(transactionId)
     props.startRemoveDowntime(props.downtime)
     props.handleClose();
   }
   
   return (
     <div>
+      {console.log(props.transactions)}
       <Modal.Header closeButton>
         <h1>Delete Downtime Spend</h1>
       </Modal.Header>
@@ -60,6 +64,7 @@ const DeleteDowntime = (props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   startRemoveDowntime: (id) => dispatch(startRemoveDowntime(id)),
+  removeTransaction: (id) => dispatch(removeTransaction(id)),
 });
 
 export default connect(undefined, mapDispatchToProps)(DeleteDowntime);
