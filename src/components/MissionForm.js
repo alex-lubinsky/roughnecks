@@ -15,7 +15,7 @@ import Col from "react-bootstrap/Col";
 import { AiOutlineCheck } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import Button from "react-bootstrap/Button";
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { startSetPCSubclasses } from '../actions/playercharacterclasses';
 
 class MissionForm extends React.Component {
@@ -45,6 +45,7 @@ class MissionForm extends React.Component {
     this.props.startSetCharacters();
     this.props.startSetMissions();
     this.props.startSetPCSubclasses();
+    console.log(parseISO(this.props.mission.playedOn))
   }
 
   onNameChange = (e) => {
@@ -140,9 +141,6 @@ class MissionForm extends React.Component {
       lowestLevel = characters.sort((a,b) => a.level >= b.level ? 1 : -1)[0].level
     }
 
-    console.log(highestlevel, lowestLevel)
-
-
     if (!Number.isInteger(Number(maxLevel))) {
       maxLevelValid = false;
       errorMsg.maxLevel = "Maximum level must be a whole number";
@@ -227,14 +225,11 @@ class MissionForm extends React.Component {
     const pcs = this.state.characters.map((character) => {
       return character.value;
     });
-
     this.props.onSubmit({
       name: this.state.name,
       dm: this.state.dm.value,
       characters: pcs,
-      playedOn: `${this.state.startDate.getFullYear()}-${
-        this.state.startDate.getMonth() + 1
-      }-${this.state.startDate.getDate()}`,
+      playedOn: format(this.state.startDate, 'yyyy-MM-dd'),
       episode: this.props.editForm ? this.props.mission.episode : `${this.props.highestEpisode + 1}`,
       levelMin: this.state.minLevel,
       levelMax: this.state.maxLevel,

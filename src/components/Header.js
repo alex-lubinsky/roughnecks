@@ -115,7 +115,7 @@ const Header = ({userFirstName = '', isStaff = false, userId = 0, characters = [
 
                   {charactersIsLoading === true ? null : characters.filter(character => {
                     return character.creator === userId
-                  }).map(character => {
+                  }).sort((a,b) => a.fullName > b.fullName ? 1 : -1).map(character => {
                     return (
                       <NavDropdown.Item key={character.id} href={`/characters/${character.id}`}>
                         {character.fullName}
@@ -145,7 +145,9 @@ const mapStateToProps = (state) => {
       userFirstName: state.auth.user.first_name,
       isStaff: state.auth.user.isSkymallAdmin,
       userId: state.auth.user.id,
-      characters: state.characters.data,
+      characters: state.characters.data.filter(
+        (character) => !character.dead && !character.retired
+      ),
       charactersIsLoading: state.characters.isLoading,
 
     };
